@@ -154,9 +154,69 @@ the row multiset.  Each loop/root child is connected to the unique maximal
 helix whose head it is, so long-child and unique-short-child obligations refer
 to the global class-K helices.
 
-### What remains deliberately unproved?
+### What was deliberately unproved at the end of Milestone 2?
 
-No global recursive `COLOR` construction, color-to-nucleotide assignment,
+Milestone 2 stopped before the global recursive `COLOR` construction. It also
+left the color-to-nucleotide assignment, cancellation/free-group argument,
+saturated uniqueness theorem, prefix-balance argument, no-tie theorem, and
+final designability proof for later milestones. Milestone 3 has now discharged
+only the first of those deferred obligations.
+
+## Milestone 3 global-colouring fidelity
+
+Milestone 3 again leaves every public scientific definition from Milestone 1
+unchanged. In particular, `SecondaryStructure`, `Coloring`, `ProperColoring`,
+the exact integer level functions, `StrongTwoSeparated`, `InTargetClassK`,
+`UniqueDesigns`, and `OneShortHelixDesignabilityStatement` retain their prior
+meanings.
+
+### Does the construction color every target pair exactly once?
+
+Yes. A recursive `SubtreeColoring H` has the exact domain
+`pairedHelixSubtree T H`. The local helix members and outgoing child domains
+are proved disjoint before assembly, and distinct outgoing child subtrees are
+proved pairwise disjoint. At the virtual root, root-child helix subtrees are
+pairwise disjoint and their union is all of `PairedNode T`. Totalization
+therefore has neither an arbitrary default on target pairs nor a
+last-update-wins overlap convention.
+
+### Can arbitrary colors outside a subtree affect its certificate?
+
+No. `SubtreeCertificate.sound` quantifies over every total coloring extending
+the exact-domain partial assignment and assumes only the indexed residue at
+the subtree entry. Internal exposure is derived from the installed local word
+and the actual helix-chain geometry. Terminal exposure is derived from the
+actual child-head colors and the proved loop allocation. The certificate does
+not assume global properness.
+
+### Is the recursion genuinely structural and terminating?
+
+Yes. `helixSubtreePairCount T H` is the cardinality of the actual paired helix
+subtree. Every outgoing child's subtree is a strict subset, and
+`helixSubtreePairCount_outgoing_lt` supplies the termination proof for each
+recursive call. The construction does not enumerate global colorings.
+
+### Are properness and separation proved with the existing global notions?
+
+Yes. `assembledRootColoring_proper` proves `ProperExposure` at the virtual root
+and every actual paired node using the existing `exposedMultiset` definition.
+`assembledRootColoring_strongTwoSeparatedWith` uses the existing exact
+`pairedLevel` and `unpairedLevel`, applying `levelParity` only at the final
+residue comparison. Root-unpaired positions are handled explicitly through
+their exact integer level zero and the root-allocation coverage theorem.
+
+### What exact manuscript result is now implemented?
+
+`targetClass_admits_proper_strongTwoSeparated` states that every original
+matching-based target satisfying `InTargetClassK` admits one total
+`Coloring T` that is both `ProperColoring` and `StrongTwoSeparated`. This is
+Theorem 12 of `CANONICAL_PROOF.md`. It does not narrow targets to a parsed word
+or an inductively generated tree and does not yet imply `UniqueDesigns`.
+
+### What remains deliberately unproved after Milestone 3?
+
+No color-to-nucleotide assignment, pairing-inventory theorem,
 cancellation/free-group argument, saturated uniqueness theorem, prefix-balance
 argument, no-tie theorem, or final designability proof is introduced in
-Milestone 2.  The exact final proposition remains unchanged and unproved.
+Milestone 3. The exact final designability proposition remains unchanged and
+unproved.

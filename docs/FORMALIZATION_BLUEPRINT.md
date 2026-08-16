@@ -2,7 +2,7 @@
 
 Status vocabulary:
 
-- **implemented** — present and kernel-checked through Milestone 2;
+- **implemented** — present and kernel-checked through Milestone 3;
 - **statement drafted** — the exact proposition is present, but no theorem proof
   is claimed;
 - **future milestone** — intentionally outside the completed local theory;
@@ -14,7 +14,7 @@ lemmas may be renamed without changing the mapped specification.
 
 ## Manuscript definitions
 
-| Manuscript concept | Lean module and declaration | Status through Milestone 2 |
+| Manuscript concept | Lean module and declaration | Status through Milestone 3 |
 |---|---|---|
 | Four bases `A,C,G,U` | `RNA.Alphabet.Nucleotide` | implemented |
 | Complement involution | `RNA.Alphabet.Nucleotide.comp` | implemented |
@@ -45,6 +45,10 @@ lemmas may be renamed without changing the mapped specification.
 | `xi`/`eta` entry interfaces | `RNA/Endpoint.lean`: `RNA.StrongTwoSeparatedWith`, `RNA.endpoint_forcedResidues` | implemented |
 | Admissible first colour | `RNA/Color.lean`: `RNA.Color.AdmissibleAt` | implemented |
 | `Safe(H,epsilon,c1)` | `RNA/HelixTransfer.lean`: `RNA.Safe` (parameterized by helix length) | implemented |
+| Helix paired/unpaired subtrees and strict recursion measure | `RNA.HelixSubtree`: `pairedHelixSubtree`, `unpairedHelixSubtree`, `helixSubtreePairCount` | implemented |
+| Exact-domain subtree coloring and extension | `RNA.SubtreeColoring`: `SubtreeColoring`, `ExtendsSubtree`, `assembleSubtreeColoring` | implemented |
+| Recursive subtree coloring certificate | `RNA.SubtreeConstruction`: `SubtreePostcondition`, `SubtreeCertificate`, `constructSubtree` | implemented |
+| Proof-bearing total global coloring | `RNA.GlobalColoring`: `GlobalColoringCertificate`, `globalColoringCertificate` | implemented |
 | Top-down sequence assignment | `RNA.Design.Assignment.AssignedSequence` | future milestone |
 | Saturable word | `RNA.Uniqueness.Atomic.Saturable` | future milestone |
 | Atomic word and atomic design | `RNA.Uniqueness.Atomic.Atomic`, `AtomicDesign` | future milestone |
@@ -71,7 +75,7 @@ later results.
 | 9 | complete root/loop allocation coverage witnesses | `RNA.LocalAllocations` | implemented; unique short child and long-child obligations included |
 | 10 | `longHelixTransfer`, `exists_longHelixTransfer` | `RNA.HelixTransfer`; global bridge in `RNA.HelixTransferBridge` | implemented |
 | 11 | `validTwoPair_iff_mem_table`, `validTwoPairFinset_eq_table` | `RNA.HelixTransfer` | implemented as an exact exhaustive table |
-| 12 | `exists_proper_strongTwoSeparated_of_memK` | `RNA.Coloring.Construction` | future milestone; recursive-tree dependency |
+| 12 | `targetClass_admits_proper_strongTwoSeparated` (via `exists_proper_strongTwoSeparatedWith`) | `RNA.GlobalColoring` | implemented; total exact-domain root-forest assembly and well-founded helix-subtree recursion |
 | 13 | `localDistinctness_of_assignedSequence` | `RNA.Design.Assignment` | future milestone |
 | 14 | `assignedSequence_inventory`, `pairCount_le_target`, `eq_pairCount_uses_all_limitingBases` | `RNA.Design.Assignment` | future milestone |
 | 15 | `saturable_iff_adjacentCancellation`, `saturable_suffix_of_concat` | `RNA.Uniqueness.Atomic` | future milestone; word reduction/free-group development |
@@ -109,11 +113,27 @@ implementation suggestions:
   public `UniqueDesigns` continues to range over all compatible partial
   matchings.
 
+## Milestone 3 global-construction traceability
+
+Theorem 12 now has the exact frozen-manuscript conclusion over the original
+matching-based `SecondaryStructure` and existing `Coloring T` type. The
+implementation first proves exact paired/unpaired helix-subtree decompositions
+and strict decrease of subtree cardinality. It then recursively constructs
+proof-bearing exact-domain `SubtreeColoring` values, flattens pairwise-disjoint
+root-child subtrees into one total coloring, and proves actual root and
+nonroot exposures proper. Gray pairs and target-unpaired positions are related
+to the existing exact integer levels only through `levelParity`; neither the
+target model nor the definition of global level is weakened.
+
+The named global witness is retained by `globalColoringCertificate`, so later
+top-down nucleotide assignment can reuse the constructed coloring and its
+root allocation rather than invoke a new existence search.
+
 ## Representation obligations carried forward
 
 Later concatenation, wrapping, deletion, and compression results must construct
-explicit order-preserving maps between finite backbones. Later tree recursion
-must operate on the interval tree derived from `SecondaryStructure`, with
-termination and subtree disjointness proved. No future module may change the
-public theorem to quantify over only a parsed word, a saturated skeleton, or an
-inductively generated tree.
+explicit order-preserving maps between finite backbones. The Milestone 3 tree
+recursion obligation is discharged on the interval tree derived from
+`SecondaryStructure`, with termination and subtree disjointness proved. No
+future module may change the public theorem to quantify over only a parsed
+word, a saturated skeleton, or an inductively generated tree.

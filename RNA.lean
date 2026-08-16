@@ -16,5 +16,11 @@ public import RNA.HelixTransferBridge
 public import RNA.Statement
 public import RNA.Examples
 public import RNA.Milestone2Examples
+public import RNA.Milestone3Local
+public import RNA.HelixSubtree
+public import RNA.SubtreeColoring
+public import RNA.SubtreeConstruction
+public import RNA.GlobalColoring
+public import RNA.Milestone3Examples
 
 set_option autoImplicit false
