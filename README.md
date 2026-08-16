@@ -1,9 +1,16 @@
 # RNA targets with one short helix — Lean foundation
 
-This repository contains Milestone 1 of a Lean 4 formalization of the exact
+This repository contains Milestones 1 and 2 of a Lean 4 formalization of the exact
 four-letter Watson–Crick model and theorem statement in
 [`docs/CANONICAL_PROOF.md`](docs/CANONICAL_PROOF.md). The final designability
 theorem is represented as a `Prop`; its proof is intentionally deferred.
+
+Milestone 2 adds maximal-helix partition/canonical lookup, black-white-grey
+color algebra, exact integer levels and strong two-separation, L/M/E endpoint
+theory, actual-child root and loop allocations, universal long-helix transfer,
+the complete length-two table, `Safe`, and a bridge from local transfer words
+to global target levels.  It deliberately stops before the global recursive
+coloring theorem and nucleotide construction.
 
 ## Pinned toolchain
 

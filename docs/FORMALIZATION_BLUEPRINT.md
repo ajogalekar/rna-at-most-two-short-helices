@@ -2,10 +2,10 @@
 
 Status vocabulary:
 
-- **implemented** — present and kernel-checked in Milestone 1;
+- **implemented** — present and kernel-checked through Milestone 2;
 - **statement drafted** — the exact proposition is present, but no theorem proof
   is claimed;
-- **future milestone** — intentionally outside Milestone 1;
+- **future milestone** — intentionally outside the completed local theory;
 - **representation dependency** — requires a derived-tree, reindexing, or other
   representation theorem before implementation.
 
@@ -14,7 +14,7 @@ lemmas may be renamed without changing the mapped specification.
 
 ## Manuscript definitions
 
-| Manuscript concept | Lean module and declaration | Milestone 1 status |
+| Manuscript concept | Lean module and declaration | Status through Milestone 2 |
 |---|---|---|
 | Four bases `A,C,G,U` | `RNA.Alphabet.Nucleotide` | implemented |
 | Complement involution | `RNA.Alphabet.Nucleotide.comp` | implemented |
@@ -32,19 +32,19 @@ lemmas may be renamed without changing the mapped specification.
 | Smallest-enclosing parent and children | `RNA.IntervalTree.parent`, `pairedChildren`, `unpairedChildren`, `orderedChildren` | implemented; representation dependency discharged by parent proofs |
 | Paired degree | `RNA.IntervalTree.pairedDegree` | implemented |
 | Motifs `m5` and `m3dot` | `RNA.Motifs.HasM5`, `HasM3Dot`, `MotifFree` | implemented |
-| Pair colours `B,W,G` | `RNA.Coloring.Basic.PairColor` | future milestone |
-| Colour inverse and integer increment | `RNA.Coloring.Basic.PairColor.inv`, `delta` | future milestone |
-| Exposed multiset and properness | `RNA.Coloring.Basic.exposed`, `Proper` | future milestone |
-| Inclusive level and entry level | `RNA.Coloring.Basic.level`, `entryLevel` | future milestone; tree-path dependency |
-| Separated colouring | `RNA.Coloring.Basic.Separated` | future milestone |
-| Strong 2-separation and residues | `RNA.Coloring.Basic.StrongTwoSeparated` | future milestone |
+| Pair colours `B,W,G` | `RNA/Color.lean`: `RNA.Color` | implemented |
+| Colour inverse and integer increment | `RNA/Color.lean`: `RNA.Color.inv`, `RNA.Color.delta` | implemented |
+| Exposed multiset and properness | `RNA/Coloring.lean`: `RNA.exposedMultiset`, `RNA.ProperColoring` | implemented |
+| Inclusive level and entry level | `RNA/Coloring.lean`: `RNA.pairedLevel`, `RNA.entryLevel` | implemented; exact integer ancestor sums and parent recursion proved |
+| Separated colouring | `RNA/Coloring.lean`: `RNA.Separated` | implemented |
+| Strong 2-separation and residues | `RNA/Coloring.lean`: `RNA.StrongTwoSeparated`; `RNA/Endpoint.lean`: `RNA.StrongTwoSeparatedWith` | implemented with `ZMod 2` residues |
 | Exact stacked successor | `RNA.Helix.Arc.Stacked` | implemented |
 | Maximal helix/run and length | `RNA.Helix.IsMaximalHelixRun`, `IsMaximalHelix`, `MaximalHelix`, `MaximalHelix.length` | implemented; finite-descriptor completeness proved |
 | Target class `K` | `RNA.TargetClass.InTargetClassK` | implemented |
-| Loop node and `L/M/E` shapes | `RNA.Coloring.Interfaces.IsLoopNode`, `LoopKind` | future milestone |
-| `xi`/`eta` entry interfaces | `RNA.Coloring.Interfaces.EntryInterface` | future milestone |
-| Admissible first colour | `RNA.Coloring.Interfaces.Admissible` | future milestone |
-| `Safe(H,epsilon,c1)` | `RNA.Coloring.Interfaces.Safe` | future milestone |
+| Loop node and `L/M/E` shapes | `RNA/Endpoint.lean`: `RNA.IsLoopNode`, `RNA.EndpointType`, `RNA.IsLEndpoint`, `RNA.IsMEndpoint`, `RNA.IsEEndpoint` | implemented |
+| `xi`/`eta` entry interfaces | `RNA/Endpoint.lean`: `RNA.StrongTwoSeparatedWith`, `RNA.endpoint_forcedResidues` | implemented |
+| Admissible first colour | `RNA/Color.lean`: `RNA.Color.AdmissibleAt` | implemented |
+| `Safe(H,epsilon,c1)` | `RNA/HelixTransfer.lean`: `RNA.Safe` (parameterized by helix length) | implemented |
 | Top-down sequence assignment | `RNA.Design.Assignment.AssignedSequence` | future milestone |
 | Saturable word | `RNA.Uniqueness.Atomic.Saturable` | future milestone |
 | Atomic word and atomic design | `RNA.Uniqueness.Atomic.Atomic`, `AtomicDesign` | future milestone |
@@ -62,15 +62,15 @@ later results.
 |---:|---|---|---|
 | 1 | `motifBounds` | `RNA.Motifs` | implemented; derived-parent dependency discharged |
 | 2 | — | — | absent from canonical manuscript |
-| 3 | `StrongTwoSeparated.separated` | `RNA.Coloring.Basic` | future milestone |
-| 4 | `stacked_iff_uniquePairedChild_and_noUnpairedChild` | `RNA.Helix` | future strengthening; representation dependency on child coverage; exact stacked/maximal-run definitions implemented now |
-| 5 | `loopNode_taxonomy`, `parent_outerPair_classification` | `RNA.Coloring.Interfaces` | future milestone; motif/helix/tree dependency |
-| 6 | `loopL_residue_and_nongray`, `loopM_residue` | `RNA.Coloring.Interfaces` | future milestone |
-| 7 | `rootChoices` | `RNA.Coloring.Interfaces` | future milestone |
-| 8 | `sufficientNonrootAllocations` | `RNA.Coloring.Interfaces` | future milestone |
-| 9 | `loopAllocationCoverage` | `RNA.Coloring.Interfaces` | future milestone |
-| 10 | `longHelixTransfer` | `RNA.Coloring.Transfer` | future milestone |
-| 11 | `twoPairBridge_iff` | `RNA.Coloring.Transfer` | future milestone |
+| 3 | `strongTwoSeparated_implies_separated` | `RNA.Coloring` | implemented |
+| 4 | `stacked_iff_unique_pairedChild_no_unpaired` | `RNA.HelixPartition` | implemented, including both tree directions |
+| 5 | `existsUnique_endpointType_of_loopNode`, `parentOfHead_root_or_classified` | `RNA.Endpoint` | implemented |
+| 6 | `endpoint_forcedResidues` | `RNA.Endpoint` | implemented from global levels and properness |
+| 7 | `RootRow.proper`, root allocation coverage witness | `RNA.LocalAllocations` | implemented |
+| 8 | `ordinaryMExposure_proper`, `designatedMExposure_proper`, L/E row theorems | `RNA.LocalAllocations` | implemented on actual ordered-child assignments |
+| 9 | complete root/loop allocation coverage witnesses | `RNA.LocalAllocations` | implemented; unique short child and long-child obligations included |
+| 10 | `longHelixTransfer`, `exists_longHelixTransfer` | `RNA.HelixTransfer`; global bridge in `RNA.HelixTransferBridge` | implemented |
+| 11 | `validTwoPair_iff_mem_table`, `validTwoPairFinset_eq_table` | `RNA.HelixTransfer` | implemented as an exact exhaustive table |
 | 12 | `exists_proper_strongTwoSeparated_of_memK` | `RNA.Coloring.Construction` | future milestone; recursive-tree dependency |
 | 13 | `localDistinctness_of_assignedSequence` | `RNA.Design.Assignment` | future milestone |
 | 14 | `assignedSequence_inventory`, `pairCount_le_target`, `eq_pairCount_uses_all_limitingBases` | `RNA.Design.Assignment` | future milestone |

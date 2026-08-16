@@ -6,7 +6,15 @@ public import RNA.IntervalTree
 public import RNA.Motifs
 public import RNA.Helix
 public import RNA.TargetClass
+public import RNA.HelixPartition
+public import RNA.Color
+public import RNA.Coloring
+public import RNA.Endpoint
+public import RNA.HelixTransfer
+public import RNA.LocalAllocations
+public import RNA.HelixTransferBridge
 public import RNA.Statement
 public import RNA.Examples
+public import RNA.Milestone2Examples
 
 set_option autoImplicit false

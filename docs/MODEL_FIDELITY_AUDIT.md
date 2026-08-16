@@ -103,3 +103,60 @@ are quantified through an interval-tree or helix-tree type. The derived tree is
 used only to define the target-class predicate on the already matching-based
 `T`. Therefore the public statement has not narrowed the manuscript's class of
 noncrossing partial matchings.
+
+## Milestone 2 local-colouring fidelity
+
+Milestone 2 leaves every public scientific definition from Milestone 1
+unchanged.  In particular, `SecondaryStructure`, `UniqueDesigns`,
+`InTargetClassK`, and `OneShortHelixDesignabilityStatement` retain the same
+types and definitions.
+
+### Do maximal helices now cover every target pair?
+
+Yes.  Coverage starts from an arbitrary proof `a ∈ T.arcs`, extends only exact
+consecutive target segments containing `a`, and produces a maximal run.
+Common-member uniqueness then gives exactly one such run.  The finite union of
+all `helixMembers` is proved equal to `T.arcs`, and distinct maximal helices
+have disjoint member sets.  This is a theorem about the original target arc
+set; it is not a new helix-first target representation.
+
+### Can a non-target arc or unpaired position be coloured?
+
+No.  `Coloring T` has domain `PairedNode T`, whose values carry proofs of
+membership in `T.arcs`.  The virtual root and `UnpairedPosition T` are absent
+from that domain.  Root and unpaired levels exist, but neither object receives
+a colour.
+
+### Are levels exact integers or only parity labels?
+
+Exact integers.  A paired entry level sums signed `Color.delta` values over its
+strict target-pair ancestors, and its inclusive level adds its own delta.  The
+ancestor set is proved to decompose at the existing computed interval-tree
+parent.  An unpaired node takes that same parent-interface integer level.
+Only `levelParity : Int -> ZMod 2` forgets information, and it is used solely
+for strong two-separation and local transfer.
+
+### Does local helix transfer describe real target levels?
+
+Yes.  The local construction is first proved for a finite colour word because
+its residue walk is independent of target geometry.  A separate load-bearing
+bridge restricts an actual `Coloring T` to the canonical ordered members of an
+actual `MaximalHelix T` and proves at every offset that the local running
+residue equals the parity of the global inclusive integer level.  Terminal and
+grey-placement facts are corollaries of this pointwise identification.
+
+### Are allocation rows only anonymous multisets?
+
+No.  Each table row is a finite function on ordered slots.  Actual paired
+children are sorted in backbone order and indexed by those slots.  Designated
+rows move a grey occurrence to the actual short child's slot while preserving
+the row multiset.  Each loop/root child is connected to the unique maximal
+helix whose head it is, so long-child and unique-short-child obligations refer
+to the global class-K helices.
+
+### What remains deliberately unproved?
+
+No global recursive `COLOR` construction, color-to-nucleotide assignment,
+cancellation/free-group argument, saturated uniqueness theorem, prefix-balance
+argument, no-tie theorem, or final designability proof is introduced in
+Milestone 2.  The exact final proposition remains unchanged and unproved.
