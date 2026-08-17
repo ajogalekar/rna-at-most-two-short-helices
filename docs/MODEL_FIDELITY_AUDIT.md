@@ -156,11 +156,13 @@ to the global class-K helices.
 
 ### What was deliberately unproved at the end of Milestone 2?
 
-Milestone 2 stopped before the global recursive `COLOR` construction. It also
-left the color-to-nucleotide assignment, cancellation/free-group argument,
-saturated uniqueness theorem, prefix-balance argument, no-tie theorem, and
-final designability proof for later milestones. Milestone 3 has now discharged
-only the first of those deferred obligations.
+At that historical milestone boundary, Milestone 2 stopped before the global
+recursive `COLOR` construction and left the color-to-nucleotide assignment,
+cancellation/free-group argument, saturated uniqueness theorem, prefix-balance
+argument, no-tie theorem, and final designability proof for later milestones.
+Milestones 3–5 retain that boundary as provenance while successively
+discharging those obligations; it is no longer a description of the current
+repository scope.
 
 ## Milestone 3 global-colouring fidelity
 
@@ -211,15 +213,16 @@ their exact integer level zero and the root-allocation coverage theorem.
 matching-based target satisfying `InTargetClassK` admits one total
 `Coloring T` that is both `ProperColoring` and `StrongTwoSeparated`. This is
 Theorem 12 of `CANONICAL_PROOF.md`. It does not narrow targets to a parsed word
-or an inductively generated tree and does not yet imply `UniqueDesigns`.
+or an inductively generated tree. At the Milestone-3 boundary this result did
+not yet imply `UniqueDesigns`; Milestones 4–5 supply the missing layers.
 
-### What remains deliberately unproved after Milestone 3?
+### What remained deliberately unproved after Milestone 3?
 
-No color-to-nucleotide assignment, pairing-inventory theorem,
-cancellation/free-group argument, saturated uniqueness theorem, prefix-balance
-argument, no-tie theorem, or final designability proof is introduced in
-Milestone 3. The exact final designability proposition remains unchanged and
-unproved.
+At the Milestone-3 boundary, no color-to-nucleotide assignment,
+pairing-inventory theorem, cancellation/free-group argument, saturated
+uniqueness theorem, prefix-balance argument, no-tie theorem, or final
+designability proof was introduced in Milestone 3. Later milestones preserve
+the same exact final proposition while implementing those deferred layers.
 
 ## Milestone 4 sequence, inventory, and balance fidelity
 
@@ -309,10 +312,11 @@ finite enumeration. With ordinary exact-level separation, the same universal
 argument proves that if `S` pairs a target-unpaired position, then `S` leaves an
 explicit `G` or `C` position unpaired.
 
-### What remains deliberately deferred to Milestone 5?
+### What was deliberately deferred from Milestone 4 to Milestone 5?
 
-Milestone 4 does not claim the no-tie theorem, `UniqueDesigns`, or
-`OneShortHelixDesignabilityStatement`. The following work remains deferred:
+At the Milestone-4 boundary, Milestone 4 did not claim the no-tie theorem,
+`UniqueDesigns`, or `OneShortHelixDesignabilityStatement`. The following work
+was deferred:
 
 - adjacent complementary deletion and its preservation lemmas;
 - free-group and suffix-cancellation machinery;
@@ -325,6 +329,98 @@ Milestone 4 does not claim the no-tie theorem, `UniqueDesigns`, or
 - the universal no-tie theorem;
 - the final `UniqueDesigns` and one-short-helix designability theorems.
 
-Accordingly, Milestone 4 establishes maximum pair count and the exact machinery
-needed to exclude ties later, but makes no uniqueness or final-designability
-claim.
+Accordingly, Milestone 4 established maximum pair count and the exact machinery
+needed to exclude ties later, but made no uniqueness or final-designability
+claim. The next section audits the Milestone-5 implementation of this list.
+
+## Milestone 5 cancellation and no-tie fidelity
+
+Milestone 5 leaves the public nucleotide, sequence, structure, compatibility,
+energy, target-class, and designability definitions unchanged. Its internal
+word, transport, and saturation layers are proof devices over the same public
+objects, not replacement scientific models.
+
+### Does the internal list representation change the public sequence model?
+
+No. `RNA.Word` is definitionally `List Nucleotide` so that deletion,
+prefixes, suffixes, concatenation, and wrapping may change length. The exact
+bridges `Word.toSequence` and `Sequence.toWord` identify the list value at each
+zero-based position with the corresponding value of the public
+`Sequence n = Fin n -> Nucleotide`; both round trips are proved. The final
+statement still existentially chooses a `Sequence n`, not an unindexed list.
+
+### Is cancellation a finite test or an external proof oracle?
+
+Neither. `Saturable z` existentially quantifies a genuine compatible saturated
+`SecondaryStructure z.length`. `saturable_iff_reducesToEmpty` proves, in Lean,
+that such a structure exists exactly when adjacent complementary deletions
+reduce `z` to the empty word. The second characterization uses Mathlib's
+kernel-checked `FreeGroup (Fin 2)`: A/U and C/G are the two
+generator/inverse pairs. `encodedProduct_append` and group cancellation prove
+`suffix_saturable_of_concat_saturable_of_prefix_saturable` universally; no RNA
+enumeration or external design theorem is a premise.
+
+### Does atomic uniqueness quantify over every perfect matching?
+
+Yes. `AtomicDesign z R` requires `R` to be saturated and compatible and then
+quantifies over every `P : SecondaryStructure z.length` that is saturated and
+compatible. The competitor is not required to share the target tree or block
+decomposition. `atomic_iff_every_saturated_hasOuterPair`,
+`concat_atomicDesigns`, and `wrap_atomicDesigns` derive their block facts from
+the matching and noncrossing fields of each arbitrary `P`.
+
+### Does restricting to the target-paired skeleton weaken the final theorem?
+
+No. `unpairedPositionSet_eq_of_tied` first proves the scientifically necessary
+inclusion: a target-unpaired position paired by a tied competitor would invoke
+the Milestone-4 level-imbalance obstruction and leave a limiting G or C
+unpaired, contradicting equality saturation. Only after this inclusion does it
+use the exact equation
+`targetUnpairedCount S + 2 * pairCount S = n` to obtain equality of the two
+unpaired-position sets.
+
+`RNA.PairedRestriction` retains precisely `targetPairedPositionSet T` and uses
+`Finset.orderIsoOfFin` to give those positions their increasing consecutive
+index. Arc membership is preserved and reflected through
+`compressPairedArc`/`liftPairedArc`; compatibility, pair count, saturation,
+paired ancestry, parent-child membership, root-child membership, child order,
+and local distinctness are transported. The saturated uniqueness theorem is
+therefore applied only to an intermediate restriction. The faithful-lifting
+theorem `eq_target_of_competitorPairedRestriction_eq` then returns equality on
+the original backbone. No final competitor is assumed saturated.
+
+### Is class K used in the general no-tie theorem?
+
+No. The source declaration
+`noTie_sequenceOfProperSeparatedColoring` assumes only a coloring of an
+arbitrary target, its `ProperColoring` and `Separated` proofs, compatibility of
+an arbitrary competitor on the resulting complete sequence, and equality of
+pair counts. Its conclusion is `S = T`. The class-K hypothesis enters only
+later to obtain the global coloring certificate.
+
+### Does the final specialization reuse the Milestone-4 sequence?
+
+Yes. `oneShortHelix_uniqueDesigns` is stated directly for
+`(globalSequenceCertificate hK).sequence`. The source proof rewrites that
+stored sequence to `sequenceOfProperColoring` for the stored global coloring
+and invokes `uniqueDesigns_sequenceOfProperSeparatedColoring`. The public
+existential witness in `oneShortHelixDesignability` is that same stored
+sequence; no second choice is made.
+
+### Does saturated local-distinctness uniqueness compile through no-tie?
+
+Yes. `pairedNode_atomicDesign_of_localDistinctness` performs strong induction
+on the closed length of each actual paired target interval. It uses the exact
+ordered child slices, atomic wrapping, and word-equality transport; the virtual
+root uses atomic concatenation after reindexing both structures onto the same
+complete list word. The public
+`saturated_unique_of_localDistinctness` conclusion still quantifies an
+arbitrary compatible saturated `SecondaryStructure`.
+
+That theorem, `noTie_sequenceOfProperSeparatedColoring`,
+`uniqueDesigns_sequenceOfProperSeparatedColoring`,
+`oneShortHelix_uniqueDesigns`, `oneShortHelixDesignability`, and the Milestone-5
+examples compile through one dependency chain in the current source build.
+The separate final axiom and release documents record the transitive axiom set
+and clean-build environment; this fidelity audit does not infer those facts
+from source shape alone.

@@ -1,16 +1,32 @@
 # RNA targets with one short helix — Lean foundation
 
-This repository contains Milestones 1 and 2 of a Lean 4 formalization of the exact
-four-letter Watson–Crick model and theorem statement in
-[`docs/CANONICAL_PROOF.md`](docs/CANONICAL_PROOF.md). The final designability
-theorem is represented as a `Prop`; its proof is intentionally deferred.
+This repository formalizes the exact four-letter Watson–Crick model and the
+one-short-helix designability argument in
+[`docs/CANONICAL_PROOF.md`](docs/CANONICAL_PROOF.md). Milestones 1–4 establish
+the matching-based scientific model, the global proper separated coloring, one
+fixed complete sequence, the exact nucleotide inventory, and the level-
+imbalance obstruction.
 
-Milestone 2 adds maximal-helix partition/canonical lookup, black-white-grey
-color algebra, exact integer levels and strong two-separation, L/M/E endpoint
-theory, actual-child root and loop allocations, universal long-helix transfer,
-the complete length-two table, `Safe`, and a bridge from local transfer words
-to global target levels.  It deliberately stops before the global recursive
-coloring theorem and nucleotide construction.
+Milestone 5 uses `List Nucleotide` only as an internal variable-length word
+representation; the public theorem remains stated with
+`Sequence n = Fin n → Nucleotide` and arbitrary matching-based
+`SecondaryStructure n` competitors. Its implemented proof architecture adds:
+
+- adjacent complementary deletion and saturability, characterized both by
+  reduction to the empty word and by a product in `FreeGroup (Fin 2)`;
+- suffix cancellation, atomic words/designs, atomic concatenation, and atomic
+  wrapping;
+- order-preserving transport, interval restriction, and explicit compression
+  to the target-paired skeleton;
+- equality of target and competitor unpaired-position sets in the tie case;
+- the general no-tie and proper-separated-coloring uniqueness layers; and
+- the final class-K theorem, which reuses exactly the sequence stored in
+  `globalSequenceCertificate` rather than choosing a second witness.
+
+The kernel-checked dependency chain culminates in the exact public declaration
+`RNA.oneShortHelixDesignability : RNA.OneShortHelixDesignabilityStatement`.
+`RNA.Milestone5Examples` supplies the positive examples and mutation-sensitive
+negative controls; `RNA.FinalAxiomAudit` is the release audit target.
 
 ## Pinned toolchain
 

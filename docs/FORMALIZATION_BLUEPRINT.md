@@ -2,19 +2,17 @@
 
 Status vocabulary:
 
-- **implemented** — present and kernel-checked through Milestone 4;
+- **implemented** — present and kernel-checked in the current source build;
 - **statement drafted** — the exact proposition is present, but no theorem proof
   is claimed;
-- **future milestone** — intentionally outside the completed local theory;
-- **representation dependency** — requires a derived-tree, reindexing, or other
-  representation theorem before implementation.
+- **future work** — intentionally outside the current Lean development.
 
 Declaration names below are the intended stable public names. Minor helper
 lemmas may be renamed without changing the mapped specification.
 
 ## Manuscript definitions
 
-| Manuscript concept | Lean module and declaration | Status through Milestone 4 |
+| Manuscript concept | Lean module and declaration | Current status |
 |---|---|---|
 | Four bases `A,C,G,U` | `RNA.Alphabet.Nucleotide` | implemented |
 | Complement involution | `RNA.Alphabet.Nucleotide.comp` | implemented |
@@ -56,10 +54,14 @@ lemmas may be renamed without changing the mapped specification.
 | Prefix balance `Lambda` | `RNA.PrefixBalance`: `prefixBalanceBoundary`, `prefixBalanceAt` | implemented with zero-indexed boundary/inclusive conversion |
 | Noncrossing level-imbalance obstruction | `RNA.LevelImbalance`: `positionPartner_strictlyInside_of_enclosing_arc`, `levelImbalance_obstruction`, `targetUnpaired_pairing_obstruction` | implemented |
 | Proof-bearing global sequence | `RNA.GlobalSequence`: `GlobalSequenceCertificate`, `globalSequenceCertificate` | implemented; every field uses the same retained sequence witness |
-| Saturable word | `RNA.Uniqueness.Atomic.Saturable` | future milestone |
-| Atomic word and atomic design | `RNA.Uniqueness.Atomic.Atomic`, `AtomicDesign` | future milestone |
-| Saturated target | `RNA.Uniqueness.Atomic.Saturated` | future milestone |
-| Exact final theorem proposition | `RNA.Statement.OneShortHelixDesignabilityStatement` | statement drafted |
+| Finite internal word and fixed-length bridge | `RNA.Word`: `Word`, `Word.toSequence`, `Sequence.toWord` | implemented; list values and both round trips are proved exactly |
+| Saturated structure and saturable word | `RNA.Saturable`: `SaturatedStructure`, `Saturable` | implemented |
+| Adjacent complementary reduction | `RNA.Saturable`: `DeletesComplementaryPair`, `ReducesToEmpty`, `saturable_iff_reducesToEmpty` | implemented |
+| Free-group product and suffix cancellation | `RNA.Saturable`: `encodedProduct`, `saturable_iff_encodedProduct_eq_one`, `suffix_saturable_of_concat_saturable_of_prefix_saturable` | implemented with `FreeGroup (Fin 2)` |
+| Atomic word and atomic design | `RNA.AtomicDesign`: `Atomic`, `AtomicDesign` | implemented |
+| Order-preserving structural operations | `RNA.StructureTransport`, `RNA.StructureOperations` | implemented; map/pullback, consecutive append, wrapping, and interval restrictions |
+| Target-paired skeleton compression | `RNA.PairedRestriction`: `pairedRestrictedSequence`, `targetPairedRestriction`, `competitorPairedRestriction` | implemented with an explicit increasing finite-order equivalence |
+| Exact final theorem proposition | `RNA.Statement.OneShortHelixDesignabilityStatement` | implemented since Milestone 1; proved by `oneShortHelixDesignability` in `RNA.OneShortHelixDesignability` |
 
 ## Lemmas and theorems 1–23
 
@@ -83,15 +85,15 @@ later results.
 | 12 | `targetClass_admits_proper_strongTwoSeparated` (via `exists_proper_strongTwoSeparatedWith`) | `RNA.GlobalColoring` | implemented; total exact-domain root-forest assembly and well-founded helix-subtree recursion |
 | 13 | `locallyDistinct_sequenceOfProperColoring` | `RNA.SequenceCertificate` | implemented; root child-left injectivity and nonroot parent-right exclusion |
 | 14 | `nucleotideCount_U_sequenceOfProperColoring`, `nucleotideCount_G_sequenceOfProperColoring`, `nucleotideCount_C_sequenceOfProperColoring`, `nucleotideCount_A_sequenceOfProperColoring`, `pairCount_le_sequenceOfProperColoring`, `equality_uses_all_limiting_nucleotides` | `RNA.PairingInventory` | implemented; explicit finite bijections, arbitrary-compatible-structure injection, and U/C/G equality saturation |
-| 15 | `saturable_iff_adjacentCancellation`, `saturable_suffix_of_concat` | `RNA.Uniqueness.Atomic` | future milestone; word reduction/free-group development |
-| 16 | `atomic_iff_everyPerfectMatching_has_outerPair` | `RNA.Uniqueness.Atomic` | future milestone |
-| 17 | `concat_atomicDesigns` | `RNA.Uniqueness.Atomic` | future milestone; concatenation/reindexing dependency |
-| 18 | `wrap_atomicDesigns` | `RNA.Uniqueness.Atomic` | future milestone; wrapping/reindexing dependency |
-| 19 | `saturated_unique_of_localDistinctness` | `RNA.Uniqueness.Atomic` | future milestone; interval-tree induction dependency |
+| 15 | `saturable_iff_reducesToEmpty`, `saturable_iff_encodedProduct_eq_one`, `suffix_saturable_of_concat_saturable_of_prefix_saturable` | `RNA.Saturable` | implemented; adjacent deletion/reinsertion plus Mathlib free-group product |
+| 16 | `atomic_iff_every_saturated_hasOuterPair` | `RNA.AtomicDesign` | implemented for every compatible saturated matching of the word |
+| 17 | `concat_atomicDesigns` | `RNA.AtomicDesign` | implemented with exact word-indexed concatenation and block isolation |
+| 18 | `wrap_atomicDesigns` | `RNA.AtomicDesign` | implemented, including the empty child-list case and proper-prefix theorem |
+| 19 | `saturated_unique_of_localDistinctness` | `RNA.SaturatedUniqueness` | implemented by strong induction over actual paired intervals, with atomic child blocks and root concatenation |
 | 20 | `prefixBalanceAt_pairedLeft_eq_pairedLevel`, `prefixBalanceAt_unpaired_eq_unpairedLevel`, `prefixBalanceAt_greyRight_eq` | `RNA.PrefixBalance` | implemented; complete-subtree and completed-sibling balance proved against the existing exact levels |
 | 21 | `levelImbalance_obstruction` (using `positionPartner_strictlyInside_of_enclosing_arc` and `interior_G_count_eq_C_count_of_all_paired`) | `RNA.LevelImbalance` | implemented; produces an explicit unpaired G/C position |
-| 22 | `eq_target_of_tied_pairCount` | future `RNA.Uniqueness.NoTie` | **future milestone**; no-tie, common-unpaired deletion, and compression intentionally remain unproved |
-| 23 | `OneShortHelixDesignabilityStatement`; future theorem `oneShortHelixDesignability` | `RNA.Statement` | exact proposition remains drafted; **proof is a future milestone** |
+| 22 | `noTie_sequenceOfProperSeparatedColoring`, `eq_target_of_tied_pairCount` | `RNA.NoTie` | implemented for every proper separated coloring and every compatible tying competitor |
+| 23 | `oneShortHelix_uniqueDesigns`, `oneShortHelixDesignability` | `RNA.OneShortHelixDesignability` | implemented; proves the original Milestone-1 proposition with the exact Milestone-4 witness |
 
 ## Exact table content and later constraints
 
@@ -164,14 +166,66 @@ Milestone 4 corollary needed by the later no-tie proof.
 `globalSequenceCertificate` retains one global coloring and one sequence and
 packages compatibility, local distinctness, exact counts, the maximum bound,
 the equality case, all prefix/level identities, and the target-unpaired
-pairing obstruction. Theorems 22 and 23 are not claimed here and remain future
-Milestone 5 work.
+pairing obstruction. Milestone 5 consumes those exact fields rather than
+reconstructing substitutes.
 
-## Representation obligations carried forward
+## Milestone 5 cancellation, restriction, and no-tie traceability
 
-Milestone 5 concatenation, wrapping, deletion, and compression results must construct
-explicit order-preserving maps between finite backbones. The Milestone 3 tree
-recursion obligation is discharged on the interval tree derived from
-`SecondaryStructure`, with termination and subtree disjointness proved. No
-future module may change the public theorem to quantify over only a parsed
-word, a saturated skeleton, or an inductively generated tree.
+`RNA.Word` uses `List Nucleotide` internally because cancellation needs words
+of changing length, `take`, `drop`, concatenation, and wrapping. The proved
+`Word.toSequence`/`Sequence.toWord` bridge preserves every indexed value. This
+does not change the public model: the final target, witness, and competitors
+remain `Sequence n` and `SecondaryStructure n`.
+
+`RNA.Saturable` defines adjacent complementary deletion and its reflexive-
+transitive closure. `saturable_iff_reducesToEmpty` proves both deletion and
+reinsertion directions over arbitrary compatible noncrossing perfect
+matchings. The homomorphic product `encodedProduct : Word → FreeGroup (Fin 2)`
+sends A/U and C/G to two generator/inverse pairs.
+`saturable_iff_encodedProduct_eq_one` and `encodedProduct_append` make
+`suffix_saturable_of_concat_saturable_of_prefix_saturable` an algebraic
+cancellation result rather than a finite enumeration.
+
+`RNA.StructureTransport` maps and pulls structures through arbitrary finite
+order embeddings. `RNA.StructureOperations` specializes this layer to exact
+consecutive append, wrapping, prefixes, and open/closed intervals, including
+saturation and compatibility transport. `RNA.AtomicDesign` then proves the
+outer-pair characterization, concatenation of atomic designs with distinct
+first letters, and wrapping with an avoided closing letter.
+
+For a tied competitor, `RNA.TiedCompetitor.unpairedPositionSet_eq_of_tied`
+first proves target-unpaired inclusion using the Milestone-4 obstruction, then
+uses the exact paired/unpaired cardinality equation to obtain equality.
+`RNA.PairedRestriction` deletes that common set through the increasing
+`pairedPositionExpansion`/`pairedPositionCompression` equivalence. It proves
+saturation, compatibility, pair-count preservation, tree-child transport,
+local-distinctness transfer, and faithful lifting through
+`eq_target_of_competitorPairedRestriction_eq`.
+
+The source dependency chain in `RNA.NoTie` is exactly: equality inventory,
+target-unpaired obstruction, common-unpaired equality, paired-skeleton
+compression, saturated local-distinctness uniqueness, and faithful lifting.
+`uniqueDesigns_sequenceOfProperSeparatedColoring` combines its equality case
+with the Milestone-4 universal upper bound. `RNA.OneShortHelixDesignability`
+then specializes to the coloring and sequence already stored by
+`globalSequenceCertificate`; it does not choose a replacement sequence.
+
+`pairedNode_atomicDesign_of_localDistinctness` in
+`RNA.SaturatedUniqueness` performs strong induction on the closed length of an
+actual target pair. Its children
+are packaged as atomic blocks, `wrap_atomicDesigns` proves the displayed
+closed block atomic, and exact word-equality transport identifies that block
+with the closed target restriction. At the virtual root,
+`saturated_unique_of_localDistinctness` reconstructs the complete sequence as
+the concatenation of its root-child words and applies atomic concatenation to
+both the target and an arbitrary saturated competitor. Theorem 19 and its
+Theorems 22–23 consumers compile together in the current source build.
+
+## Representation obligations discharged
+
+Milestone 5 constructs explicit order-preserving maps for concatenation,
+wrapping, deletion, interval restriction, and target-paired compression. The
+Milestone 3 recursion remains on the interval tree derived from the original
+`SecondaryStructure`. Neither the internal word layer nor the saturated
+restriction narrows the final competitor quantifier: faithful lifting returns
+the proof to the original arbitrary noncrossing partial-matching model.
