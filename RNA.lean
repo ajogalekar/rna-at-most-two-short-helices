@@ -31,5 +31,16 @@ public import RNA.PrefixBalance
 public import RNA.LevelImbalance
 public import RNA.GlobalSequence
 public import RNA.Milestone4Examples
+public import RNA.Word
+public import RNA.StructureTransport
+public import RNA.Saturable
+public import RNA.StructureOperations
+public import RNA.AtomicDesign
+public import RNA.TiedCompetitor
+public import RNA.PairedRestriction
+public import RNA.SaturatedUniqueness
+public import RNA.NoTie
+public import RNA.OneShortHelixDesignability
+public import RNA.Milestone5Examples
 
 set_option autoImplicit false
