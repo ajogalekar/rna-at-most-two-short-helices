@@ -142,7 +142,7 @@ The theorem proves the original named proposition directly.  Unfolding
    interleaving.
 7. **Are G--U pairs excluded?** Yes.  `Compatible` admits only the unique
    Watson--Crick complement.
-8. **Is a tie forbidden?** Yes.  every distinct compatible competitor must
+8. **Is a tie forbidden?** Yes.  Every distinct compatible competitor must
    satisfy a strict pair-count inequality.
 9. **Is the energy exactly minus pair count?** Yes, as the quoted definition
    shows.

@@ -1,10 +1,10 @@
 # Final release manifest
 
 This manifest records the reproducibility metadata for the Milestone 5 source
-release.  The implementation and kernel audit are fixed.  Remaining values
-labeled **pending** depend on the documentation/release commit, final
-repository commit, or review archive and must be replaced only after the
-corresponding artifact exists.
+release.  The implementation, documentation content, and kernel audit are
+fixed.  Remaining values labeled **pending** depend on the clean archive-source
+commit or review archive and must be replaced only after the corresponding
+artifact exists.
 
 ## Canonical specification
 
@@ -21,14 +21,14 @@ corresponding artifact exists.
 | 2 | `d857457487b7ee74b0d49dd60388d549b618e861` | `9c6f752c2fcf174fe91af35eab21cddc62cc69da` | `bf6a7cefbe34c1d7dc44b21dd8bb031b9c66e68b` |
 | 3 | `bf6a7cefbe34c1d7dc44b21dd8bb031b9c66e68b` | `1db9e27d4bce6cf1f3a62ff0004083f041e83615` | `04766212239932dc7fba49f5e24d396f0e375789` |
 | 4 | `04766212239932dc7fba49f5e24d396f0e375789` | `58d15f9e9e445d5fc00d371dd9f7fe1c3d8f898a` | `4e575299721282869d0a7a987e7433eb642c0719` |
-| 5 | `4e575299721282869d0a7a987e7433eb642c0719` | `7848ae1988e4c923645fe76b7b522974ea5dbf36` | **DOCUMENTATION_RELEASE_COMMIT_PENDING** |
+| 5 | `4e575299721282869d0a7a987e7433eb642c0719` | `7848ae1988e4c923645fe76b7b522974ea5dbf36` | `c711723d386a886f551be3e6f793e5196c4e1a77` |
 
 Milestone 5's mandatory pre-implementation proof-design commit is
 `4194bba4e9a04173552ac7dc6483c99329db1e9c`
 (`Document Milestone 5 proof architecture`).
 
 - Working branch: `milestone-5-no-tie-final`
-- Final repository commit: **FINAL_REPOSITORY_COMMIT_PENDING**
+- Clean archive-source commit: **FINAL_REPOSITORY_COMMIT_PENDING**
 
 ## Toolchain and platform
 
@@ -106,7 +106,7 @@ cd /Users/ashujo/Documents/Science/rna_one_short_helix_lean
 lake clean
 lake build
 lake build RNA.FinalAxiomAudit
-rg -n '\b(sorry|admit|axiom|unsafe)\b' RNA --glob '*.lean'
+rg -n --glob '*.lean' 'sorry|admit|axiom|unsafe' RNA RNA.lean
 git diff --check
 git status --short
 ```

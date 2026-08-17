@@ -17,9 +17,11 @@ The Lean implementation commit is
 ## 3. Final documentation/release commit
 
 The documentation/release content commit is
-`DOCUMENTATION_RELEASE_COMMIT_PENDING`.  This field is finalized by the
-subsequent provenance-seal commit because a Git commit cannot contain its own
-hash.
+`c711723d386a886f551be3e6f793e5196c4e1a77`
+(`Document Milestone 5 proof and release audits`).  A later metadata-only
+provenance seal records the exact clean archive-source commit and the archive
+digest; a Git commit and an archive-contained manifest cannot literally embed
+their own hashes.
 
 ## 4. Files and declarations added
 
@@ -41,8 +43,27 @@ The implementation adds the following handwritten modules:
 - `RNA/Milestone5Examples.lean`: positive examples and negative controls;
 - `RNA/FinalAxiomAudit.lean`: transitive kernel-dependency audit.
 
-The load-bearing public declarations and their exact final names are listed in
-`docs/FINAL_AXIOM_AUDIT.md`.
+It also adds `docs/MILESTONE_5_BASE_COMMIT.txt`,
+`docs/MILESTONE_5_PROOF_DESIGN.md`, `docs/MILESTONE_5_REPORT.md`,
+`docs/FINAL_STATEMENT_AUDIT.md`, `docs/FINAL_AXIOM_AUDIT.md`, and
+`docs/FINAL_RELEASE_MANIFEST.md`, and updates `README.md`,
+`docs/FORMALIZATION_BLUEPRINT.md`, and `docs/MODEL_FIDELITY_AUDIT.md`.
+
+The key new declarations are `Word`, `SaturatedStructure`, `Saturable`,
+`DeletesComplementaryPair`, `ReducesToEmpty`,
+`saturable_iff_reducesToEmpty`,
+`suffix_saturable_of_concat_saturable_of_prefix_saturable`, `Atomic`,
+`AtomicDesign`, `atomic_iff_every_saturated_hasOuterPair`,
+`AtomicDesignBlock.concat_atomicDesigns`,
+`AtomicDesignBlock.wrap_atomicDesigns`,
+`saturated_unique_of_localDistinctness`, `unpairedPositionSet_eq_of_tied`,
+`pairedRestrictedSequence`, `targetPairedRestriction`,
+`competitorPairedRestriction`, `locallyDistinct_targetPairedRestriction`,
+`eq_target_of_competitorPairedRestriction_eq`,
+`noTie_sequenceOfProperSeparatedColoring`,
+`uniqueDesigns_sequenceOfProperSeparatedColoring`,
+`oneShortHelix_uniqueDesigns`, and `oneShortHelixDesignability`.  The complete
+load-bearing list is audited in `docs/FINAL_AXIOM_AUDIT.md`.
 
 ## 5. Word representation
 
@@ -203,7 +224,7 @@ The release validation is:
 lake clean
 lake build
 lake build RNA.FinalAxiomAudit
-rg -n --glob '*.lean' '\b(sorry|admit|axiom|unsafe)\b' RNA
+rg -n --glob '*.lean' 'sorry|admit|axiom|unsafe' RNA RNA.lean
 git diff --check
 git status --short
 ```
