@@ -19,9 +19,12 @@ The Lean implementation commit is
 The documentation/release content commit is
 `c711723d386a886f551be3e6f793e5196c4e1a77`
 (`Document Milestone 5 proof and release audits`).  A later metadata-only
-provenance seal records the exact clean archive-source commit and the archive
-digest; a Git commit and an archive-contained manifest cannot literally embed
-their own hashes.
+provenance commit, `d22684984c5093511ea7a8e4e8fc465bc529b387`
+(`Record Milestone 5 release provenance`), is the exact clean archive-source
+commit.  The post-archive checksum record cannot literally embed its own Git
+hash, just as an archive-contained manifest cannot embed the hash of the
+archive containing it; `docs/FINAL_RELEASE_MANIFEST.md` records the precise
+one-file provenance convention.
 
 ## 4. Files and declarations added
 
@@ -229,9 +232,14 @@ git diff --check
 git status --short
 ```
 
-The non-clean full build and the dedicated audit build both passed before the
-implementation commit.  The same commands are run once more from `lake clean`
-for the release record.
+At clean archive-source commit
+`d22684984c5093511ea7a8e4e8fc465bc529b387`, `lake clean` followed by the full
+`lake build` completed successfully in 3,059 jobs.  The separate
+`lake build RNA.FinalAxiomAudit` then completed successfully in 3,045 jobs.
+The source search produced zero `sorry`, zero `unsafe`, seven documentary
+`admit` substrings, and 104 audit/documentary `axiom` substrings, classified in
+`docs/FINAL_AXIOM_AUDIT.md`.  `git diff --check` passed and `git status
+--short` was empty before archive creation.
 
 ## 18. Remaining limitations
 
@@ -252,3 +260,9 @@ There is no mathematical proof work remaining outside Lean for the stated
 theorem.  Empirical RNA modeling, alternative energy models, biological
 validation, and extensions beyond the frozen specification remain outside this
 formalization.
+
+The final review archive is
+`/Users/ashujo/Documents/Science/milestone_5_final_review_source.zip`, with
+SHA-256
+`26c28269aa13028d8d64dd9073763dd7ce044b481c82bdbeca78bf9de957b8fb`.
+Its adjacent `.sha256` sidecar records the same value.

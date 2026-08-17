@@ -1,10 +1,8 @@
 # Final release manifest
 
-This manifest records the reproducibility metadata for the Milestone 5 source
-release.  The implementation, documentation content, and kernel audit are
-fixed.  Remaining values labeled **pending** depend on the clean archive-source
-commit or review archive and must be replaced only after the corresponding
-artifact exists.
+This manifest records the reproducibility metadata for the completed
+Milestone 5 source release.  The implementation, documentation content, clean
+archive-source commit, kernel audit, and external review artifact are fixed.
 
 ## Canonical specification
 
@@ -28,7 +26,12 @@ Milestone 5's mandatory pre-implementation proof-design commit is
 (`Document Milestone 5 proof architecture`).
 
 - Working branch: `milestone-5-no-tie-final`
-- Clean archive-source commit: **FINAL_REPOSITORY_COMMIT_PENDING**
+- Clean archive-source commit:
+  `d22684984c5093511ea7a8e4e8fc465bc529b387`
+  (`Record Milestone 5 release provenance`)
+- Post-archive checksum record: this metadata-only commit.  A Git commit cannot
+  contain its own SHA-1; its exact hash is therefore reported by
+  `git rev-parse HEAD` in the final handoff rather than asserted inside itself.
 
 ## Toolchain and platform
 
@@ -99,7 +102,8 @@ lake build RNA.FinalAxiomAudit
 
 ## Validation commands
 
-The final clean validation is:
+The final clean validation, run successfully at archive-source commit
+`d22684984c5093511ea7a8e4e8fc465bc529b387`, was:
 
 ```bash
 cd /Users/ashujo/Documents/Science/rna_one_short_helix_lean
@@ -120,33 +124,41 @@ declarations.
 - Archive filename: `milestone_5_final_review_source.zip`
 - Final location:
   `/Users/ashujo/Documents/Science/milestone_5_final_review_source.zip`
-- Source archive SHA-256: **SOURCE_ARCHIVE_SHA256_PENDING**
+- Source archive SHA-256:
+  `26c28269aa13028d8d64dd9073763dd7ce044b481c82bdbeca78bf9de957b8fb`
 - External checksum sidecar:
   `/Users/ashujo/Documents/Science/milestone_5_final_review_source.zip.sha256`
 
 The archive contains this manifest because it contains the complete `docs/`
 directory.  Consequently, embedding the archive's own final SHA-256 value in
-this in-archive manifest creates a self-reference: changing the pending field
-changes the archive bytes and therefore changes the digest.  The reproducible
-release convention is therefore:
+the in-archive copy creates a self-reference: changing that field changes the
+archive bytes and therefore changes the digest.  The reproducible release
+convention used here was therefore:
 
-1. commit the final repository with this manifest naming the archive and its
-   exact provenance;
+1. commit the clean archive-source repository with this manifest naming the
+   archive and its exact provenance;
 2. create the ZIP solely from that clean final commit, with the required
    inclusions and exclusions;
 3. move the ZIP outside the repository;
 4. compute its SHA-256 after the move; and
 5. write the exact digest and archive basename to the external `.sha256`
-   sidecar, without rebuilding the ZIP.
+   sidecar, without rebuilding the ZIP; and
+6. update the repository copy of this manifest with that already-fixed digest,
+   without claiming that the resulting metadata-only commit is itself the
+   archived source snapshot.
 
 Exact provenance wording for the completed release:
 
 > `milestone_5_final_review_source.zip` is the source snapshot of commit
-> **FINAL_REPOSITORY_COMMIT_PENDING**, built with the inclusion and exclusion
+> `d22684984c5093511ea7a8e4e8fc465bc529b387`, built with the inclusion and exclusion
 > rules in Section 18 of the Milestone 5 specification.  Its exact SHA-256 is
-> the value in the adjacent
-> `milestone_5_final_review_source.zip.sha256` sidecar; the sidecar is external
+> `26c28269aa13028d8d64dd9073763dd7ce044b481c82bdbeca78bf9de957b8fb`,
+> also recorded in the adjacent
+> `milestone_5_final_review_source.zip.sha256` sidecar.  The sidecar is external
 > because the manifest itself is contained in the hashed archive.
 
-No archive or checksum value is asserted until the final clean commit and ZIP
-exist.
+Thus the repository copy of this manifest records the actual archive digest;
+the archive necessarily contains the immediately preceding, pre-digest copy
+of this one file.  The Lean source, all other documentation, and every pinned
+project file in the archive are exactly those of the clean archive-source
+commit above.
