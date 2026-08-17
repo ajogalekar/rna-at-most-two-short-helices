@@ -2,7 +2,7 @@
 
 Status vocabulary:
 
-- **implemented** — present and kernel-checked through Milestone 3;
+- **implemented** — present and kernel-checked through Milestone 4;
 - **statement drafted** — the exact proposition is present, but no theorem proof
   is claimed;
 - **future milestone** — intentionally outside the completed local theory;
@@ -14,7 +14,7 @@ lemmas may be renamed without changing the mapped specification.
 
 ## Manuscript definitions
 
-| Manuscript concept | Lean module and declaration | Status through Milestone 3 |
+| Manuscript concept | Lean module and declaration | Status through Milestone 4 |
 |---|---|---|
 | Four bases `A,C,G,U` | `RNA.Alphabet.Nucleotide` | implemented |
 | Complement involution | `RNA.Alphabet.Nucleotide.comp` | implemented |
@@ -49,11 +49,16 @@ lemmas may be renamed without changing the mapped specification.
 | Exact-domain subtree coloring and extension | `RNA.SubtreeColoring`: `SubtreeColoring`, `ExtendsSubtree`, `assembleSubtreeColoring` | implemented |
 | Recursive subtree coloring certificate | `RNA.SubtreeConstruction`: `SubtreePostcondition`, `SubtreeCertificate`, `constructSubtree` | implemented |
 | Proof-bearing total global coloring | `RNA.GlobalColoring`: `GlobalColoringCertificate`, `globalColoringCertificate` | implemented |
-| Top-down sequence assignment | `RNA.Design.Assignment.AssignedSequence` | future milestone |
+| Unique position-role partition | `RNA.PositionRole`: `PositionRole`, `positionRoleEquiv`, `positionRoleAt` | implemented; target-unpaired/left/right roles cover the backbone without a default arc |
+| Top-down sequence assignment (Section 11) | `RNA.SequenceAssignment`: `leftLetterOfColoring`, `leftLetterOfProperColoring`, `sequenceOfProperColoring` | implemented; deterministic ordered grey-sibling ranks and grey-parent copying |
+| Sequence compatibility and local certificate | `RNA.SequenceCertificate`: `structureCompatible_sequenceOfProperColoring`, `SequenceAssignmentCertificate`, `globalSequenceAssignmentCertificate` | implemented |
+| Exact nucleotide inventory and maximum pair count | `RNA.PairingInventory`: `nucleotideCount`, `greyPairCount`, `nonGreyPairCount`, `pairCount_le_sequenceOfProperColoring`, `equality_uses_all_limiting_nucleotides` | implemented |
+| Prefix balance `Lambda` | `RNA.PrefixBalance`: `prefixBalanceBoundary`, `prefixBalanceAt` | implemented with zero-indexed boundary/inclusive conversion |
+| Noncrossing level-imbalance obstruction | `RNA.LevelImbalance`: `positionPartner_strictlyInside_of_enclosing_arc`, `levelImbalance_obstruction`, `targetUnpaired_pairing_obstruction` | implemented |
+| Proof-bearing global sequence | `RNA.GlobalSequence`: `GlobalSequenceCertificate`, `globalSequenceCertificate` | implemented; every field uses the same retained sequence witness |
 | Saturable word | `RNA.Uniqueness.Atomic.Saturable` | future milestone |
 | Atomic word and atomic design | `RNA.Uniqueness.Atomic.Atomic`, `AtomicDesign` | future milestone |
 | Saturated target | `RNA.Uniqueness.Atomic.Saturated` | future milestone |
-| Prefix balance `Lambda` | `RNA.Uniqueness.Balance.prefixBalance` | future milestone |
 | Exact final theorem proposition | `RNA.Statement.OneShortHelixDesignabilityStatement` | statement drafted |
 
 ## Lemmas and theorems 1–23
@@ -76,22 +81,22 @@ later results.
 | 10 | `longHelixTransfer`, `exists_longHelixTransfer` | `RNA.HelixTransfer`; global bridge in `RNA.HelixTransferBridge` | implemented |
 | 11 | `validTwoPair_iff_mem_table`, `validTwoPairFinset_eq_table` | `RNA.HelixTransfer` | implemented as an exact exhaustive table |
 | 12 | `targetClass_admits_proper_strongTwoSeparated` (via `exists_proper_strongTwoSeparatedWith`) | `RNA.GlobalColoring` | implemented; total exact-domain root-forest assembly and well-founded helix-subtree recursion |
-| 13 | `localDistinctness_of_assignedSequence` | `RNA.Design.Assignment` | future milestone |
-| 14 | `assignedSequence_inventory`, `pairCount_le_target`, `eq_pairCount_uses_all_limitingBases` | `RNA.Design.Assignment` | future milestone |
+| 13 | `locallyDistinct_sequenceOfProperColoring` | `RNA.SequenceCertificate` | implemented; root child-left injectivity and nonroot parent-right exclusion |
+| 14 | `nucleotideCount_U_sequenceOfProperColoring`, `nucleotideCount_G_sequenceOfProperColoring`, `nucleotideCount_C_sequenceOfProperColoring`, `nucleotideCount_A_sequenceOfProperColoring`, `pairCount_le_sequenceOfProperColoring`, `equality_uses_all_limiting_nucleotides` | `RNA.PairingInventory` | implemented; explicit finite bijections, arbitrary-compatible-structure injection, and U/C/G equality saturation |
 | 15 | `saturable_iff_adjacentCancellation`, `saturable_suffix_of_concat` | `RNA.Uniqueness.Atomic` | future milestone; word reduction/free-group development |
 | 16 | `atomic_iff_everyPerfectMatching_has_outerPair` | `RNA.Uniqueness.Atomic` | future milestone |
 | 17 | `concat_atomicDesigns` | `RNA.Uniqueness.Atomic` | future milestone; concatenation/reindexing dependency |
 | 18 | `wrap_atomicDesigns` | `RNA.Uniqueness.Atomic` | future milestone; wrapping/reindexing dependency |
 | 19 | `saturated_unique_of_localDistinctness` | `RNA.Uniqueness.Atomic` | future milestone; interval-tree induction dependency |
-| 20 | `prefixBalance_at_pairLeft`, `prefixBalance_at_unpaired`, `prefixBalance_at_grayRight` | `RNA.Uniqueness.Balance` | future milestone; indexing/path dependency |
-| 21 | `levelImbalance_obstruction` | `RNA.Uniqueness.Balance` | future milestone |
-| 22 | `eq_target_of_tied_pairCount` | `RNA.Uniqueness.NoTie` | future milestone; deletion/compression dependency |
-| 23 | `OneShortHelixDesignabilityStatement`; later theorem `oneShortHelixDesignability` | `RNA.Statement` | exact proposition drafted now; proof future |
+| 20 | `prefixBalanceAt_pairedLeft_eq_pairedLevel`, `prefixBalanceAt_unpaired_eq_unpairedLevel`, `prefixBalanceAt_greyRight_eq` | `RNA.PrefixBalance` | implemented; complete-subtree and completed-sibling balance proved against the existing exact levels |
+| 21 | `levelImbalance_obstruction` (using `positionPartner_strictlyInside_of_enclosing_arc` and `interior_G_count_eq_C_count_of_all_paired`) | `RNA.LevelImbalance` | implemented; produces an explicit unpaired G/C position |
+| 22 | `eq_target_of_tied_pairCount` | future `RNA.Uniqueness.NoTie` | **future milestone**; no-tie, common-unpaired deletion, and compression intentionally remain unproved |
+| 23 | `OneShortHelixDesignabilityStatement`; future theorem `oneShortHelixDesignability` | `RNA.Statement` | exact proposition remains drafted; **proof is a future milestone** |
 
-## Exact table content retained for later milestones
+## Exact table content and later constraints
 
-The following details are constraints on the future declarations, not optional
-implementation suggestions:
+The following details record frozen constraints on the implemented and future
+declarations; they are not optional implementation suggestions:
 
 - Lemma 1 must distinguish root/nonroot and presence/absence of unpaired
   children, yielding paired-child bounds `2/4` at the root and `1/3` at a
@@ -107,8 +112,9 @@ implementation suggestions:
   `xi->eta: BG,WG`; `eta->xi: GB,GW`; `eta->eta: BB,WW,GG`.
 - `Safe` is a deliberately stronger construction invariant, not a
   characterization of every valid two-pair colouring.
-- Grey sibling orientation in the sequence assignment must be deterministic or
-  relationally specified and proved to satisfy the manuscript's top-down rule.
+- Grey sibling orientation is now implemented deterministically by ordered
+  grey-sibling rank in `RNA.SequenceAssignment`; a grey child of a grey parent
+  recursively copies its parent's left letter.
 - Atomic-design uniqueness ranges over compatible perfect matchings locally;
   public `UniqueDesigns` continues to range over all compatible partial
   matchings.
@@ -125,13 +131,45 @@ nonroot exposures proper. Gray pairs and target-unpaired positions are related
 to the existing exact integer levels only through `levelParity`; neither the
 target model nor the definition of global level is weakened.
 
-The named global witness is retained by `globalColoringCertificate`, so later
-top-down nucleotide assignment can reuse the constructed coloring and its
-root allocation rather than invoke a new existence search.
+The named global witness is retained by `globalColoringCertificate`. Milestone
+4 reuses that exact coloring and root allocation in `globalSequenceCertificate`
+rather than invoking a new existence search.
+
+## Milestone 4 sequence, inventory, and balance traceability
+
+Section 11 is implemented by the default-free role partition in
+`RNA.PositionRole`, the deterministic top-down constructor
+`leftLetterOfColoring`, and the total sequence `sequenceOfProperColoring`.
+`structureCompatible_sequenceOfProperColoring` proves compatibility at the
+actual endpoints of every target arc, while
+`locallyDistinct_sequenceOfProperColoring` is the kernel-checked Lemma 13.
+
+Lemma 14 is implemented in `RNA.PairingInventory`. Explicit finite bijections
+identify U positions with grey target pairs, G and C positions with non-grey
+target pairs, and A positions with the disjoint sum of grey pairs and
+target-unpaired positions. `pairCount_le_sequenceOfProperColoring` proves the
+universal inventory bound, and `equality_uses_all_limiting_nucleotides` proves
+that every U, C, and G is paired in a tying compatible competitor. The
+witness-bearing class-K maximum theorem is
+`targetClass_has_maximumPairSequence`.
+
+Lemma 20 is implemented in `RNA.PrefixBalance` using the manuscript's exact
+`pairedLevel` and `unpairedLevel`, with
+`completeSubtreeBalance` supplying the zero-balance subtree invariant. Lemma
+21 is implemented by `levelImbalance_obstruction` in `RNA.LevelImbalance`,
+after proving noncrossing interior closure and balanced interior G/C inventory
+under total interior pairing. `targetUnpaired_pairing_obstruction` is the
+Milestone 4 corollary needed by the later no-tie proof.
+
+`globalSequenceCertificate` retains one global coloring and one sequence and
+packages compatibility, local distinctness, exact counts, the maximum bound,
+the equality case, all prefix/level identities, and the target-unpaired
+pairing obstruction. Theorems 22 and 23 are not claimed here and remain future
+Milestone 5 work.
 
 ## Representation obligations carried forward
 
-Later concatenation, wrapping, deletion, and compression results must construct
+Milestone 5 concatenation, wrapping, deletion, and compression results must construct
 explicit order-preserving maps between finite backbones. The Milestone 3 tree
 recursion obligation is discharged on the interval tree derived from
 `SecondaryStructure`, with termination and subtree disjointness proved. No

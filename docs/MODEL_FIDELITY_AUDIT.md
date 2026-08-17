@@ -220,3 +220,111 @@ cancellation/free-group argument, saturated uniqueness theorem, prefix-balance
 argument, no-tie theorem, or final designability proof is introduced in
 Milestone 3. The exact final designability proposition remains unchanged and
 unproved.
+
+## Milestone 4 sequence, inventory, and balance fidelity
+
+Milestone 4 leaves every public scientific definition from the preceding
+milestones unchanged. In particular, `Sequence`, `SecondaryStructure`,
+`StructureCompatible`, `pairCount`, the exact integer level functions,
+`InTargetClassK`, `UniqueDesigns`, and
+`OneShortHelixDesignabilityStatement` retain their established meanings.
+Milestone 4 adds constructors, certificates, and theorems over those definitions;
+it does not replace them with a restricted sequence or competitor model.
+
+### Is one complete sequence constructed and retained throughout?
+
+Yes. `sequenceOfProperColoring` uses the exact position-role partition to assign
+one nucleotide to every element of `Fin n`, producing a complete `Sequence n`
+without a default arc or an unassigned position. For a class-K target,
+`globalSequenceCertificate` retains the Milestone 3 coloring certificate and
+stores exactly one derived sequence. Its compatibility, local distinctness,
+inventory, maximum-pair, equality-case, prefix-level, and obstruction fields all
+refer to that same stored sequence; no theorem independently chooses a different
+sequence witness.
+
+### Do the target and every competitor use that same sequence?
+
+Yes. The target-compatibility field is `StructureCompatible sequence T`, while
+the maximum-pair, equality-saturation, and target-unpaired obstruction fields
+quantify `S : SecondaryStructure n` and assume
+`StructureCompatible sequence S` with the identical stored `sequence`. The
+standalone maximum theorem likewise binds one `w : Sequence n` and uses it for
+both `T` and every competitor.
+
+### Are all matching-based competitors still quantified?
+
+Yes. The competitor quantifier remains
+`forall S : SecondaryStructure n`. It therefore ranges over every finite
+noncrossing partial matching on the same `Fin n`, not merely structures sharing
+the target tree, helices, paired positions, pair count, or topology. No
+competitor is generated from the target or filtered by a target-derived grammar.
+
+### What optimality result is proved, and are ties excluded?
+
+Milestone 4 proves that the constructed target is compatible and has maximum
+pair count: every compatible `S : SecondaryStructure n` satisfies
+`pairCount S <= pairCount T`. This is the exact maximum-base-pair claim in the
+fixed Watson--Crick model. Equality is deliberately still permitted. Neither the
+maximum theorem nor `GlobalSequenceCertificate` asserts that a tying competitor
+equals `T`.
+
+### Is the nucleotide inventory exact, including its equality case?
+
+Yes. The position-role equivalence prevents hidden nucleotide sources. For a
+coloring with `g` grey target pairs, `q` non-grey target pairs, and `u`
+target-unpaired positions, the constructed sequence proves exactly
+`#U = g`, `#G = q`, `#C = q`, and `#A = g + u`. The arbitrary-compatible-fold
+injection sends every competitor arc to a distinct limiting `U` or `C` position,
+giving the universal upper bound. If a competitor ties the target pair count,
+the proved equality case states that every `U`, every `C`, and every `G` position
+of this same complete sequence is paired. It does not silently strengthen that
+conclusion to equality of structures.
+
+### Is prefix-balance indexing faithful to the manuscript?
+
+Yes. Lean positions remain zero-indexed `Fin n`. The primary boundary function
+uses `Fin (n + 1)` and sums positions `j` with `j.val < k.val`; boundary zero is
+the empty prefix. The inclusive wrapper at `i : Fin n` uses the boundary after
+`i`, whose value is `i.val + 1`. Thus manuscript position `k` corresponds to
+Lean position value `k - 1`, and manuscript `Lambda(k)` is exactly
+`prefixBalanceAt` at that Lean position. Strict-interval subtraction is proved
+with the endpoint convention used by the imbalance argument, avoiding a hidden
+off-by-one change.
+
+The level correspondence uses the existing exact `pairedLevel` and
+`unpairedLevel`, not parity or a surrogate level: paired left endpoints equal
+their inclusive paired levels, target-unpaired positions equal their unpaired
+levels, and a grey right endpoint has the same balance as its left endpoint and
+grey paired level. Complete target subtrees and completed earlier sibling
+subtrees are proved to have zero net `G`-minus-`C` balance.
+
+### Is the noncrossing imbalance obstruction universal?
+
+Yes. For an arbitrary compatible `S : SecondaryStructure n`, any A--U arc of
+`S` whose endpoint prefix balances differ forces an explicit `G` or `C` position
+to be unpaired in `S`. Interior closure is derived from the actual
+`SecondaryStructure.isNoncrossing` and partial-matching properties, including
+the shared-endpoint boundary cases; it is not a target-specific picture or a
+finite enumeration. With ordinary exact-level separation, the same universal
+argument proves that if `S` pairs a target-unpaired position, then `S` leaves an
+explicit `G` or `C` position unpaired.
+
+### What remains deliberately deferred to Milestone 5?
+
+Milestone 4 does not claim the no-tie theorem, `UniqueDesigns`, or
+`OneShortHelixDesignabilityStatement`. The following work remains deferred:
+
+- adjacent complementary deletion and its preservation lemmas;
+- free-group and suffix-cancellation machinery;
+- saturable prefixes, atomic words, atomic designs, and their concatenation or
+  wrapping results;
+- saturated-skeleton/local-distinctness uniqueness;
+- proving equality of the target and competitor unpaired-position sets in the
+  tie case;
+- deletion and order-preserving compression of common unpaired positions;
+- the universal no-tie theorem;
+- the final `UniqueDesigns` and one-short-helix designability theorems.
+
+Accordingly, Milestone 4 establishes maximum pair count and the exact machinery
+needed to exclude ties later, but makes no uniqueness or final-designability
+claim.

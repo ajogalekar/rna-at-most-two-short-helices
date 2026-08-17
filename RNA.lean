@@ -22,5 +22,14 @@ public import RNA.SubtreeColoring
 public import RNA.SubtreeConstruction
 public import RNA.GlobalColoring
 public import RNA.Milestone3Examples
+public import RNA.PositionRole
+public import RNA.SequenceAssignment
+public import RNA.SequenceCertificate
+public import RNA.MatchingPartner
+public import RNA.PairingInventory
+public import RNA.PrefixBalance
+public import RNA.LevelImbalance
+public import RNA.GlobalSequence
+public import RNA.Milestone4Examples
 
 set_option autoImplicit false
