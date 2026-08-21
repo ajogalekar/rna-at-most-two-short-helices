@@ -1,94 +1,132 @@
-# RNA targets with one short helix — Lean foundation
+# RNA targets with at most two short helices — Lean formalization
 
-This repository formalizes the exact four-letter Watson–Crick model and the
-one-short-helix designability argument in
-[`docs/CANONICAL_PROOF.md`](docs/CANONICAL_PROOF.md). Milestones 1–4 establish
-the matching-based scientific model, the global proper separated coloring, one
-fixed complete sequence, the exact nucleotide inventory, and the level-
-imbalance obstruction.
+This repository machine-checks universal unique designability for the strict
+four-letter Watson–Crick maximum-base-pair model when a pseudoknot-free target
+avoids `m5` and `m3dot`, has no maximal helix of length one, and has at most two
+maximal helices of length two. Every other maximal helix has length at least
+three.
 
-Milestone 5 uses `List Nucleotide` only as an internal variable-length word
-representation; the public theorem remains stated with
-`Sequence n = Fin n → Nucleotide` and arbitrary matching-based
-`SecondaryStructure n` competitors. Its implemented proof architecture adds:
+The final public declaration is:
 
-- adjacent complementary deletion and saturability, characterized both by
-  reduction to the empty word and by a product in `FreeGroup (Fin 2)`;
-- suffix cancellation, atomic words/designs, atomic concatenation, and atomic
-  wrapping;
-- order-preserving transport, interval restriction, and explicit compression
-  to the target-paired skeleton;
-- equality of target and competitor unpaired-position sets in the tie case;
-- the general no-tie and proper-separated-coloring uniqueness layers; and
-- the final class-K theorem, which reuses exactly the sequence stored in
-  `globalSequenceCertificate` rather than choosing a second witness.
+```lean
+RNA.atMostTwoShortHelixDesignability :
+  RNA.AtMostTwoShortHelixDesignabilityStatement
+```
 
-The kernel-checked dependency chain culminates in the exact public declaration
-`RNA.oneShortHelixDesignability : RNA.OneShortHelixDesignabilityStatement`.
-`RNA.Milestone5Examples` supplies the positive examples and mutation-sensitive
-negative controls; `RNA.FinalAxiomAudit` is the release audit target.
+Unfolding the statement gives:
 
-## Pinned toolchain
+```lean
+∀ {n : Nat} (T : SecondaryStructure n),
+  InTargetClassKLeTwo T →
+    ∃ w : Sequence n, UniqueDesigns w T
+```
 
-- Lean: `4.34.0-rc1`, commit
-  `3447a668783dbce1a8fdb97101dd067687b2b418`
+`UniqueDesigns w T` compares `T` with every compatible noncrossing partial
+matching on the same complete sequence `w` and requires every distinct
+competitor to have strictly fewer pairs. Energy remains exactly
+`-pairCount`, so `atMostTwoShortHelices_uniqueMinimumEnergy` provides the
+equivalent unique-minimum-energy formulation.
+
+## Scope and proof architecture
+
+The at-most-two theorem directly includes short-helix counts zero, one, and
+two, including the all-unpaired target. It is not proved by dispatching to old
+zero- or exact-one designability theorems. Instead, the new resource induction
+uses:
+
+- `shortHelixCount` and the exact subtree decomposition
+  `shortHelixSubtreeCount_decomposition`;
+- full and restricted interface resources `InF` and `InQ`;
+- the explicit strengthened transfer
+  `longTransfer_eta_closesNonGrey_of_Q`;
+- actual child-slot allocations for zero, one, or two resource-positive
+  subtrees;
+- `constructResourceSubtree`, an exact-domain extension-stable recursion on
+  `helixSubtreePairCount`;
+- an explicit root-degree-zero empty-coloring branch and resource-aware
+  positive-degree root assembly; and
+- the previously kernel-checked generic theorem
+  `uniqueDesigns_sequenceOfProperSeparatedColoring`.
+
+The completed exact-one theorem and every original public model declaration
+remain unchanged. The downstream class inclusion is used only to recover
+`oneShortHelixDesignability_from_atMostTwo` as a corollary of the new theorem.
+
+The corrected frozen proof specification is
+[`docs/CANONICAL_AT_MOST_TWO_PROOF.md`](docs/CANONICAL_AT_MOST_TWO_PROOF.md),
+with SHA-256 recorded in
+[`docs/CANONICAL_AT_MOST_TWO_PROOF_SHA256.txt`](docs/CANONICAL_AT_MOST_TWO_PROOF_SHA256.txt).
+The implementation report, statement audit, and axiom audit are:
+
+- [`docs/AT_MOST_TWO_FORMALIZATION_REPORT.md`](docs/AT_MOST_TWO_FORMALIZATION_REPORT.md)
+- [`docs/AT_MOST_TWO_FINAL_STATEMENT_AUDIT.md`](docs/AT_MOST_TWO_FINAL_STATEMENT_AUDIT.md)
+- [`docs/AT_MOST_TWO_AXIOM_AUDIT.md`](docs/AT_MOST_TWO_AXIOM_AUDIT.md)
+- [`docs/AT_MOST_TWO_RELEASE_MANIFEST.md`](docs/AT_MOST_TWO_RELEASE_MANIFEST.md)
+
+## Main modules
+
+The additive implementation is under `RNA/AtMostTwoShort/`:
+
+- `TargetClass.lean` — presentation-independent short count and target class;
+- `ShortCount.lean` — exact subtree/root decompositions and support bounds;
+- `Interface.lean` — F/Q resources and `RequiredInterface`;
+- `Transfers.lean` — allowed-length dispatch and strengthened long transfer;
+- `ResourceAllocations.lean` — actual E/L/M child-slot allocations;
+- `ResourceRoot.lean` — root rows, degree-zero certificate, and `G,G,B` case;
+- `ResourceCertificate.lean` — exact-domain extension-stable invariant;
+- `SubtreeConstruction.lean` — well-founded resource recursion;
+- `GlobalColoring.lean` — total proper strongly two-separated coloring;
+- `Designability.lean` — final theorem and requested corollaries;
+- `Examples.lean` — positive constructions and negative class controls; and
+- `AxiomAudit.lean` — transitive kernel dependency inspection.
+
+## Pinned toolchain and provenance
+
+- Downstream base commit:
+  `c37eac40ef5a28bf5733fd576ce6d4c44091ee6a`
+- Corrected specification commit:
+  `020fa8cd54f64c3e7264fd9dcab7ac11e6b671bc`
+- Working branch: `at-most-two-short-helices`
+- Lean: `4.34.0-rc1`
 - Mathlib requirement: `v4.34.0-rc1`
 - Mathlib resolved revision:
   `de5ce8a9a66a4aa68a9bdbb35b63a06d34d9ca11`
-- Elan: `4.2.3 (b6cec7e10 2026-06-08)`
-- Lake: `5.0.0-src+3447a66`
-- Host: macOS `26.5.2` (`25F84`), Apple Silicon `arm64`
 
-The Lean channel is pinned in `lean-toolchain`; the Mathlib release is pinned in
-`lakefile.toml`; every resolved dependency commit is pinned in
-`lake-manifest.json`. These files must be committed together.
+The exact-one source repository is the immutable upstream baseline. This
+repository was cloned without hard links and adds the new development
+downstream.
 
-## Exact creation and build commands
+## Build and audit
 
-The project was created from `/Users/ashujo/Documents/Science` with Mathlib's
-official toolchain selector rather than a separately chosen Lean release:
+From the repository root:
 
 ```bash
-/Users/ashujo/.elan/bin/lake +leanprover-community/mathlib4:lean-toolchain \
-  new rna_one_short_helix_lean math
-```
-
-Because the destination was inside an existing outer Git worktree, Lake did not
-create a nested repository. The requested project-local repository was then
-initialized explicitly:
-
-```bash
-git -C /Users/ashujo/Documents/Science/rna_one_short_helix_lean init -b main
-```
-
-Fetch the matching Mathlib cache and build from a clean checkout with:
-
-```bash
-cd /Users/ashujo/Documents/Science/rna_one_short_helix_lean
 source /Users/ashujo/.elan/env
-lake exe cache get
+lake clean
 lake build
+lake build RNA.AtMostTwoShort.AxiomAudit
 ```
 
-Useful provenance checks:
+The final theorem's kernel-reported transitive axiom set is:
+
+```text
+[propext, Classical.choice, Quot.sound]
+```
+
+No project-defined axiom, admission, `sorry`, unsafe mathematical proof,
+`native_decide`, or external proof oracle is used. Ordinary kernel-checked
+`decide`, finite case analysis, well-founded recursion, and classical choice
+are used where appropriate.
+
+Useful final checks are:
 
 ```bash
-source /Users/ashujo/.elan/env
-elan --version
-elan show
-lake env lean --version
-lake --version
-jq -r '.packages[] | select(.name == "mathlib") | .rev' lake-manifest.json
-shasum -a 256 docs/CANONICAL_PROOF.md
-sw_vers
-uname -m
+rg -n --glob '*.lean' '\b(sorry|admit|axiom|unsafe|sorryAx|native_decide)\b' RNA RNA.lean
+git diff --check
+git status --short
 ```
 
-The preserved manuscript SHA-256 is
-`28a443348eb96574d7943243cbe26f69005bb5565350589bf5bb7c230aa26735`.
-
-Official setup references:
-
-- [Lean installation](https://lean-lang.org/install/manual/)
-- [Using Mathlib as a dependency](https://github.com/leanprover-community/mathlib4/wiki/Using-mathlib4-as-a-dependency)
-- [Lake reference](https://lean-lang.org/doc/reference/latest/Build-Tools-and-Distribution/Lake/)
+The raw substring `admit` also occurs inside English “admits” and theorem
+identifiers, while `axiom` occurs in audit comments and `#print axioms`;
+[`docs/AT_MOST_TWO_AXIOM_AUDIT.md`](docs/AT_MOST_TWO_AXIOM_AUDIT.md)
+classifies those non-code matches.
