@@ -21,13 +21,13 @@ theorem as a premise.
 - Documentation/release commit:
   `fcb3bc37db5dddd4bf51b85efaefa644160b19c7`
 - Clean archive-source commit:
-  `<ARCHIVE_SOURCE_COMMIT_TO_FILL_AFTER_COMMIT>`
+  `6c61c2460e0f2969fa2760dab98b7c90a89caf7b`
 - Source archive SHA-256:
-  `<ARCHIVE_SHA256_TO_FILL_AFTER_ARCHIVE_CREATION>`
+  `b077b6118a6cbfadb6c6fce00af65ed34125ffa431f6ca8b7e2e9de3c268d40f`
 
-The archive values remain placeholders until the clean archive-source commit
-and archive object exist. A later checksum-only metadata commit records those
-resulting values without changing any Lean source or proof.
+The archive was created from the clean archive-source commit. This later
+checksum-only metadata update records the resulting values without changing
+any Lean source or proof.
 
 The exact-one model and theorem are inherited from the frozen base without
 modification. `UniqueDesigns`, `SecondaryStructure`, complementarity, energy,

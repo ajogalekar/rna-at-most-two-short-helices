@@ -16,9 +16,7 @@ zero-, one-, two-short, and all-unpaired cases.
 - Documentation/release commit:
   `fcb3bc37db5dddd4bf51b85efaefa644160b19c7`
 - Clean archive-source commit:
-  `<ARCHIVE_SOURCE_COMMIT_TO_FILL_AFTER_COMMIT>`
-- Final checksum-metadata commit:
-  `<FINAL_CHECKSUM_COMMIT_REPORTED_EXTERNALLY>`
+  `6c61c2460e0f2969fa2760dab98b7c90a89caf7b`
 - Branch: `at-most-two-short-helices`
 
 The implementation commit is intentionally separate from the documentation
@@ -86,10 +84,12 @@ exact-one designability theorem in the new theorem's dependency path.
 - File: `at_most_two_short_helices_lean_source.zip`
 - External location:
   `/Users/ashujo/Documents/Science/at_most_two_short_helices_lean_source.zip`
-- SHA-256: `<ARCHIVE_SHA256_TO_FILL_AFTER_ARCHIVE_CREATION>`
+- SHA-256:
+  `b077b6118a6cbfadb6c6fce00af65ed34125ffa431f6ca8b7e2e9de3c268d40f`
 - Adjacent sidecar:
   `at_most_two_short_helices_lean_source.zip.sha256`
-- Archive source commit: `<ARCHIVE_SOURCE_COMMIT_TO_FILL_AFTER_COMMIT>`
+- Archive source commit:
+  `6c61c2460e0f2969fa2760dab98b7c90a89caf7b`
 
 The archive is created with `git archive` from the clean archive-source
 commit. It contains `README.md`, `lean-toolchain`, `lakefile.toml`,
