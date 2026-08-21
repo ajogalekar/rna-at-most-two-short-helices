@@ -19,16 +19,15 @@ theorem as a premise.
 - Implementation commit:
   `b64d9165191a89e692d518c4e8cdaa9beafb61f3`
 - Documentation/release commit:
-  `<DOCUMENTATION_RELEASE_COMMIT_TO_FILL_AFTER_COMMIT>`
+  `fcb3bc37db5dddd4bf51b85efaefa644160b19c7`
 - Clean archive-source commit:
   `<ARCHIVE_SOURCE_COMMIT_TO_FILL_AFTER_COMMIT>`
 - Source archive SHA-256:
   `<ARCHIVE_SHA256_TO_FILL_AFTER_ARCHIVE_CREATION>`
 
-The implementation, documentation, and archive values are deliberately left
-as placeholders because a commit or archive cannot truthfully contain a hash
-that does not exist until after that object is created. The final release
-handoff must replace them with the resulting values.
+The archive values remain placeholders until the clean archive-source commit
+and archive object exist. A later checksum-only metadata commit records those
+resulting values without changing any Lean source or proof.
 
 The exact-one model and theorem are inherited from the frozen base without
 modification. `UniqueDesigns`, `SecondaryStructure`, complementarity, energy,
@@ -409,7 +408,14 @@ git status --short
 ```
 
 Final clean archive-source validation status:
-`<FINAL_CLEAN_VALIDATION_TO_FILL_AFTER_RELEASE_COMMIT>`.
+**PASS (2026-08-20).** From clean commit
+`fcb3bc37db5dddd4bf51b85efaefa644160b19c7`, `lake clean` followed by
+`lake build` completed all 3,070 jobs, and the separate
+`lake build RNA.AtMostTwoShort.AxiomAudit` completed all 3,056 jobs. The
+token-aware forbidden-source scan, `git diff --check`, reference checksum
+verification, and clean-worktree check all passed. Warnings printed during
+the build came only from unchanged inherited baseline modules; the new
+modules emitted no warning or panic.
 
 The current token-aware source scan finds zero `sorry`, zero `admit` commands,
 zero `unsafe`, zero `sorryAx`, and zero `native_decide`. The only standalone

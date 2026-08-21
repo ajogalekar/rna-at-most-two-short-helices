@@ -14,7 +14,7 @@ zero-, one-, two-short, and all-unpaired cases.
 - Implementation commit:
   `b64d9165191a89e692d518c4e8cdaa9beafb61f3`
 - Documentation/release commit:
-  `<DOCUMENTATION_RELEASE_COMMIT_TO_FILL_AFTER_COMMIT>`
+  `fcb3bc37db5dddd4bf51b85efaefa644160b19c7`
 - Clean archive-source commit:
   `<ARCHIVE_SOURCE_COMMIT_TO_FILL_AFTER_COMMIT>`
 - Final checksum-metadata commit:
@@ -63,7 +63,13 @@ git diff --check
 git status --short
 ```
 
-Result: `<FINAL_CLEAN_VALIDATION_TO_FILL_AFTER_RELEASE_COMMIT>`.
+Result: **PASS (2026-08-20).** From clean commit
+`fcb3bc37db5dddd4bf51b85efaefa644160b19c7`, the full build completed all
+3,070 jobs and the separate audit build completed all 3,056 jobs. The
+token-aware prohibited-source scan returned no matches; `git diff --check`,
+the clean-worktree check, and copied-reference checksum verification passed.
+Only pre-existing warnings from unchanged inherited modules were printed;
+the new modules emitted no warning or panic.
 
 The final theorem's kernel-reported transitive dependency set is exactly:
 

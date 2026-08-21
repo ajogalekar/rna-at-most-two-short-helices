@@ -15,7 +15,7 @@ The source provenance for this audit is:
 - implementation commit:
   `b64d9165191a89e692d518c4e8cdaa9beafb61f3`;
 - documentation/release commit:
-  `<DOCUMENTATION_RELEASE_COMMIT_TO_FILL_AFTER_COMMIT>`;
+  `fcb3bc37db5dddd4bf51b85efaefa644160b19c7`;
 - clean archive-source commit:
   `<ARCHIVE_SOURCE_COMMIT_TO_FILL_AFTER_COMMIT>`; and
 - source archive SHA-256:
@@ -27,9 +27,8 @@ The audit command is:
 lake build RNA.AtMostTwoShort.AxiomAudit
 ```
 
-It completed successfully in the implementation worktree. Final clean
-archive-source validation must rerun the same command after the release
-commits are created.
+It completed successfully both in the implementation worktree and after the
+documentation/release commit during the from-clean-state release validation.
 
 ## 2. Printed public definitions
 
@@ -208,8 +207,16 @@ git status --short
 ```
 
 Final clean validation result:
-`<FINAL_CLEAN_VALIDATION_TO_FILL_AFTER_RELEASE_COMMIT>`.
+**PASS (2026-08-20).** From clean commit
+`fcb3bc37db5dddd4bf51b85efaefa644160b19c7`, `lake clean && lake build`
+completed all 3,070 jobs; the separate audit target completed all 3,056 jobs
+and again reported exactly `[propext, Classical.choice, Quot.sound]` for the
+final theorem. The token-aware prohibited-source scan returned no matches,
+`git diff --check` passed, all copied-reference checksums passed, and the
+frozen upstream repository remained clean at the requested base commit.
+Warnings were confined to unchanged inherited baseline modules. No new
+module emitted a warning or panic.
 
 There are no unresolved logical or proof blockers. The only remaining audit
-work is release bookkeeping: filling the post-commit and post-archive hashes
-and recording the final clean-build result.
+work at this stage is archive bookkeeping: recording the archive-source
+commit and the resulting archive digest.
