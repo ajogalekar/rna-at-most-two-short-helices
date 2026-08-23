@@ -1,0 +1,9 @@
+RNA.atMostTwoShortHelixDesignability : AtMostTwoShortHelixDesignabilityStatement
+def RNA.AtMostTwoShortHelixDesignabilityStatement : Prop :=
+∀ {n : ℕ} (T : SecondaryStructure n), InTargetClassKLeTwo T → ∃ w, UniqueDesigns w T
+theorem RNA.atMostTwoShortHelixDesignability : AtMostTwoShortHelixDesignabilityStatement :=
+fun {n} T hK =>
+  Exists.intro
+    (sequenceOfProperColoring (globalColoringCertificateLeTwo hK).coloring (globalColoringCertificateLeTwo hK).proper)
+    (atMostTwoShortHelices_uniqueDesigns hK)
+'RNA.atMostTwoShortHelixDesignability' depends on axioms: [propext, Classical.choice, Quot.sound]

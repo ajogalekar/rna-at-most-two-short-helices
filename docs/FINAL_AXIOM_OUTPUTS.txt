@@ -1,0 +1,153 @@
+RNA.shortHelixCount {n : ℕ} (T : SecondaryStructure n) : ℕ
+@[expose] def RNA.shortHelixCount : {n : ℕ} → SecondaryStructure n → ℕ :=
+fun {n} T => (lengthTwoHelices T).card
+RNA.InTargetClassKLeTwo {n : ℕ} (T : SecondaryStructure n) : Prop
+@[expose] def RNA.InTargetClassKLeTwo : {n : ℕ} → SecondaryStructure n → Prop :=
+fun {n} T =>
+  shortHelixCount T ≤ 2 ∧
+    (∀ (H : MaximalHelix T), H.length ≠ 1) ∧
+      (∀ (H : MaximalHelix T), H.length ≠ 2 → 3 ≤ H.length) ∧ ¬HasM5 T ∧ ¬HasM3Dot T
+RNA.InTargetClassK2 {n : ℕ} (T : SecondaryStructure n) : Prop
+@[expose] def RNA.InTargetClassK2 : {n : ℕ} → SecondaryStructure n → Prop :=
+fun {n} T => InTargetClassKLeTwo T ∧ shortHelixCount T = 2
+RNA.UniqueDesigns {n : ℕ} (w : Sequence n) (T : SecondaryStructure n) : Prop
+@[expose] def RNA.UniqueDesigns : {n : ℕ} → Sequence n → SecondaryStructure n → Prop :=
+fun {n} w T =>
+  StructureCompatible w T ∧ ∀ (S : SecondaryStructure n), StructureCompatible w S → S ≠ T → pairCount S < pairCount T
+RNA.shortHelixSubtreeCount_decomposition {n : ℕ} {T : SecondaryStructure n} (H : MaximalHelix T) :
+  shortHelixSubtreeCount T H = (if H.length = 2 then 1 else 0) + ∑ i, shortHelixSubtreeCount T (outgoingHelix T H i)
+'RNA.shortHelixSubtreeCount_decomposition' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.loopShortSupport_card_le_two {n : ℕ} {T : SecondaryStructure n} (hK : InTargetClassKLeTwo T) (H : MaximalHelix T) :
+  (loopShortSupport T H).card ≤ 2
+'RNA.loopShortSupport_card_le_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.rootShortSupport_card_le_two {n : ℕ} {T : SecondaryStructure n} (hK : InTargetClassKLeTwo T) :
+  (rootShortSupport T).card ≤ 2
+'RNA.rootShortSupport_card_le_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.loopShortSupport_card_eq_two_length_at_least_three {n : ℕ} {T : SecondaryStructure n} (hK : InTargetClassKLeTwo T)
+  (H : MaximalHelix T) (hcard : (loopShortSupport T H).card = 2) : 3 ≤ H.length
+'RNA.loopShortSupport_card_eq_two_length_at_least_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.longTransfer_eta_closesNonGrey_of_Q (h : ℕ) (xi entry : Parity) (first : Color) (hh : 3 ≤ h)
+  (hQ : InQ xi entry first) : LongEtaTransfer h xi entry first
+'RNA.longTransfer_eta_closesNonGrey_of_Q' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.completeResourceLoopAllocation {n : ℕ} {T : SecondaryStructure n} (hK : InTargetClassKLeTwo T) (H : MaximalHelix T)
+  (e : EndpointType) (he : HasEndpointType H.terminalNode e) (a : Color) (xi : Parity)
+  (hLclosing : e = EndpointType.L → a.NonGrey)
+  (hTwoClosing : e = EndpointType.M → (loopShortSupport T H).card = 2 → a.NonGrey) :
+  ResourceLoopAllocation T hK H e a xi
+'RNA.completeResourceLoopAllocation' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.onePositiveMActualExposure_eq {n : ℕ} (T : SecondaryStructure n) (H : MaximalHelix T) (a : Color) (d : MArity)
+  (hcount : pairedChildCount T (some H.terminalNode) = d.count)
+  (positive : Fin (pairedChildCount T (some H.terminalNode))) :
+  loopPortExposure a (onePositiveMActualPorts T H a d hcount positive) = designatedMExposure a d
+'RNA.onePositiveMActualExposure_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.completeResourceLoopAllocation_twoSupportActualFacts {n : ℕ} {T : SecondaryStructure n} (hK : InTargetClassKLeTwo T)
+  (H : MaximalHelix T) (e : EndpointType) (he : HasEndpointType H.terminalNode e) (a : Color) (xi : Parity)
+  (hLclosing : e = EndpointType.L → a.NonGrey)
+  (hTwoClosing : e = EndpointType.M → (loopShortSupport T H).card = 2 → a.NonGrey) (heM : e = EndpointType.M)
+  (hcard : (loopShortSupport T H).card = 2) (chi : Coloring T) (hclosing : chi H.terminalNode = a)
+  (hports :
+    ChildPortsInstalled chi (some H.terminalNode)
+      (completeResourceLoopAllocation hK H e he a xi hLclosing hTwoClosing).ports) :
+  have A := completeResourceLoopAllocation hK H e he a xi hLclosing hTwoClosing;
+  a.NonGrey ∧
+    3 ≤ H.length ∧
+      (pairedChildCount T (some H.terminalNode) = 2 ∧ loopPortExposure a A.ports = twoPositiveMExposure a MArity.two ∨
+          pairedChildCount T (some H.terminalNode) = 3 ∧
+            loopPortExposure a A.ports = twoPositiveMExposure a MArity.three) ∧
+        ∃ i j,
+          i ≠ j ∧
+            loopShortSupport T H = {i, j} ∧
+              A.ports i = Color.grey ∧
+                A.ports j = Color.grey ∧
+                  ProperExposure (exposedMultiset chi (some H.terminalNode)) ∧
+                    (pairedChildCount T (some H.terminalNode) = 3 → ∀ k ∉ loopShortSupport T H, A.ports k = a)
+'RNA.completeResourceLoopAllocation_twoSupportActualFacts' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.completeResourceRootAllocation {n : ℕ} {T : SecondaryStructure n} (hK : InTargetClassKLeTwo T)
+  (hpositive : 0 < pairedChildCount T none) : ResourceRootAllocation T hK
+'RNA.completeResourceRootAllocation' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.completeResourceRootAllocation_twoSupport_certificate {n : ℕ} {T : SecondaryStructure n}
+  (hK : InTargetClassKLeTwo T) (hpositive : 0 < pairedChildCount T none) (hcard : (rootShortSupport T).card = 2)
+  (hlarge : 3 ≤ pairedChildCount T none) :
+  have A := completeResourceRootAllocation hK hpositive;
+  (∀ i ∈ rootShortSupport T, A.ports i = Color.grey) ∧
+    (pairedChildCount T none = 3 → ∀ i ∉ rootShortSupport T, A.ports i = Color.black)
+'RNA.completeResourceRootAllocation_twoSupport_certificate' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.constructResourceSubtree {n : ℕ} {T : SecondaryStructure n} (hK : InTargetClassKLeTwo T) (xi : Parity)
+  (H : MaximalHelix T) (entry : Parity) (first : Color) (hrequired : RequiredInterface T H xi entry first) :
+  CertifiedResourceSubtree hK H xi entry first
+'RNA.constructResourceSubtree' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.constructResourceSubtree_resourceInvariant {n : ℕ} {T : SecondaryStructure n} (hK : InTargetClassKLeTwo T)
+  (H : MaximalHelix T) :
+  (∀ (xi entry : Parity) (first : Color),
+      shortHelixSubtreeCount T H = 0 → InF xi entry first → AcceptsInterface T H xi entry first) ∧
+    ∀ (xi entry : Parity) (first : Color),
+      1 ≤ shortHelixSubtreeCount T H →
+        shortHelixSubtreeCount T H ≤ 2 → InQ xi entry first → AcceptsInterface T H xi entry first
+'RNA.constructResourceSubtree_resourceInvariant' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.globalColoringCertificateLeTwo {n : ℕ} {T : SecondaryStructure n} (hK : InTargetClassKLeTwo T) :
+  GlobalColoringCertificateLeTwo T hK
+'RNA.globalColoringCertificateLeTwo' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.exists_proper_strongTwoSeparatedWith_leTwo {n : ℕ} {T : SecondaryStructure n} (hK : InTargetClassKLeTwo T) :
+  ∃ xi chi, ProperColoring chi ∧ StrongTwoSeparatedWith chi xi
+'RNA.exists_proper_strongTwoSeparatedWith_leTwo' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.targetClassLeTwo_admits_proper_strongTwoSeparated {n : ℕ} {T : SecondaryStructure n} (hK : InTargetClassKLeTwo T) :
+  ∃ chi, ProperColoring chi ∧ StrongTwoSeparated chi
+'RNA.targetClassLeTwo_admits_proper_strongTwoSeparated' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.atMostTwoShortHelices_uniqueDesigns {n : ℕ} {T : SecondaryStructure n} (hK : InTargetClassKLeTwo T) :
+  UniqueDesigns (sequenceOfProperColoring (globalColoringCertificateLeTwo hK).coloring ⋯) T
+'RNA.atMostTwoShortHelices_uniqueDesigns' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.AtMostTwoShortHelixDesignabilityStatement : Prop
+@[expose] def RNA.AtMostTwoShortHelixDesignabilityStatement : Prop :=
+∀ {n : ℕ} (T : SecondaryStructure n), InTargetClassKLeTwo T → ∃ w, UniqueDesigns w T
+RNA.atMostTwoShortHelixDesignability : AtMostTwoShortHelixDesignabilityStatement
+theorem RNA.atMostTwoShortHelixDesignability : AtMostTwoShortHelixDesignabilityStatement :=
+<not imported>
+'RNA.atMostTwoShortHelixDesignability' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.PublicationExamples.t1Target_inTargetClassKLeTwo : InTargetClassKLeTwo t1Target
+'RNA.PublicationExamples.t1Target_inTargetClassKLeTwo' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.PublicationExamples.t1Target_pairCount : pairCount t1Target = 7
+'RNA.PublicationExamples.t1Target_pairCount' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.PublicationExamples.t1Coloring_proper : ProperColoring t1Coloring
+'RNA.PublicationExamples.t1Coloring_proper' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.PublicationExamples.t1Coloring_strongTwoSeparated : StrongTwoSeparated t1Coloring
+'RNA.PublicationExamples.t1Coloring_strongTwoSeparated' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.PublicationExamples.t1AssignedSequence_eq_w1 : t1AssignedSequence = w1
+'RNA.PublicationExamples.t1AssignedSequence_eq_w1' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.PublicationExamples.w1_uniqueDesigns_t1Target : UniqueDesigns w1 t1Target
+theorem RNA.PublicationExamples.w1_uniqueDesigns_t1Target : UniqueDesigns w1 t1Target :=
+<not imported>
+'RNA.PublicationExamples.w1_uniqueDesigns_t1Target' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.PublicationExamples.t2Target_inTargetClassKLeTwo : InTargetClassKLeTwo t2Target
+'RNA.PublicationExamples.t2Target_inTargetClassKLeTwo' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.PublicationExamples.t2Target_pairCount : pairCount t2Target = 13
+'RNA.PublicationExamples.t2Target_pairCount' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.PublicationExamples.t2Coloring_proper : ProperColoring t2Coloring
+'RNA.PublicationExamples.t2Coloring_proper' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.PublicationExamples.t2Coloring_strongTwoSeparated : StrongTwoSeparated t2Coloring
+'RNA.PublicationExamples.t2Coloring_strongTwoSeparated' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.PublicationExamples.t2Coloring_strongTwoSeparatedWith_zero : StrongTwoSeparatedWith t2Coloring 0
+'RNA.PublicationExamples.t2Coloring_strongTwoSeparatedWith_zero' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+RNA.PublicationExamples.t2AssignedSequence_eq_w2 : t2AssignedSequence = w2
+'RNA.PublicationExamples.t2AssignedSequence_eq_w2' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.PublicationExamples.w2_uniqueDesigns_t2Target : UniqueDesigns w2 t2Target
+theorem RNA.PublicationExamples.w2_uniqueDesigns_t2Target : UniqueDesigns w2 t2Target :=
+<not imported>
+'RNA.PublicationExamples.w2_uniqueDesigns_t2Target' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.PublicationExamples.threeShortTarget_shortHelixCount : shortHelixCount threeShortTarget = 3
+'RNA.PublicationExamples.threeShortTarget_shortHelixCount' depends on axioms: [propext, Classical.choice, Quot.sound]
+RNA.PublicationExamples.threeShortTarget_not_inTargetClassKLeTwo : ¬InTargetClassKLeTwo threeShortTarget
+'RNA.PublicationExamples.threeShortTarget_not_inTargetClassKLeTwo' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+RNA.PublicationExamples.threeShortTarget_no_proper_modTwoSeparated : ¬∃ χ, ProperColoring χ ∧ StrongTwoSeparated χ
+'RNA.PublicationExamples.threeShortTarget_no_proper_modTwoSeparated' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+RNA.PublicationExamples.lengthOneHelixTarget_not_inTargetClassKLeTwo : ¬InTargetClassKLeTwo lengthOneHelixTarget
+'RNA.PublicationExamples.lengthOneHelixTarget_not_inTargetClassKLeTwo' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+RNA.PublicationExamples.auau_not_uniqueDesigns_nested : ¬UniqueDesigns auau Examples.nestedTarget
+'RNA.PublicationExamples.auau_not_uniqueDesigns_nested' depends on axioms: [propext, Classical.choice, Quot.sound]
