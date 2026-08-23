@@ -124,8 +124,11 @@ def normalize_relative_path(raw: str) -> str:
 
 def is_handwritten_lean(rel: str) -> bool:
     path = Path(rel)
-    return path.suffix == ".lean" and not any(
-        part in EXCLUDED_PARTS for part in path.parts
+    is_project_path = rel == "RNA.lean" or rel.startswith("RNA/")
+    return (
+        is_project_path
+        and path.suffix == ".lean"
+        and not any(part in EXCLUDED_PARTS for part in path.parts)
     )
 
 

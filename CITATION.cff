@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this formal artifact, please cite it using these metadata."
+title: "Designability of RNA Targets with Up to Two Length-2 Helices"
+type: software
+authors:
+  - family-names: Jogalekar
+    given-names: Ashutosh S.
+abstract: >-
+  Lean 4 formalization and reproducibility materials for universal unique
+  designability in the four-letter Watson-Crick maximum-base-pair model for
+  RNA targets with up to two length-2 helices.
+version: "prepublication-2026-08-23"
+date-released: "2026-08-23"
+repository-code: "https://github.com/ajogalekar/rna-at-most-two-short-helices"
+url: "https://github.com/ajogalekar/rna-at-most-two-short-helices"
+license: Apache-2.0
+keywords:
+  - RNA inverse folding
+  - RNA design
+  - secondary structure
+  - separated coloring
+  - formal verification
+  - Lean

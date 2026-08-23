@@ -27,7 +27,11 @@ def source_paths(root: Path) -> list[Path]:
             text=True,
             stdout=subprocess.PIPE,
         )
-        relative.update(line for line in completed.stdout.splitlines() if line)
+        relative.update(
+            line
+            for line in completed.stdout.splitlines()
+            if line == "RNA.lean" or line.startswith("RNA/")
+        )
     return [root / item for item in sorted(relative)]
 
 

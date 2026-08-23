@@ -36,6 +36,11 @@ def digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def is_project_lean_path(path: str) -> bool:
+    """Select formal-project Lean source, excluding paper listing excerpts."""
+    return path == "RNA.lean" or path.startswith("RNA/")
+
+
 def parse_sidecar(path: Path) -> list[tuple[str, str]]:
     entries: list[tuple[str, str]] = []
     for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
@@ -55,17 +60,17 @@ def main() -> int:
     baseline_paths = {
         line
         for line in git(root, "ls-tree", "-r", "--name-only", args.baseline).decode().splitlines()
-        if line.endswith(".lean")
+        if line.endswith(".lean") and is_project_lean_path(line)
     }
     current_tracked = {
         line
         for line in git(root, "ls-files", "*.lean").decode().splitlines()
-        if line
+        if line and is_project_lean_path(line)
     }
     current_untracked = {
         line
         for line in git(root, "ls-files", "--others", "--exclude-standard", "*.lean").decode().splitlines()
-        if line
+        if line and is_project_lean_path(line)
     }
     current_union = current_tracked | current_untracked
     publication_modules = current_union - baseline_paths

@@ -1,0 +1,147 @@
+==> Regenerating hash-pinned Lean listings
+Validated 6 frozen source files.
+Extracted 28 declaration blocks into 3 listings.
+Wrote source map: /Users/ashujo/Documents/Science/rna_at_most_two_final_manuscript/paper_listings/SOURCE_MAP.tsv
+==> Resolving all displayed declarations with pinned Lean
+⚠ [3013/3053] Replayed RNA.SequenceAssignment
+warning: RNA/SequenceAssignment.lean:33:0: `card_filter_eq_count_map` does not use the following hypothesis in its type:
+  • [DecidableEq α] (#3)
+
+Consider removing this hypothesis and using `classical` in the proof instead. For terms, consider using `open scoped Classical in` at the term level (not the command level).
+
+Note: This linter can be disabled with `set_option linter.unusedDecidableInType false`
+warning: RNA/SequenceAssignment.lean:171:41: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: RNA/SequenceAssignment.lean:203:12: Variable name `hp` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hp
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [3028/3053] Replayed RNA.SequenceCertificate
+warning: RNA/SequenceCertificate.lean:54:2: Try `simp at hvMem` instead of `simpa using hvMem`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: RNA/SequenceCertificate.lean:122:24: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: RNA/SequenceCertificate.lean:130:24: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3029/3053] Replayed RNA.PairingInventory
+warning: RNA/PairingInventory.lean:892:6: Try `simp at hcomp` instead of `simpa using hcomp`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: RNA/PairingInventory.lean:897:6: Try `simp at hcomp` instead of `simpa using hcomp`
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3035/3053] Replayed RNA.Word
+warning: RNA/Word.lean:133:2: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [3037/3053] Replayed RNA.Saturable
+warning: RNA/Saturable.lean:140:58: This simp argument is unused:
+  List.map_nil
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [encodedWord, List.map_append, List.map_cons, nucleotideSignedGenerator_comp]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: RNA/Saturable.lean:215:8: `if_pos` has been deprecated: Use `ite_eq_left` instead
+warning: RNA/Saturable.lean:227:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
+warning: RNA/Saturable.lean:252:19: `dif_neg` has been deprecated: Use `dite_eq_right` instead
+warning: RNA/Saturable.lean:254:19: `dif_neg` has been deprecated: Use `dite_eq_right` instead
+warning: RNA/Saturable.lean:377:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
+warning: RNA/Saturable.lean:370:53: This simp argument is unused:
+  List.length_nil
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [List.length_append, List.length_cons] at hpBound
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: RNA/Saturable.lean:485:55: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: RNA/Saturable.lean:647:53: This simp argument is unused:
+  List.length_nil
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [List.length_append, List.length_cons]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: RNA/Saturable.lean:703:2: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+⚠ [3038/3053] Replayed RNA.PairedRestriction
+warning: RNA/PairedRestriction.lean:214:6: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: RNA/PairedRestriction.lean:221:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: RNA/PairedRestriction.lean:521:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+ℹ [3043/3053] Replayed RNA.Statement
+info: RNA/Statement.lean:26:0: RNA.OneShortHelixDesignabilityStatement : Prop
+Build completed successfully (3053 jobs).
+RNA.Nucleotide : Type
+RNA.Nucleotide.comp : RNA.Nucleotide → RNA.Nucleotide
+RNA.Compatible (x y : RNA.Nucleotide) : Prop
+RNA.Sequence (n : ℕ) : Type
+RNA.Arc (n : ℕ) : Type
+RNA.Arc.Crosses {n : ℕ} (a b : RNA.Arc n) : Prop
+RNA.IsPartialMatching {n : ℕ} (P : Finset (RNA.Arc n)) : Prop
+RNA.IsNoncrossing {n : ℕ} (P : Finset (RNA.Arc n)) : Prop
+RNA.SecondaryStructure (n : ℕ) : Type
+RNA.StructureCompatible {n : ℕ} (w : RNA.Sequence n) (S : RNA.SecondaryStructure n) : Prop
+RNA.pairCount {n : ℕ} (S : RNA.SecondaryStructure n) : ℕ
+RNA.UniqueDesigns {n : ℕ} (w : RNA.Sequence n) (T : RNA.SecondaryStructure n) : Prop
+RNA.HelixCandidate (n : ℕ) : Type
+RNA.HelixCandidate.outer {n : ℕ} (H : RNA.HelixCandidate n) : RNA.Arc n
+RNA.HelixCandidate.length {n : ℕ} (H : RNA.HelixCandidate n) : ℕ
+RNA.HasStackOffset {n : ℕ} (T : RNA.SecondaryStructure n) (outer : RNA.Arc n) (k : ℕ) : Prop
+RNA.IsMaximalHelixRun {n : ℕ} (T : RNA.SecondaryStructure n) (outer : RNA.Arc n) (h : ℕ) : Prop
+RNA.IsMaximalHelix {n : ℕ} (T : RNA.SecondaryStructure n) (H : RNA.HelixCandidate n) : Prop
+RNA.MaximalHelix {n : ℕ} (T : RNA.SecondaryStructure n) : Type
+RNA.MaximalHelix.outer {n : ℕ} {T : RNA.SecondaryStructure n} (H : RNA.MaximalHelix T) : RNA.Arc n
+RNA.MaximalHelix.length {n : ℕ} {T : RNA.SecondaryStructure n} (H : RNA.MaximalHelix T) : ℕ
+RNA.HasM5 {n : ℕ} (T : RNA.SecondaryStructure n) : Prop
+RNA.HasM3Dot {n : ℕ} (T : RNA.SecondaryStructure n) : Prop
+RNA.lengthTwoHelices {n : ℕ} (T : RNA.SecondaryStructure n) : Finset (RNA.MaximalHelix T)
+RNA.shortHelixCount {n : ℕ} (T : RNA.SecondaryStructure n) : ℕ
+RNA.InTargetClassKLeTwo {n : ℕ} (T : RNA.SecondaryStructure n) : Prop
+RNA.AtMostTwoShortHelixDesignabilityStatement : Prop
+RNA.atMostTwoShortHelixDesignability : RNA.AtMostTwoShortHelixDesignabilityStatement
+==> Comparing exact computational-example output
+==> Scanning terminology, release language, and references
+labels=49 references=67 missing=0 duplicates=0
+==> Building the final manuscript with Tectonic
+note: Running TeX ...
+warning: algorithm2e.sty:284: 
+Invalid UTF-8 byte or sequence at line 284 replaced by U+FFFD.
+warning: algorithm2e.sty:299: Invalid UTF-8 byte or sequence at line 299 replaced by U+FFFD.
+warning: algorithm2e.sty:550: Invalid UTF-8 byte or sequence at line 550 replaced by U+FFFD.
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1339: Underfull \hbox (badness 10000) in paragraph at lines 1338--1339
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1340: Underfull \hbox (badness 10000) in paragraph at lines 1340--1340
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1344: Underfull \hbox (badness 10000) in paragraph at lines 1343--1344
+note: Rerunning TeX because "Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.aux" changed ...
+warning: algorithm2e.sty:284: 
+Invalid UTF-8 byte or sequence at line 284 replaced by U+FFFD.
+warning: algorithm2e.sty:299: Invalid UTF-8 byte or sequence at line 299 replaced by U+FFFD.
+warning: algorithm2e.sty:550: Invalid UTF-8 byte or sequence at line 550 replaced by U+FFFD.
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1339: Underfull \hbox (badness 10000) in paragraph at lines 1338--1339
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1340: Underfull \hbox (badness 10000) in paragraph at lines 1340--1340
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1344: Underfull \hbox (badness 10000) in paragraph at lines 1343--1344
+warning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.
+note: Running xdvipdfmx ...
+note: Writing `Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.log` (40.4404296875 KiB)
+note: Writing `Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.pdf` (229.1640625 KiB)
+note: Skipped writing 2 intermediate files (use --keep-intermediates to keep them)
+PASS: listings, Lean checks, examples, manuscript language, references, and PDF build

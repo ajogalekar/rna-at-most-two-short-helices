@@ -1,1 +1,24 @@
 /.lake
+.DS_Store
+
+# Lean build products
+*.olean
+*.ilean
+*.c
+
+# LaTeX/Tectonic build products (the qualified PDF is tracked explicitly)
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.log
+*.out
+*.synctex.gz
+*.toc
+
+# Local editor and environment files
+.env
+.env.*
+*.swp
+*~

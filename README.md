@@ -1,12 +1,27 @@
-# RNA targets with at most two short helices — Lean formalization
+# Designability of RNA Targets with Up to Two Length-2 Helices
 
-This repository machine-checks universal unique designability for the strict
-four-letter Watson–Crick maximum-base-pair model when a pseudoknot-free target
-avoids `m5` and `m3dot`, has no maximal helix of length one, and has at most two
-maximal helices of length two. Every other maximal helix has length at least
-three.
+This repository contains the Lean 4 formalization, manuscript source, qualified
+prepublication PDF, executable examples, and reproducibility records for a
+universal unique-designability theorem in the strict four-letter
+Watson–Crick maximum-base-pair model.
 
-The final public declaration is:
+## Publication status
+
+- Canonical repository: <https://github.com/ajogalekar/rna-at-most-two-short-helices>
+- Publication branch: `final-publication-release`
+- Qualified Lean-source commit (before publication-only additions):
+  `f8076891735ff7bff07e785c37aad63855c6745a`
+- Archival DOI: pending reservation in a Zenodo **Software** draft
+- Current paper: qualified prepublication artifact; it will be rebuilt after
+  the repository URL and reserved DOI are inserted
+
+The repository is private during publication preparation. A GitHub release,
+Zenodo publication, and public repository visibility each require a separate
+release decision.
+
+## Main theorem
+
+The public declaration is:
 
 ```lean
 RNA.atMostTwoShortHelixDesignability :
@@ -21,93 +36,71 @@ Unfolding the statement gives:
     ∃ w : Sequence n, UniqueDesigns w T
 ```
 
+The target is a pseudoknot-free secondary structure that avoids `m5` and
+`m3dot`, has no maximal helix of length one, and has at most two maximal
+helices of length two; every other maximal helix has length at least three.
 `UniqueDesigns w T` compares `T` with every compatible noncrossing partial
 matching on the same complete sequence `w` and requires every distinct
-competitor to have strictly fewer pairs. Energy remains exactly
-`-pairCount`, so `atMostTwoShortHelices_uniqueMinimumEnergy` provides the
-equivalent unique-minimum-energy formulation.
+competitor to have strictly fewer pairs. Energy is exactly `-pairCount`.
 
-## Scope and proof architecture
+The theorem directly covers zero, one, or two length-2 helices, including the
+all-unpaired target. The exact theorem type and formal-model audit are recorded
+in [the statement audit](docs/AT_MOST_TWO_FINAL_STATEMENT_AUDIT.md).
 
-The at-most-two theorem directly includes short-helix counts zero, one, and
-two, including the all-unpaired target. It is not proved by dispatching to old
-zero- or exact-one designability theorems. Instead, the new resource induction
-uses:
+## Repository map
 
-- `shortHelixCount` and the exact subtree decomposition
-  `shortHelixSubtreeCount_decomposition`;
-- full and restricted interface resources `InF` and `InQ`;
-- the explicit strengthened transfer
-  `longTransfer_eta_closesNonGrey_of_Q`;
-- actual child-slot allocations for zero, one, or two resource-positive
-  subtrees;
-- `constructResourceSubtree`, an exact-domain extension-stable recursion on
-  `helixSubtreePairCount`;
-- an explicit root-degree-zero empty-coloring branch and resource-aware
-  positive-degree root assembly; and
-- the previously kernel-checked generic theorem
-  `uniqueDesigns_sequenceOfProperSeparatedColoring`.
+- `RNA.lean` and `RNA/` — complete handwritten Lean project; the additive
+  at-most-two construction is under `RNA/AtMostTwoShort/`.
+- `paper/` — manuscript TeX and qualified PDF, source-derived Lean listings,
+  example verifier, STIX fonts, supplements, and paper-specific audits.
+- `scripts/` — theorem-source token, integrity, and formalization-metrics
+  checks.
+- `docs/` — proof specification, theorem-closure hashes, build evidence,
+  formalization reports, and model-fidelity audits.
+- `lean-toolchain`, `lakefile.toml`, and `lake-manifest.json` — pinned Lean,
+  Lake, and Mathlib environment.
+- `CITATION.cff` and `.zenodo.json` — synchronized software metadata; the
+  version DOI will be added after Zenodo reservation.
 
-The completed exact-one theorem and every original public model declaration
-remain unchanged. The downstream class inclusion is used only to recover
-`oneShortHelixDesignability_from_atMostTwo` as a corollary of the new theorem.
+The frozen proof specification is
+[docs/CANONICAL_AT_MOST_TWO_PROOF.md](docs/CANONICAL_AT_MOST_TWO_PROOF.md).
+Its hash and the complete 46-file dependency closure are pinned in `docs/`.
 
-The corrected frozen proof specification is
-[`docs/CANONICAL_AT_MOST_TWO_PROOF.md`](docs/CANONICAL_AT_MOST_TWO_PROOF.md),
-with SHA-256 recorded in
-[`docs/CANONICAL_AT_MOST_TWO_PROOF_SHA256.txt`](docs/CANONICAL_AT_MOST_TWO_PROOF_SHA256.txt).
-The implementation report, statement audit, and axiom audit are:
+## Reproduce the formal checks
 
-- [`docs/AT_MOST_TWO_FORMALIZATION_REPORT.md`](docs/AT_MOST_TWO_FORMALIZATION_REPORT.md)
-- [`docs/AT_MOST_TWO_FINAL_STATEMENT_AUDIT.md`](docs/AT_MOST_TWO_FINAL_STATEMENT_AUDIT.md)
-- [`docs/AT_MOST_TWO_AXIOM_AUDIT.md`](docs/AT_MOST_TWO_AXIOM_AUDIT.md)
-- [`docs/AT_MOST_TWO_RELEASE_MANIFEST.md`](docs/AT_MOST_TWO_RELEASE_MANIFEST.md)
-
-## Main modules
-
-The additive implementation is under `RNA/AtMostTwoShort/`:
-
-- `TargetClass.lean` — presentation-independent short count and target class;
-- `ShortCount.lean` — exact subtree/root decompositions and support bounds;
-- `Interface.lean` — F/Q resources and `RequiredInterface`;
-- `Transfers.lean` — allowed-length dispatch and strengthened long transfer;
-- `ResourceAllocations.lean` — actual E/L/M child-slot allocations;
-- `ResourceRoot.lean` — root rows, degree-zero certificate, and `G,G,B` case;
-- `ResourceCertificate.lean` — exact-domain extension-stable invariant;
-- `SubtreeConstruction.lean` — well-founded resource recursion;
-- `GlobalColoring.lean` — total proper strongly two-separated coloring;
-- `Designability.lean` — final theorem and requested corollaries;
-- `Examples.lean` — positive constructions and negative class controls; and
-- `AxiomAudit.lean` — transitive kernel dependency inspection.
-
-## Pinned toolchain and provenance
-
-- Downstream base commit:
-  `c37eac40ef5a28bf5733fd576ce6d4c44091ee6a`
-- Corrected specification commit:
-  `020fa8cd54f64c3e7264fd9dcab7ac11e6b671bc`
-- Working branch: `at-most-two-short-helices`
-- Lean: `4.34.0-rc1`
-- Mathlib requirement: `v4.34.0-rc1`
-- Mathlib resolved revision:
-  `de5ce8a9a66a4aa68a9bdbb35b63a06d34d9ca11`
-
-The exact-one source repository is the immutable upstream baseline. This
-repository was cloned without hard links and adds the new development
-downstream.
-
-## Build and audit
-
-From the repository root:
+With the pinned Lean toolchain available through Elan, run from the repository
+root:
 
 ```bash
-source /Users/ashujo/.elan/env
-lake clean
 lake build
 lake build RNA.AtMostTwoShort.AxiomAudit
+lake build RNA.AtMostTwoShort.PublicationExamples
+lake build RNA.AtMostTwoShort.PublicationExamplesAxiomAudit
+
+python3 scripts/audit_handwritten_lean_tokens.py
+python3 scripts/audit_source_integrity.py
+python3 scripts/measure_formalization.py
+python3 paper/verify_examples.py
 ```
 
-The final theorem's kernel-reported transitive axiom set is:
+Check the 46-file theorem-closure identity with one of:
+
+```bash
+# macOS
+shasum -a 256 -c docs/THEOREM_CLOSURE_BASELINE.sha256
+
+# GNU/Linux
+sha256sum -c docs/THEOREM_CLOSURE_BASELINE.sha256
+```
+
+For the coupled paper-source check (including regenerated Lean listings and a
+fresh Tectonic PDF build), install Tectonic and run:
+
+```bash
+bash paper/scripts/validate_manuscript_sources.sh .
+```
+
+The final theorem's kernel-reported transitive axiom set is exactly:
 
 ```text
 [propext, Classical.choice, Quot.sound]
@@ -118,15 +111,38 @@ No project-defined axiom, admission, `sorry`, unsafe mathematical proof,
 `decide`, finite case analysis, well-founded recursion, and classical choice
 are used where appropriate.
 
-Useful final checks are:
+## Pinned environment and provenance
 
-```bash
-rg -n --glob '*.lean' '\b(sorry|admit|axiom|unsafe|sorryAx|native_decide)\b' RNA RNA.lean
-git diff --check
-git status --short
-```
+- Lean: `4.34.0-rc1`
+- Mathlib requirement: `v4.34.0-rc1`
+- Mathlib resolved revision:
+  `de5ce8a9a66a4aa68a9bdbb35b63a06d34d9ca11`
+- Immutable exact-one upstream baseline:
+  `c37eac40ef5a28bf5733fd576ce6d4c44091ee6a`
+- Theorem-closure baseline:
+  `28070dd0032f417b1eed03a1fa23f81a260eaff7`
 
-The raw substring `admit` also occurs inside English “admits” and theorem
-identifiers, while `axiom` occurs in audit comments and `#print axioms`;
-[`docs/AT_MOST_TWO_AXIOM_AUDIT.md`](docs/AT_MOST_TWO_AXIOM_AUDIT.md)
-classifies those non-code matches.
+See [docs/THEOREM_CLOSURE_IDENTITY_REPORT.md](docs/THEOREM_CLOSURE_IDENTITY_REPORT.md)
+and [docs/AT_MOST_TWO_RELEASE_MANIFEST.md](docs/AT_MOST_TWO_RELEASE_MANIFEST.md)
+for the qualified-source identity and audit trail.
+
+## Licensing and citation
+
+The repository uses a required path-based license split:
+
+- Lean source and software tools: Apache License 2.0;
+- manuscript text, original TikZ figures, and project documentation:
+  Creative Commons Attribution 4.0 International; and
+- bundled STIX fonts: STIX Font License / SIL Open Font License 1.1 terms.
+
+The root [LICENSE](LICENSE) is the exact Apache-2.0 text so GitHub and Zenodo
+identify the software license correctly. [LICENSES.md](LICENSES.md) gives the
+authoritative file-by-file scope and links to all license texts.
+
+Use [CITATION.cff](CITATION.cff) to cite the formal artifact. Its archival DOI
+will be added after the Zenodo Software draft reserves one. Until then, cite
+the title, author, repository URL, and the exact commit used.
+
+Redundant source ZIPs and frozen qualification bundles are intentionally not
+duplicated in Git history. They are release assets and will be attached to a
+deliberate GitHub release only after final identifiers and hashes are fixed.

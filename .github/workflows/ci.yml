@@ -1,0 +1,65 @@
+name: Lean publication checks
+
+on:
+  push:
+    branches: [final-publication-release]
+  pull_request:
+    branches: [final-publication-release]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lean-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out full history
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          fetch-depth: 0
+
+      - name: Set up pinned Lean
+        uses: leanprover/lean-action@50fcf42d2e460296f1a34b402e990d1b24f8b596 # v1.6.0
+        with:
+          auto-config: false
+          build: false
+          use-github-cache: false
+          use-mathlib-cache: true
+
+      - name: Build formal artifact and audit targets
+        run: |
+          lake build
+          lake build RNA.AtMostTwoShort.AxiomAudit
+          lake build RNA.AtMostTwoShort.PublicationExamples
+          lake build RNA.AtMostTwoShort.PublicationExamplesAxiomAudit
+
+      - name: Verify theorem-source identity
+        run: |
+          sha256sum -c docs/THEOREM_CLOSURE_BASELINE.sha256
+          python3 scripts/audit_handwritten_lean_tokens.py
+          python3 scripts/audit_source_integrity.py
+          python3 scripts/measure_formalization.py
+
+      - name: Verify manuscript Lean listings and examples
+        run: |
+          python3 paper/scripts/extract_paper_lean_listings.py \
+            --repo . \
+            --output paper/paper_listings
+          git diff --exit-code -- paper/paper_listings
+          lake env lean paper/paper_listings/PaperLeanListingAudit.lean
+          python3 paper/verify_examples.py > /tmp/rna-example-verification.txt
+          diff -u paper/EXAMPLE_VERIFICATION.txt /tmp/rna-example-verification.txt
+
+      - name: Verify publication metadata and whitespace
+        run: |
+          python3 -m json.tool .zenodo.json > /dev/null
+          grep -Fqx 'type: software' CITATION.cff
+          grep -Fqx 'license: Apache-2.0' CITATION.cff
+          git diff --check
