@@ -1,24 +1,35 @@
 {
   "title": "Designability of RNA Targets with Up to Two Length-2 Helices",
-  "description": "Lean 4 formal artifact and manuscript source for a designability theorem in the Watson-Crick RNA secondary-structure model.",
+  "description": "Lean 4 formalization and reproducibility materials for universal unique designability in the four-letter Watson-Crick maximum-base-pair model for RNA targets with up to two length-2 helices. Includes the manuscript source, verified examples, and release audits.",
   "upload_type": "software",
-  "publication_date": "2026-08-23",
+  "publication_date": "2026-08-24",
   "creators": [
     {
-      "name": "Jogalekar, Ashutosh S."
+      "name": "Jogalekar, Ashutosh S.",
+      "affiliation": "Szilard Scientific, LLC"
     }
   ],
-  "version": "prepublication-2026-08-23",
+  "version": "1.0.0",
+  "doi": "10.5281/zenodo.22075874",
   "access_right": "open",
   "license": "Apache-2.0",
   "language": "eng",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/ajogalekar/rna-at-most-two-short-helices",
+      "relation": "isDerivedFrom",
+      "resource_type": "software"
+    }
+  ],
   "keywords": [
     "RNA inverse folding",
     "RNA design",
     "secondary structure",
+    "Watson-Crick model",
+    "isolated stack",
     "separated coloring",
     "formal verification",
-    "Lean"
+    "Lean 4 theorem proving"
   ],
-  "notes": "Mixed-license deposit: Lean source and software tools are Apache-2.0; manuscript text, original figures, and project documentation are CC BY 4.0; bundled STIX fonts are under their STIX Font License / SIL OFL 1.1 terms. See LICENSES.md. The archival DOI will be added after it is reserved in the Zenodo Software draft."
+  "notes": "Mixed-license deposit: Lean source and software tools are Apache-2.0; manuscript text, original figures, and project documentation are CC BY 4.0; bundled STIX fonts are under their STIX Font License / SIL OFL 1.1 terms. See LICENSES.md. Version DOI: https://doi.org/10.5281/zenodo.22075874."
 }

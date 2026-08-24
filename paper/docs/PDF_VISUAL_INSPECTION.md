@@ -1,6 +1,6 @@
 # Final PDF visual inspection
 
-Inspection date: 2026-08-22
+Inspection date: 2026-08-23 (local); release date: 2026-08-24 (UTC)
 
 Result: **PASS**
 
@@ -9,16 +9,17 @@ Result: **PASS**
 | Field | Value |
 |---|---|
 | File | `Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.pdf` |
-| SHA-256 | `922b3dd4a1df2b1026d869e559f6e9567a6b07e808bb4969cf3eeb55998e5b07` |
+| SHA-256 | `81f01e4f2d3d3f22012bde27555d563caa941a9789dc451f6c9067b2ad07868e` |
 | Pages | 31 |
+| Size | 235,469 bytes |
 | Page size | US letter, 612 by 792 points |
 | PDF version | 1.5 |
 | Encryption | none |
 
-The PDF was built twice with Tectonic in a fresh temporary source directory
-containing only the final TeX source, source-derived Lean listings, and bundled
-font files.  The second clean pass is the frozen PDF.  The two passes have
-different binary metadata timestamps but byte-identical extracted text.
+The PDF was built twice with Tectonic from the final source-derived Lean
+listings and bundled font files, using `SOURCE_DATE_EPOCH=1787529600`
+(2026-08-24 00:00:00 UTC).  Both builds produced byte-identical PDFs with the
+SHA-256 digest above.
 
 ## Automated render checks
 
@@ -29,9 +30,9 @@ different binary metadata timestamps but byte-identical extracted text.
   bibliography entries.
 - The retained LaTeX log contains no overfull box, undefined citation,
   undefined reference, missing-character warning, or TeX error.
-- Three underfull boxes occur in wrapped cells of the Appendix C artifact
-  table.  Visual inspection confirms that these affect only loose spacing and
-  do not clip, overlap, or obscure text.
+- Seven underfull boxes occur in wrapped material in the release-identifier
+  box and Appendix C artifact table.  Visual inspection confirms that these
+  affect only loose spacing and do not clip, overlap, or obscure text.
 - Tectonic reports three invalid-byte replacements in comments inside its
   bundled `algorithm2e.sty`; the generated algorithm and every manuscript
   glyph render correctly.
@@ -39,9 +40,9 @@ different binary metadata timestamps but byte-identical extracted text.
 All 31 pages were rendered to PNG with `pdftoppm -png -r 120`.  Four contact
 sheets were inspected for whole-document continuity, and critical text,
 figures, listings, tables, and the bibliography were inspected at original
-render resolution.  Two independent page-range inspections covered pages
-1--16 and 17--31.  The final digest update changed rendered pixels only on
-pages 24 and 30; both final pages were reinspected at original resolution.
+render resolution.  Pages 25, 30, and 31 were additionally reinspected at
+original resolution after the DOI, repository URL, version, licenses, and
+release identifiers were finalized.
 
 ## Page-by-page visual result
 
@@ -56,8 +57,8 @@ pages 24 and 30; both final pages were reinspected at original resolution.
 | 23--25 | Exact public Lean listing, axiom audit, metrics digest, green identifier box | PASS |
 | 26--27 | Scope, limitations, conclusion, Appendix A tables | PASS |
 | 28--29 | Unicode Lean listings, listing continuation, start of artifact table | PASS |
-| 30 | Repeated artifact-table header, availability statement, acknowledgments, start of references | PASS |
-| 31 | Remaining bibliography, all 13 entries and DOI lines | PASS |
+| 30 | Artifact-table completion, acknowledgments, and data/code availability with repository and DOI | PASS |
+| 31 | Complete bibliography, all 13 entries and DOI lines | PASS |
 
 No clipping, overlap, illegible glyph, broken figure, broken table, bad page
 break, or other publication-blocking visual defect was found.

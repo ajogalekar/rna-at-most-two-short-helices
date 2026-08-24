@@ -1,7 +1,7 @@
 # Designability of RNA Targets with Up to Two Length-2 Helices
 
-This repository contains the Lean 4 formalization, manuscript source, qualified
-prepublication PDF, executable examples, and reproducibility records for a
+This repository contains the Lean 4 formalization, manuscript source,
+DOI-bearing publication PDF, executable examples, and reproducibility records for a
 universal unique-designability theorem in the strict four-letter
 Watson–Crick maximum-base-pair model.
 
@@ -11,13 +11,13 @@ Watson–Crick maximum-base-pair model.
 - Publication branch: `final-publication-release`
 - Qualified Lean-source commit (before publication-only additions):
   `f8076891735ff7bff07e785c37aad63855c6745a`
-- Archival DOI: pending reservation in a Zenodo **Software** draft
-- Current paper: qualified prepublication artifact; it will be rebuilt after
-  the repository URL and reserved DOI are inserted
+- Version: `1.0.0`
+- Archival DOI: [10.5281/zenodo.22075874](https://doi.org/10.5281/zenodo.22075874)
+- Current paper: qualified DOI-bearing publication artifact
 
-The repository is private during publication preparation. A GitHub release,
-Zenodo publication, and public repository visibility each require a separate
-release decision.
+The repository remains private until the separate visibility decision. The
+Zenodo Software record is an unpublished draft until its separate publication
+confirmation; the reserved DOI is registered when that record is published.
 
 ## Main theorem
 
@@ -59,8 +59,8 @@ in [the statement audit](docs/AT_MOST_TWO_FINAL_STATEMENT_AUDIT.md).
   formalization reports, and model-fidelity audits.
 - `lean-toolchain`, `lakefile.toml`, and `lake-manifest.json` — pinned Lean,
   Lake, and Mathlib environment.
-- `CITATION.cff` and `.zenodo.json` — synchronized software metadata; the
-  version DOI will be added after Zenodo reservation.
+- `CITATION.cff` and `.zenodo.json` — synchronized version `1.0.0` software
+  metadata carrying the reserved version DOI.
 
 The frozen proof specification is
 [docs/CANONICAL_AT_MOST_TWO_PROOF.md](docs/CANONICAL_AT_MOST_TWO_PROOF.md).
@@ -139,10 +139,11 @@ The root [LICENSE](LICENSE) is the exact Apache-2.0 text so GitHub and Zenodo
 identify the software license correctly. [LICENSES.md](LICENSES.md) gives the
 authoritative file-by-file scope and links to all license texts.
 
-Use [CITATION.cff](CITATION.cff) to cite the formal artifact. Its archival DOI
-will be added after the Zenodo Software draft reserves one. Until then, cite
-the title, author, repository URL, and the exact commit used.
+Use [CITATION.cff](CITATION.cff) to cite version `1.0.0` of the formal artifact
+at DOI [10.5281/zenodo.22075874](https://doi.org/10.5281/zenodo.22075874).
+For exact source identity, also record the Git commit used.
 
 Redundant source ZIPs and frozen qualification bundles are intentionally not
-duplicated in Git history. They are release assets and will be attached to a
-deliberate GitHub release only after final identifiers and hashes are fixed.
+duplicated in Git history. The canonical version `1.0.0` archive and its
+evidence packages are deposited through Zenodo; any GitHub release remains a
+separate action.

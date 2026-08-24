@@ -2,6 +2,13 @@
 
 Date: 2026-08-22
 
+> **Historical-record notice (2026-08-24 UTC).** This response preserves the
+> prepublication review state. Its statements that the repository URL, DOI,
+> and public-source licenses were unresolved are superseded by the version
+> 1.0.0 release metadata in `../README.md`, `../CITATION.cff`, and
+> `../LICENSES.md`. The reserved DOI is `10.5281/zenodo.22075874`; the Zenodo
+> record remains an unpublished draft until the separate publication decision.
+
 This record responds to every item in `FINAL_CLAUDE_REVIEW.md`. The review was produced by an AI system and is reported as a useful technical cross-check, not as independent human peer review. “Validation performed” distinguishes exact computation, Lean kernel checking, source-identity checking, and editorial inspection; none is treated as interchangeable with the others.
 
 | item | verdict | precise response | files/sections changed | validation performed |

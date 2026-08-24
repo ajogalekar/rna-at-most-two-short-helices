@@ -5,19 +5,23 @@ type: software
 authors:
   - family-names: Jogalekar
     given-names: Ashutosh S.
+    affiliation: "Szilard Scientific, LLC"
 abstract: >-
   Lean 4 formalization and reproducibility materials for universal unique
   designability in the four-letter Watson-Crick maximum-base-pair model for
   RNA targets with up to two length-2 helices.
-version: "prepublication-2026-08-23"
-date-released: "2026-08-23"
+version: "1.0.0"
+doi: "10.5281/zenodo.22075874"
+date-released: "2026-08-24"
 repository-code: "https://github.com/ajogalekar/rna-at-most-two-short-helices"
-url: "https://github.com/ajogalekar/rna-at-most-two-short-helices"
+url: "https://doi.org/10.5281/zenodo.22075874"
 license: Apache-2.0
 keywords:
   - RNA inverse folding
   - RNA design
   - secondary structure
+  - Watson-Crick model
+  - isolated stack
   - separated coloring
   - formal verification
-  - Lean
+  - Lean 4 theorem proving

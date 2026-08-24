@@ -1,6 +1,6 @@
-name = "rna_one_short_helix_lean"
-version = "0.1.0"
-keywords = ["math"]
+name = "rna_at_most_two_short_helices_lean"
+version = "1.0.0"
+keywords = ["RNA", "formal verification", "Lean"]
 defaultTargets = ["RNA"]
 
 [leanOptions]

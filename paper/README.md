@@ -1,8 +1,8 @@
-# Prepublication manuscript source package
+# Version 1.0.0 manuscript source package
 
 This directory contains the final revised manuscript source, its rendered
-31-page PDF, reproducible source-derived Lean listings, and the review and
-verification records used to qualify the prepublication artifact.
+DOI-bearing PDF, reproducible source-derived Lean listings, and the review and
+verification records used to qualify version `1.0.0`.
 
 ## Main files
 
@@ -73,10 +73,10 @@ argument or environment variable it defaults to the repository parent of this
 
 ## Release status
 
-This is a qualified prepublication artifact in the canonical repository at
-<https://github.com/ajogalekar/rna-at-most-two-short-helices>. The mixed-license
-scope is fixed in `../LICENSES.md`; the archival DOI is still pending
-reservation. The included PDF predates those final identifiers and will be
-rebuilt after the DOI is reserved. Exact frozen-input identifiers are recorded
-in `docs/INPUT_PROVENANCE.md`, and distributed-file digests are recorded in
-`SHA256SUMS.txt`.
+This is the qualified version `1.0.0` artifact in the canonical repository at
+<https://github.com/ajogalekar/rna-at-most-two-short-helices>, archived under
+DOI <https://doi.org/10.5281/zenodo.22075874>. The included PDF was rebuilt
+with the repository URL, reserved DOI, and resolved mixed-license statement.
+The authoritative license scopes are fixed in `../LICENSES.md`. Exact
+frozen-input identifiers are recorded in `docs/INPUT_PROVENANCE.md`, and
+distributed-file digests are recorded in `SHA256SUMS.txt`.

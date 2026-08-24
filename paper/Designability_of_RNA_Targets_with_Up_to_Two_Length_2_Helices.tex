@@ -93,8 +93,9 @@
 \newcommand{\Proper}{\operatorname{Proper}}
 \newcommand{\UniqueDesigns}{\operatorname{UniqueDesigns}}
 \newcommand{\hashtext}[1]{\texttt{\seqsplit{#1}}}
-\newcommand{\RepositoryURL}{\textit{repository URL pending}}
-\newcommand{\ArchiveDOI}{\textit{archival DOI pending}}
+\newcommand{\RepositoryURL}{\url{https://github.com/ajogalekar/rna-at-most-two-short-helices}}
+\newcommand{\ArchiveDOI}{\href{https://doi.org/10.5281/zenodo.22075874}{\texttt{10.5281/zenodo.22075874}}}
+\newcommand{\ReleaseVersion}{1.0.0}
 
 \newtcolorbox{contributionbox}{
   colback=SoftBlue,colframe=DeepBlue,boxrule=0.8pt,arc=2pt,
@@ -1195,7 +1196,7 @@ A separate anonymous package contained only the mathematical specification, the 
 \end{itemize}
 
 \begin{verificationbox}
-\textbf{Validated prepublication artifact identifiers.}
+\textbf{Validated release artifact identifiers.}
 \begin{itemize}
 \item canonical source archive: \hashtext{b077b6118a6cbfadb6c6fce00af65ed34125ffa431f6ca8b7e2e9de3c268d40f};
 \item release-qualification results package: \hashtext{2da05881fb3808e7add46526f6f202f81e6f0b4f9b37acd622a8acd7b435615b};
@@ -1203,7 +1204,7 @@ A separate anonymous package contained only the mathematical specification, the 
 \item Claude fidelity-audit package: \hashtext{0a77ea7e9f9dc0342a14330b93644dc943a0b2c0e89f302b092ca08de404092b}; and
 \item manuscript source package: generated from this revision, with its digest recorded in the external release manifest.
 \end{itemize}
-Public repository: \RepositoryURL.  Archival DOI: \ArchiveDOI.  These are explicit release blockers, as is selection of a public-source license.  The present PDF is therefore a prepublication artifact, not the submission PDF.  Hashes identify exact bytes but do not replace public availability or licensing.
+Canonical repository: \RepositoryURL.  Archival DOI: \ArchiveDOI.  Version \ReleaseVersion{} uses Apache License 2.0 for Lean source and software tools, Creative Commons Attribution 4.0 International for manuscript text, original figures, and project documentation, and the STIX Font License / SIL Open Font License 1.1 terms for bundled fonts; \texttt{LICENSES.md} in the archive gives the authoritative path scopes.  The DOI was reserved in the Zenodo Software draft before this PDF was built and is registered when that record is published.  The external SHA-256 manifest identifies the exact release bytes.
 \end{verificationbox}
 
 \subsection{What formal verification establishes}
@@ -1344,7 +1345,7 @@ Publication examples & Downstream modules \texttt{PublicationExamples.lean} and 
 Publication qualification metrics & Clean full-project build: 3,070 Lake graph jobs and 894.10 seconds wall-clock; closure: 46 files, 20,738 physical lines, 1,616 declaration commands; report SHA-256 \hashtext{b97a0465d97c9568211cf959e35569a4f82c766f511ca553fd1dd6ef1e1433f9}. \\
 Derived listings & \texttt{SOURCE\_MAP.tsv}, extraction script, and 28-declaration \texttt{\#check} audit included in the manuscript source package. \\
 Manuscript source package & Generated from this revision; SHA-256 recorded in the external release manifest to avoid a circular self-digest. \\
-Availability & Prepublication only.  Repository: \RepositoryURL; DOI: \ArchiveDOI; public-source license pending. \\
+Availability & Version \ReleaseVersion; canonical repository \RepositoryURL; archival DOI \ArchiveDOI; mixed license per \texttt{LICENSES.md}. \\
 \bottomrule
 \end{longtable}
 
@@ -1352,7 +1353,7 @@ Availability & Prepublication only.  Repository: \RepositoryURL; DOI: \ArchiveDO
 The author thanks the developers and communities of Lean and Mathlib.  The proof was developed with substantial assistance from OpenAI ChatGPT and Codex and Anthropic Claude Code.  These systems generated candidate proofs, formal code, test strategies, and adversarial reviews under human direction.  They are not authors and bear no responsibility for the scientific claims.
 
 \section*{Data and code availability}
-The prepublication release directory contains the manuscript source and PDF, source-derived Lean listings and their audit, deterministic example checker and output, point-by-point review records, citation and provenance audits, the downstream Lean publication examples, and the frozen qualification packages.  Exact validated identifiers are listed in Appendix~\ref{app:artifacts} and in the external SHA-256 manifest.  Public release remains blocked on a permanent repository URL, archival DOI, and explicit license; no value has been invented for any of them, and this PDF is not labeled submission-ready.
+The version \ReleaseVersion{} archival release contains the manuscript source and PDF, source-derived Lean listings and their audit, deterministic example checker and output, citation and provenance audits, downstream Lean publication examples, and frozen qualification packages.  Appendix~\ref{app:artifacts} records the canonical repository, archival DOI, and mixed-license scope; the external SHA-256 manifest identifies the exact release bytes.
 
 \begin{thebibliography}{99}
 

@@ -2,6 +2,13 @@
 
 Date: 2026-08-22
 
+> **Historical-record notice (2026-08-24 UTC).** This document preserves the
+> prepublication revision state. Its statements that the repository URL, DOI,
+> and public-source licenses were pending are superseded by the version 1.0.0
+> release metadata in `../README.md`, `../CITATION.cff`, and `../LICENSES.md`.
+> The reserved DOI is `10.5281/zenodo.22075874`; the Zenodo record remains an
+> unpublished draft until the separate publication decision.
+
 This changelog records the final mathematical, editorial, citation, formal-artifact, and packaging revision. Exact values that depend on the final assembled bytes or a fresh timed build are recorded in the final release manifest and metrics report; no provisional package digest or build metric is asserted here.
 
 ## Mathematical revisions

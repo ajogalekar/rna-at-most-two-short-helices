@@ -1,7 +1,7 @@
 ==> Regenerating hash-pinned Lean listings
 Validated 6 frozen source files.
 Extracted 28 declaration blocks into 3 listings.
-Wrote source map: /Users/ashujo/Documents/Science/rna_at_most_two_final_manuscript/paper_listings/SOURCE_MAP.tsv
+Wrote source map: /Users/ashujo/Documents/Science/RNA Theorem/paper/paper_listings/SOURCE_MAP.tsv
 ==> Resolving all displayed declarations with pinned Lean
 ⚠ [3013/3053] Replayed RNA.SequenceAssignment
 warning: RNA/SequenceAssignment.lean:33:0: `card_filter_eq_count_map` does not use the following hypothesis in its type:
@@ -128,20 +128,28 @@ warning: algorithm2e.sty:284:
 Invalid UTF-8 byte or sequence at line 284 replaced by U+FFFD.
 warning: algorithm2e.sty:299: Invalid UTF-8 byte or sequence at line 299 replaced by U+FFFD.
 warning: algorithm2e.sty:550: Invalid UTF-8 byte or sequence at line 550 replaced by U+FFFD.
-warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1339: Underfull \hbox (badness 10000) in paragraph at lines 1338--1339
-warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1340: Underfull \hbox (badness 10000) in paragraph at lines 1340--1340
-warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1344: Underfull \hbox (badness 10000) in paragraph at lines 1343--1344
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1208: Underfull \hbox (badness 2600) in paragraph at lines 1207--1208
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1340: Underfull \hbox (badness 10000) in paragraph at lines 1339--1340
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1341: Underfull \hbox (badness 10000) in paragraph at lines 1341--1341
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1345: Underfull \hbox (badness 10000) in paragraph at lines 1344--1345
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1349: Underfull \hbox (badness 1655) in paragraph at lines 1348--1349
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1349: Underfull \hbox (badness 10000) in paragraph at lines 1348--1349
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1349: Underfull \hbox (badness 10000) in paragraph at lines 1348--1349
 note: Rerunning TeX because "Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.aux" changed ...
 warning: algorithm2e.sty:284: 
 Invalid UTF-8 byte or sequence at line 284 replaced by U+FFFD.
 warning: algorithm2e.sty:299: Invalid UTF-8 byte or sequence at line 299 replaced by U+FFFD.
 warning: algorithm2e.sty:550: Invalid UTF-8 byte or sequence at line 550 replaced by U+FFFD.
-warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1339: Underfull \hbox (badness 10000) in paragraph at lines 1338--1339
-warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1340: Underfull \hbox (badness 10000) in paragraph at lines 1340--1340
-warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1344: Underfull \hbox (badness 10000) in paragraph at lines 1343--1344
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1208: Underfull \hbox (badness 2600) in paragraph at lines 1207--1208
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1340: Underfull \hbox (badness 10000) in paragraph at lines 1339--1340
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1341: Underfull \hbox (badness 10000) in paragraph at lines 1341--1341
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1345: Underfull \hbox (badness 10000) in paragraph at lines 1344--1345
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1349: Underfull \hbox (badness 1655) in paragraph at lines 1348--1349
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1349: Underfull \hbox (badness 10000) in paragraph at lines 1348--1349
+warning: Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex:1349: Underfull \hbox (badness 10000) in paragraph at lines 1348--1349
 warning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.
 note: Running xdvipdfmx ...
-note: Writing `Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.log` (40.4404296875 KiB)
-note: Writing `Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.pdf` (229.1640625 KiB)
+note: Writing `Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.pdf` (229.9501953125 KiB)
+note: Writing `Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.log` (41.2412109375 KiB)
 note: Skipped writing 2 intermediate files (use --keep-intermediates to keep them)
 PASS: listings, Lean checks, examples, manuscript language, references, and PDF build

@@ -89,6 +89,9 @@ for forbidden_text in \
   'agent run' \
   'are containing' \
   'length-two' \
+  'repository URL pending' \
+  'archival DOI pending' \
+  'public-source license pending' \
   'blinded independent audit' \
   'through August 2026' \
   'blinded review bundle' \
@@ -103,9 +106,12 @@ cutoff_count="$(rg -o -F 'through 19 August 2026' "$tex_path" | awk 'END {print 
   die "expected two exact novelty-search cutoffs, found $cutoff_count"
 
 for required_text in \
-  'repository URL pending' \
-  'archival DOI pending' \
-  'public-source license pending' \
+  'github.com/ajogalekar/rna-at-most-two-short-helices' \
+  '10.5281/zenodo.22075874' \
+  'Apache License 2.0' \
+  'Creative Commons Attribution 4.0 International' \
+  'SIL Open Font License 1.1' \
+  '\newcommand{\ReleaseVersion}{1.0.0}' \
   'canonical source archive' \
   'release-qualification results package' \
   'blinded fidelity bundle' \

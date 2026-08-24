@@ -16,6 +16,6 @@ the matching STIX Font License text from the CTAN STIX package is included as
 LICENSE.txt. The fonts are bundled so the
 XeLaTeX/Tectonic build does not depend on fonts installed on the host.
 
-This font license does not choose a license for the manuscript or Lean
-artifact. A public-source license for those materials remains an explicit
-pre-submission release blocker.
+This font license is independent of the repository's path-scoped licenses:
+Lean source and software tools are Apache-2.0, while manuscript text, original
+figures, and project documentation are CC BY 4.0. See `../../LICENSES.md`.
