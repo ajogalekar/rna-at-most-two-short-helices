@@ -39,7 +39,7 @@ jobs:
           echo "${ELAN_INIT_SHA256}  /tmp/elan-init.sh" | sha256sum -c -
           sh /tmp/elan-init.sh -y --default-toolchain none
           rm /tmp/elan-init.sh
-          export PATH="/root/.elan/bin:${PATH}"
+          export PATH="${HOME}/.elan/bin:${PATH}"
 
           git init /work/repo
           cd /work/repo
