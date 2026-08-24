@@ -19,7 +19,8 @@ have not yet been reviewed by an independent human subject-matter expert.
 - the unchanged 46-file theorem dependency closure;
 - publication example and axiom-audit modules outside that closure;
 - the manuscript TeX source and qualified DOI-bearing publication PDF, with
-  the final revised plain-language abstract;
+  the final revised plain-language abstract, expanded coloring motivation,
+  complete length-2 transition preview, and explanatory color figure;
 - source-derived Lean listings, exact example verifier, paper supplements,
   fonts, and qualification records;
 - Apache-2.0, CC BY 4.0, and font-license texts with explicit path scopes;

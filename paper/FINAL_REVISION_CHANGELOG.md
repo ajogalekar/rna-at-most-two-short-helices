@@ -11,6 +11,15 @@ Date: 2026-08-22
 
 This changelog records the final mathematical, editorial, citation, formal-artifact, and packaging revision. Exact values that depend on the final assembled bytes or a fresh timed build are recorded in the final release manifest and metrics report; no provisional package digest or build metric is asserted here.
 
+## Post-audit exposition revision (2026-08-24)
+
+| area | change | validation |
+|---|---|---|
+| Haleš coloring framework | Expanded Section 1.2 to spell out the interval tree, exposed-color capacities, greedy top-down coloring, inclusive levels, separation condition, color-to-sequence map, and why the original structure-approximation repair does not prove designability of the unchanged target. | Claims were checked against the primary Haleš et al. source and the manuscript's formal definitions and self-contained uniqueness proof. |
+| Isolated-stack gap | Expanded Section 1.3 with the complete four-row length-2 transition table, the restricted entry-state guarantee, the three-gray multiloop collision, the scope caveat, and the strengthened non-gray-ending repair forced available by the global bound of two. | The transition words and exposures were checked against Lemmas 6.1--6.3 and the formal target-class decomposition; specialist audits reported no remaining mathematical overclaim. |
+| Explanatory color figure | Added a three-panel TikZ figure showing a proper separated-coloring certificate and nucleotide map, the naive three-gray collision, and the `GBB` long-helix repair. Every decisive state is explicitly labeled so the figure remains interpretable without color. | Full-resolution inspection found no clipping, overlap, overfull box, illegible glyph, or color-dependent inference. |
+| Regenerated artifact | Rebuilt the manuscript from source with the frozen Lean listings and deterministic timestamp. | Coupled source/Lean validation passes; two builds are byte-identical; all 32 pages render; all 30 font records are embedded and subset. The final digest is recorded in `docs/FINAL_PDF_CONTENT_STABILITY.txt`. |
+
 ## Mathematical revisions
 
 | area | change | validation |

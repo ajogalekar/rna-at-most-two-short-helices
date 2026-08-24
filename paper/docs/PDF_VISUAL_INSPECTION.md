@@ -9,9 +9,9 @@ Result: **PASS**
 | Field | Value |
 |---|---|
 | File | `Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.pdf` |
-| SHA-256 | `7c01e16ad45db79590bf189014ccbbf3450b613a9ed3b66f50681a23ba12a251` |
-| Pages | 31 |
-| Size | 235,048 bytes |
+| SHA-256 | `ef8ff08b36f1e9185b79170904ff5f6dfb70df3a202f7ab6d29c60a9b889c57c` |
+| Pages | 32 |
+| Size | 257,098 bytes |
 | Page size | US letter, 612 by 792 points |
 | PDF version | 1.5 |
 | Encryption | none |
@@ -23,9 +23,10 @@ SHA-256 digest above.
 
 ## Automated render checks
 
-- `pdfinfo` reports the expected title, author, 31 pages, and no encryption.
-- `pdffonts` reports 26 font rows; every row is embedded, subset, and Unicode
-  mapped.
+- `pdfinfo` reports the expected title, author, 32 pages, and no encryption.
+- `pdffonts` reports 30 font rows; every row is embedded and subset.  Twenty-nine
+  rows are Unicode mapped; the remaining row is the embedded mathematical-symbol
+  font `CMSY8`, whose displayed glyphs were visually verified.
 - `pdftotext -layout` succeeds and contains the complete paper through all 13
   bibliography entries.
 - The retained LaTeX log contains no overfull box, undefined citation,
@@ -37,29 +38,30 @@ SHA-256 digest above.
   bundled `algorithm2e.sty`; the generated algorithm and every manuscript
   glyph render correctly.
 
-All 31 pages were rendered to PNG with `pdftoppm -png -r 120`.  Four contact
+All 32 pages were rendered to PNG with `pdftoppm -png -r 105`.  Three contact
 sheets were inspected for whole-document continuity, and critical text,
 figures, listings, tables, and the bibliography were inspected at original
-render resolution.  Pages 1, 25, 30, and 31 were additionally reinspected at
-original resolution after the revised plain-language abstract,
-human-expert-review disclosure, DOI, repository URL, version, licenses, and
-immutable-record wording were finalized.
+render resolution.  Pages 1--5 were additionally inspected after Sections
+1.2--1.3 were expanded and the new three-panel color figure was added.  Pages
+14, 22, 23, and 29--32 were reinspected at original resolution to confirm the
+later figures, listings, artifact records, repository and DOI, availability
+statement, and complete bibliography after pagination changed.
 
 ## Page-by-page visual result
 
 | Pages | Material checked | Result |
 |---|---|---|
-| 1--4 | Title, revised plain-language abstract with explicit human-expert-review disclosure, contribution box, Figure 1, opening definitions | PASS |
-| 5--8 | Motif and target-class tables, Unicode/math notation, Lemma 2.9, strengthened Proposition 3.5 | PASS |
-| 9--12 | Loop lemmas, Figure 2, feasible-state displays, transition tables | PASS |
-| 13--16 | Figure 3, root-assignment tables, Algorithm 1, sequence construction | PASS |
-| 17--19 | Counting and uniqueness proofs, equations, page continuations | PASS |
-| 20--22 | Both worked examples, long RNA strings, Figures 4 and 5 | PASS |
-| 23--25 | Exact public Lean listing, axiom audit, metrics digest, green identifier box | PASS |
-| 26--27 | Scope, limitations, conclusion, Appendix A tables | PASS |
-| 28--29 | Unicode Lean listings, listing continuation, start of artifact table | PASS |
-| 30 | Artifact-table completion, acknowledgments, and data/code availability with repository and DOI | PASS |
-| 31 | Complete bibliography, all 13 entries and DOI lines | PASS |
+| 1--5 | Title, revised abstract and expert-review disclosure; expanded Sections 1.2--1.3; new color Figure 1; contribution box, proof pipeline, and opening definitions | PASS |
+| 6--9 | Tree, helix, motif, target-class, color, and prior-result definitions; strengthened three-stack boundary | PASS |
+| 10--13 | Loop lemmas, feasible-state displays, complete length-2 table, and long-helix transfers | PASS |
+| 14--17 | Detailed two-child allocation figure, assignment tables, Algorithm 1, and global coloring | PASS |
+| 18--21 | Sequence construction, inventory and uniqueness proofs, theorem conclusion, and first example | PASS |
+| 22--23 | Both two-stack configurations, long RNA strings, and worked-example figures | PASS |
+| 24--26 | Exact public Lean listing, axiom audit, metrics digest, green identifier box, and audit records | PASS |
+| 27--28 | Development history, scope, limitations, conclusion, and Appendix A tables | PASS |
+| 29--30 | Unicode Lean listings, listing continuation, and start of artifact table | PASS |
+| 31 | Artifact-table completion, acknowledgments, and data/code availability with repository and DOI | PASS |
+| 32 | Complete bibliography, all 13 entries and DOI lines | PASS |
 
 No clipping, overlap, illegible glyph, broken figure, broken table, bad page
 break, or other publication-blocking visual defect was found.

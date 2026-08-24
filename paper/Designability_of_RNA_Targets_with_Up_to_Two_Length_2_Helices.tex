@@ -154,15 +154,116 @@ We study the combinatorial Watson--Crick base-pair model studied by Hale\v{s} et
 
 \subsection{Separated colorings and prior work}
 
-Hale\v{s} et al. represented a secondary structure by a rooted ordered tree whose paired nodes are colored black, white, or gray.  They defined proper and separated colorings and proved that a separated coloring yields a design in the four-letter Watson--Crick model \citep{hales2017}.  They also identified the local obstructions $m_5$ and $m_{3\bullet}$ and characterized several designable classes.
+Hale\v{s} et al. encode a pseudoknot-free secondary structure by a rooted ordered interval tree \citep{hales2017}.  A target pair $(i,j)$ becomes the interval node $[i,j]$, a target-unpaired position $k$ becomes the singleton node $[k,k]$, and a virtual interval $[0,n+1]$ is added as the root.  The children of an interval are its maximal proper subintervals in backbone order.  Noncrossing pairs form a laminar family, so the tree records both nesting and the left-to-right order of the components exposed at each loop.
 
-Boury, Bulteau, and Ponty introduced modulo-$m$ separation and proved motif-free separability hardness \citep{boury2024}.  Their 2025 journal expansion strengthens the hardness result to targets without isolated base pairs \citep{boury2025}.  They also proved a linear-time positive result for targets in which every helix has length at least three.  In their terminology, a helix of length 1 is an isolated base pair and a helix of length 2 is an isolated stack.  Their known $h_{\min}=2$ construction uses many isolated stacks.  This motivates asking whether a bounded number of isolated stacks admits a general positive theorem.
+Every paired node other than the root is colored black $\Bcol$, white $\Wcol$, or gray $\Gray$.  To preview the formal definition in Section~\ref{sec:model}, the colors exposed at a loop are the colors on its outgoing paired children together with the inverse of its own closing color, where black and white are inverses and gray is self-inverse.  A coloring is \emph{proper} when each such exposed multiset contains at most one black, at most one white, and at most two gray incidences.  Thus a black node may have one black child but no white child; a white node has the symmetric restriction; and a gray node may have at most one child of each color because its own closing incidence already consumes one of the two gray places.  At the virtual root, which has no closing incidence, the child capacities are one black, one white, and two gray.
+
+Hale\v{s} et al. give a concrete top-down way to satisfy these local restrictions when the paired degrees permit it.  At a black node, color the first paired child black and the remaining paired children gray; at a white node, use white and then gray; at a gray node or the root, use black for the first paired child, white for the second, and gray for any remaining paired children.  Here ``first'' and ``second'' refer to backbone order.  This \emph{greedy coloring} explains the role of the three colors: black and white provide two distinct orientations of a G--C pair, while gray supplies the remaining local capacity.  Properness is local, however, and is only half of the certificate.
+
+The other half is a global level condition.  Give black, white, and gray the increments $+1$, $-1$, and $0$, respectively, and sum those increments along each root-to-node path, including the node itself when it is paired.  An unpaired singleton inherits the level of its enclosing paired node.  A proper coloring is \emph{separated} if no integer is occupied both by a gray paired node and by an unpaired node.  The color-to-sequence map then assigns G--C to a black pair, C--G to a white pair, A--U or U--A to a suitably oriented gray pair, and A to every target-unpaired position.  Properness makes the paired restriction a unique compatible saturated matching.  Separation protects the unpaired A's: if an equal-size alternative fold paired one of them to a U from a gray target pair, the unequal prefix G--C balances at the two endpoints would force some G or C to remain unused.  That alternative cannot tie the target's pair count.  Hale\v{s} et al. thereby proved that a proper separated coloring yields a design in the four-letter Watson--Crick model \citep{hales2017}; Sections~\ref{sec:sequence}--\ref{sec:notie} give the complete argument used here.
+
+The theorem is a certificate, not a promise that every motif-free target already has such a coloring.  In the general structure-approximation result of Hale\v{s} et al., an incorrect level parity can be repaired by inserting a paired node into the affected helix, adding at most one pair per helix and shifting the level parity of the affected descendant subtree \citep{hales2017}.  That operation proves designability of an enlarged structure, not of the unchanged prescribed target.  Boury, Bulteau, and Ponty instead introduced modulo-$m$ separation and gave a linear-time construction for the original target when every helix has length at least three \citep{boury2024,boury2025}.  They also proved motif-free separability hardness, strengthened in their 2025 journal expansion to targets without isolated base pairs.  In their terminology, a helix of length 1 is an isolated base pair and a helix of length 2 is an isolated stack.  Their all-long construction leaves open what can be guaranteed when a small number of isolated stacks is present.
 
 \subsection{Why isolated stacks require an additional argument}
 
-A helix of length at least three has enough positions to adjust the parity of its terminal level while preserving the color of its first pair.  A length-2 helix has fewer valid color patterns.  With two isolated stacks, two child subtrees may both require a gray first pair at the same multiloop.  If the incoming helix also ends gray, the loop would contain three gray incidences, while properness allows only two.
+Modulo two, black and white have the same effect on the level: each flips its residue, whereas gray preserves it.  The all-long construction exploits the third pair of a helix as a local transfer resource \citep{boury2024,boury2025}.  If the prescribed first color is a non-gray color $a$, a helix of length at least three can compare a constant word $a^h$ with a word containing one suitably placed gray pair; the two choices reach opposite exit residues while retaining the first color.  If the helix enters at $\eta$ with a prescribed gray first pair, the words $\Gray^h$ and $\Gray^{h-1}a$ supply the two exit residues.  In every case gray pairs stay in the residue class disjoint from unpaired nodes, and an exit at $\xi$ closes non-gray.  An ordinary exit at $\eta$, however, may still close gray.
 
-The construction below avoids that conflict.  If two child subtrees already contain the two isolated stacks allowed in the target, then the incoming helix cannot itself be short.  It is therefore long enough to reach the required terminal parity while ending black or white rather than gray.  The two gray colors can then be assigned to the two child helices.
+A length-2 helix has no comparable spare position.  Fix residue $\xi$ for unpaired nodes and the other residue $\eta=1-\xi$ for gray pairs.  Previewing Lemma~\ref{lem:two-pair}, the complete set of valid two-pair color words is
+\[
+\begin{array}{c@{\quad\longrightarrow\quad}c@{\qquad}l}
+\text{entry residue} & \text{exit residue} & \text{valid color words}\\[1mm]
+\xi & \xi & \Bcol\Bcol,\ \Wcol\Wcol,\\
+\xi & \eta & \Bcol\Gray,\ \Wcol\Gray,\\
+\eta & \xi & \Gray\Bcol,\ \Gray\Wcol,\\
+\eta & \eta & \Bcol\Bcol,\ \Wcol\Wcol,\ \Gray\Gray.
+\end{array}
+\]
+For example, an isolated stack entering at $\eta$ and required to exit at $\xi$ must begin gray.  More generally, the inductive guarantee for a subtree containing an isolated stack is weaker than for an all-long subtree: at an $\eta$ entry, the former can be guaranteed a gray first pair, while the latter can also accept black or white.  Two existing pairs cannot in general satisfy entry color, terminal residue, and terminal color independently.
+
+That lost degree of freedom matters when branches meet.  A multiloop in the construction lies at residue $\eta$.  If two outgoing child subtrees contain isolated stacks, both may require gray first pairs there.  The ordinary long-helix transfer used in the all-long proof is allowed to end gray when it exits at $\eta$.  If it were reused without strengthening, the loop would expose three gray incidences: the inverse of the gray closing pair and the two gray child heads.  Properness permits only two.  This is why the earlier construction does not apply as stated; it is not a claim that targets with isolated stacks are themselves undesignable.
+
+The global bound of two isolated stacks supplies exactly the missing resource.  If the two outgoing child subtrees already contain both isolated stacks allowed in the target, then the incoming helix cannot itself have length 2, since that would put at least three isolated stacks in its subtree.  By the other target-class assumptions, it therefore has length at least three.  We use the additional position to enter and exit at $\eta$ while closing non-gray.  At length three the essential words are $\Gray\Bcol\Bcol$ and $\Gray\Wcol\Wcol$.  The corresponding loop exposures are $\{\Wcol,\Gray,\Gray\}$ and $\{\Bcol,\Gray,\Gray\}$, both proper.  Longer helices realize the same strengthened transfer.  The two stack-bearing child subtrees consume the two permitted gray incidences, while the long incoming helix supplies the non-gray close that makes the allocation fit.
+
+Figure~\ref{fig:coloring-gap} makes the complete mechanism visible: the Hale\v{s} certificate, the three-gray collision produced by a naive reuse of the old transfer, and the non-gray-ending repair forced available by the at-most-two hypothesis.
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}[t]{0.32\linewidth}
+\centering
+\resizebox{0.99\linewidth}{!}{%
+\begin{tikzpicture}[font=\scriptsize,
+  pair/.style={circle,draw=DeepBlue,thick,minimum size=8.5mm,align=center},
+  B/.style={pair,fill=black!15}, W/.style={pair,fill=white},
+  G/.style={pair,fill=ProofGray!35},
+  root/.style={rounded corners,draw=DeepBlue,fill=SoftBlue,align=center,inner sep=2.5pt},
+  unp/.style={circle,draw=GoodGreen,fill=NucA!12,minimum size=7mm,align=center},
+  edge/.style={thick,DeepBlue},
+  note/.style={rounded corners,draw=ProofGray,fill=SoftGray,align=left,inner sep=3pt}]
+  \node[root] (r) at (0,1.75) {root\\$\ell=0$};
+  \node[B] (b) at (0,0.62) {$\Bcol$\\$\ell=1$};
+  \node[B] (bb) at (-0.68,-0.58) {$\Bcol$\\$\ell=2$};
+  \node[G] (g) at (0.68,-0.58) {$\Gray$\\$\ell=1$};
+  \node[unp] (u) at (-0.68,-1.67) {A\\$\ell=2$};
+  \draw[edge] (r)--(b);
+  \draw[edge] (b)--(bb);
+  \draw[edge] (b)--(g);
+  \draw[edge] (bb)--(u);
+  \node[note,text width=0.90\linewidth] at (0,-2.72) {At the middle $\Bcol$ node,\\$X=\{\Wcol,\Bcol,\Gray\}$ is proper.\\Gray level $1$ and unpaired level $2$ are separated.};
+  \node[align=center,text width=0.96\linewidth] at (0,-4.02) {$\Bcol\mapsto\textcolor{NucG}{\G}\! -\!\textcolor{NucC}{\C}$,\quad
+  $\Wcol\mapsto\textcolor{NucC}{\C}\! -\!\textcolor{NucG}{\G}$\\
+  $\Gray\mapsto\textcolor{NucA}{\A}\! -\!\textcolor{NucU}{\U}$ or $\textcolor{NucU}{\U}\! -\!\textcolor{NucA}{\A}$;\quad unpaired $\mapsto\textcolor{NucA}{\A}$.};
+\end{tikzpicture}
+}
+\caption{The certificate.}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{0.32\linewidth}
+\centering
+\begin{tikzpicture}[font=\scriptsize,
+  pair/.style={circle,draw=DeepBlue,thick,minimum size=9mm,align=center},
+  G/.style={pair,fill=ProofGray!35},
+  helix/.style={rounded corners,draw=DeepBlue,fill=SoftBlue,align=center,inner sep=3pt},
+  short/.style={helix,draw=orange!75!black,fill=orange!12,inner sep=2pt},
+  edge/.style={thick,DeepBlue},
+  bad/.style={rounded corners,draw=AlertRed,fill=AlertRed!7,align=center,inner sep=3pt}]
+  \node[helix] (in) at (0,1.65) {ordinary $\eta$-exit\\transfer};
+  \node[G] (m) at (0,0.34) {$\Gray$\\$M$};
+  \node[short] (q1) at (-1.10,-1.16) {stack-bearing\\subtree\\head $\Gray$};
+  \node[short] (q2) at (1.10,-1.16) {stack-bearing\\subtree\\head $\Gray$};
+  \draw[edge] (in)--(m);
+  \draw[edge] (m)--(q1);
+  \draw[edge] (m)--(q2);
+  \node[bad,text width=0.96\linewidth] at (0,-2.58) {$X(M)=\{\Gray,\Gray,\Gray\}$\\three gray incidences $>2$\\\textbf{not proper}};
+\end{tikzpicture}
+\caption{The naive collision.}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{0.32\linewidth}
+\centering
+\begin{tikzpicture}[font=\scriptsize,
+  pair/.style={circle,draw=DeepBlue,thick,minimum size=7.5mm,align=center},
+  B/.style={pair,fill=black!15}, G/.style={pair,fill=ProofGray!35},
+  helix/.style={rounded corners,draw=DeepBlue,fill=SoftBlue,align=center,inner sep=3pt},
+  short/.style={helix,draw=orange!75!black,fill=orange!12,inner sep=2pt},
+  edge/.style={thick,DeepBlue},
+  good/.style={rounded corners,draw=GoodGreen,fill=GoodGreen!7,align=center,inner sep=3pt}]
+  \node[font=\scriptsize\bfseries] at (0,2.12) {incoming helix has $h\ge3$};
+  \node[G] (g0) at (0,1.53) {$\Gray$};
+  \node[B] (b1) at (0,0.76) {$\Bcol$};
+  \node[B] (m) at (0,-0.01) {$\Bcol$\\$M$};
+  \node[font=\scriptsize,anchor=east] at (-0.30,1.53) {entry $\eta$};
+  \node[font=\scriptsize,anchor=west] at (0.30,-0.01) {exit $\eta$};
+  \node[short] (q1) at (-1.10,-1.28) {stack-bearing\\subtree\\head $\Gray$};
+  \node[short] (q2) at (1.10,-1.28) {stack-bearing\\subtree\\head $\Gray$};
+  \draw[edge] (g0)--(b1);
+  \draw[edge] (b1)--(m);
+  \draw[edge] (m)--(q1);
+  \draw[edge] (m)--(q2);
+  \node[good,text width=0.96\linewidth] at (0,-2.62) {$\Gray\Bcol\Bcol$ closes non-gray\\$X(M)=\{\Wcol,\Gray,\Gray\}$\\\textbf{proper}};
+\end{tikzpicture}
+\caption{The long-helix repair.}
+\end{subfigure}
+\caption{How the coloring certificate works and why two isolated stacks require a new transfer.  Every colored node carries an explicit $\Bcol$, $\Wcol$, or $\Gray$ label, so the argument does not depend on hue.  (a) Properness is a local capacity condition, while separated levels keep gray A--U pairs away from target-unpaired A's.  (b) Two short-bearing child subtrees may both require gray heads at a multiloop; a gray terminal pair would create three gray incidences.  (c) Because those children already contain both allowed isolated stacks, the incoming helix is long and may use $\Gray\Bcol\Bcol$: it enters and exits at residue $\eta$ but closes black, leaving a proper exposure $\{\Wcol,\Gray,\Gray\}$.}
+\label{fig:coloring-gap}
+\end{figure}
 
 \subsection{Main result and proof outline}
 
