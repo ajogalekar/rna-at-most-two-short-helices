@@ -133,19 +133,13 @@
 \maketitle
 
 \begin{abstract}
-RNA inverse folding asks for an RNA sequence whose unique optimal secondary structure is a prescribed target.  We work in the four-letter Watson--Crick base-pair model with minimum arc length $\theta=0$: structures are pseudoknot-free partial matchings, adjacent positions may pair, only A--U and C--G pairs are allowed, and energy is minus the number of base pairs.  A proper separated coloring of the tree representation is a sufficient condition for designability.  Boury et al. proved that every motif-free target whose helices all have length at least three admits a modulo-2 separated coloring.  In contrast, deciding separability is NP-complete in general, and separability can fail when many length-2 helices (isolated stacks) are present.
+RNA inverse folding asks whether one can choose an RNA sequence whose unique optimal secondary structure is a prescribed target.  We study this problem in a simplified four-letter model: only Watson--Crick A--U and C--G pairs are allowed, structures contain no pseudoknots, adjacent nucleotides may pair, and lower energy means a larger number of base pairs.
 
-We prove that every target avoiding the motifs $m_5$ and $m_{3\bullet}$, with at most two isolated stacks, no isolated base pair, and every other helix of length at least three, is designable.  The proof summarizes each helix subtree by the entry states it is guaranteed to support.  An entry state records the parity at which the helix is entered and the color of its first pair.  A subtree with no isolated stack supports the five states
-\[
-F=\{\xi\Bcol,\xi\Wcol,\eta\Bcol,\eta\Wcol,\eta\Gray\},
-\]
-whereas a subtree containing one or two isolated stacks supports at least the three states
-\[
-Q=\{\xi\Bcol,\xi\Wcol,\eta\Gray\}.
-\]
-Whenever the proof must use only the $Q$ guarantee for a child subtree, that subtree contains an isolated stack.  Since the target contains at most two isolated stacks, no loop can have more than two such children.  If two occur at a multiloop, the incoming helix is necessarily long and can reach the required residue while ending in a non-gray pair, using patterns such as $\Gray\Bcol\Bcol$ or $\Gray\Wcol\Wcol$.  This leaves two gray first-pair colors available for the child helices and keeps the loop coloring proper.
+Earlier work showed that a large class of targets is designable when every helix contains at least three base pairs.  Shorter helices are more difficult because they provide less freedom for coordinating the base-pair choices made at neighboring loops.  We prove that designability is nevertheless guaranteed when the target contains at most two helices of length 2, contains no helix of length 1, avoids the two standard local obstruction motifs $m_5$ and $m_{3\bullet}$, and has all remaining helices of length at least 3.
 
-We give the complete sequence construction and uniqueness proof.  The theorem and all supporting lemmas were formalized in Lean~4.  The frozen source was rebuilt in an isolated environment, and a blinded automated audit by a fresh AI session provided a secondary cross-check that the Lean statement matches an anonymous mathematical specification.  Kernel acceptance and the isolated rebuild are the primary machine-checkable evidence.  The proof was developed with substantial assistance from AI systems under human supervision.  At the time of this release, the manuscript and formal proof have not yet been reviewed by an independent human subject-matter expert.
+The proof labels the target base pairs with three colors that encode how nucleotides will later be assigned.  A length-2 helix can require a flexible gray connection at an adjacent loop.  Because the target contains at most two such helices, no loop must accommodate more than two of these demands.  When both demands meet at the same multiloop, the incoming longer helix can be colored to end with a non-gray pair, leaving the two available gray choices for the short branches.  These local choices can then be assembled consistently across the entire target.
+
+From the resulting coloring we construct an explicit RNA sequence and prove that every different compatible fold has fewer base pairs than the target.  The complete theorem and its supporting lemmas were formalized in Lean~4 and independently rebuilt from frozen source in an isolated environment.  The work was developed with substantial AI assistance under human supervision.  At the time of this release, the manuscript and formal proof have not yet been reviewed by an independent human subject-matter expert.
 \end{abstract}
 
 \noindent\textbf{Keywords:} RNA inverse folding; RNA design; secondary structure; separated coloring; isolated stack; formal verification; Lean.

@@ -18,7 +18,8 @@ have not yet been reviewed by an independent human subject-matter expert.
 - the complete Lean project and pinned Lean/Mathlib environment;
 - the unchanged 46-file theorem dependency closure;
 - publication example and axiom-audit modules outside that closure;
-- the manuscript TeX source and qualified DOI-bearing publication PDF;
+- the manuscript TeX source and qualified DOI-bearing publication PDF, with
+  the final revised plain-language abstract;
 - source-derived Lean listings, exact example verifier, paper supplements,
   fonts, and qualification records;
 - Apache-2.0, CC BY 4.0, and font-license texts with explicit path scopes;

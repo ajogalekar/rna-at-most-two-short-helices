@@ -1,6 +1,6 @@
 # Final PDF visual inspection
 
-Inspection date: 2026-08-23 (local); release date: 2026-08-24 (UTC)
+Inspection date: 2026-08-24 (local); release date: 2026-08-24 (UTC)
 
 Result: **PASS**
 
@@ -9,9 +9,9 @@ Result: **PASS**
 | Field | Value |
 |---|---|
 | File | `Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.pdf` |
-| SHA-256 | `69cda34685549a934550cba2ec15ef60a4df39523ee2cd5f19d361cf1efb6f65` |
+| SHA-256 | `7c01e16ad45db79590bf189014ccbbf3450b613a9ed3b66f50681a23ba12a251` |
 | Pages | 31 |
-| Size | 235,621 bytes |
+| Size | 235,048 bytes |
 | Page size | US letter, 612 by 792 points |
 | PDF version | 1.5 |
 | Encryption | none |
@@ -24,7 +24,7 @@ SHA-256 digest above.
 ## Automated render checks
 
 - `pdfinfo` reports the expected title, author, 31 pages, and no encryption.
-- `pdffonts` reports 27 font rows; every row is embedded, subset, and Unicode
+- `pdffonts` reports 26 font rows; every row is embedded, subset, and Unicode
   mapped.
 - `pdftotext -layout` succeeds and contains the complete paper through all 13
   bibliography entries.
@@ -41,14 +41,15 @@ All 31 pages were rendered to PNG with `pdftoppm -png -r 120`.  Four contact
 sheets were inspected for whole-document continuity, and critical text,
 figures, listings, tables, and the bibliography were inspected at original
 render resolution.  Pages 1, 25, 30, and 31 were additionally reinspected at
-original resolution after the human-expert-review disclosure, DOI, repository
-URL, version, licenses, and immutable-record wording were finalized.
+original resolution after the revised plain-language abstract,
+human-expert-review disclosure, DOI, repository URL, version, licenses, and
+immutable-record wording were finalized.
 
 ## Page-by-page visual result
 
 | Pages | Material checked | Result |
 |---|---|---|
-| 1--4 | Title, abstract with explicit human-expert-review disclosure, contribution box, Figure 1, opening definitions | PASS |
+| 1--4 | Title, revised plain-language abstract with explicit human-expert-review disclosure, contribution box, Figure 1, opening definitions | PASS |
 | 5--8 | Motif and target-class tables, Unicode/math notation, Lemma 2.9, strengthened Proposition 3.5 | PASS |
 | 9--12 | Loop lemmas, Figure 2, feasible-state displays, transition tables | PASS |
 | 13--16 | Figure 3, root-assignment tables, Algorithm 1, sequence construction | PASS |

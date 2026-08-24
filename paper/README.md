@@ -76,7 +76,8 @@ argument or environment variable it defaults to the repository parent of this
 This is the qualified version `1.0.0` artifact in the canonical repository at
 <https://github.com/ajogalekar/rna-at-most-two-short-helices>, archived under
 DOI <https://doi.org/10.5281/zenodo.22075874>. The included PDF was rebuilt
-with the repository URL, version DOI, and resolved mixed-license statement.
+with the final revised plain-language abstract, repository URL, version DOI,
+and resolved mixed-license statement.
 At the time of this release, the manuscript and formal proof have not yet been
 reviewed by an independent human subject-matter expert.
 The authoritative license scopes are fixed in `../LICENSES.md`. Exact
