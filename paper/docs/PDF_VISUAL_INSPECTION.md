@@ -9,9 +9,9 @@ Result: **PASS**
 | Field | Value |
 |---|---|
 | File | `Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.pdf` |
-| SHA-256 | `81f01e4f2d3d3f22012bde27555d563caa941a9789dc451f6c9067b2ad07868e` |
+| SHA-256 | `69cda34685549a934550cba2ec15ef60a4df39523ee2cd5f19d361cf1efb6f65` |
 | Pages | 31 |
-| Size | 235,469 bytes |
+| Size | 235,621 bytes |
 | Page size | US letter, 612 by 792 points |
 | PDF version | 1.5 |
 | Encryption | none |
@@ -40,15 +40,15 @@ SHA-256 digest above.
 All 31 pages were rendered to PNG with `pdftoppm -png -r 120`.  Four contact
 sheets were inspected for whole-document continuity, and critical text,
 figures, listings, tables, and the bibliography were inspected at original
-render resolution.  Pages 25, 30, and 31 were additionally reinspected at
-original resolution after the DOI, repository URL, version, licenses, and
-release identifiers were finalized.
+render resolution.  Pages 1, 25, 30, and 31 were additionally reinspected at
+original resolution after the human-expert-review disclosure, DOI, repository
+URL, version, licenses, and immutable-record wording were finalized.
 
 ## Page-by-page visual result
 
 | Pages | Material checked | Result |
 |---|---|---|
-| 1--4 | Title, abstract, contribution box, Figure 1, opening definitions | PASS |
+| 1--4 | Title, abstract with explicit human-expert-review disclosure, contribution box, Figure 1, opening definitions | PASS |
 | 5--8 | Motif and target-class tables, Unicode/math notation, Lemma 2.9, strengthened Proposition 3.5 | PASS |
 | 9--12 | Loop lemmas, Figure 2, feasible-state displays, transition tables | PASS |
 | 13--16 | Figure 3, root-assignment tables, Algorithm 1, sequence construction | PASS |

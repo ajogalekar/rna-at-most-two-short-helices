@@ -2,6 +2,12 @@
 
 Recorded: 2026-08-22 (America/Los_Angeles)
 
+> **Historical-record notice (2026-08-24 UTC).** This document records the
+> frozen inputs available at the start of the final revision. The repository
+> URL, public-source licenses, and version DOI were subsequently supplied in
+> the version 1.0.0 release metadata; the immutable Zenodo Software record is
+> published under DOI `10.5281/zenodo.22075874`.
+
 ## Formal repository baseline
 
 - Repository: /Users/ashujo/Documents/Science/rna_at_most_two_short_helices_lean
@@ -45,5 +51,6 @@ The final manuscript and release records use these names consistently:
 4. Claude fidelity-audit package; and
 5. manuscript source package.
 
-No repository URL, archival DOI, public-source license, or submission status
-was inferred. Those items remain explicit blockers.
+At that prepublication stage, no repository URL, archival DOI, public-source
+license, or submission status was inferred. Those items were later supplied
+or resolved through the version 1.0.0 release workflow.

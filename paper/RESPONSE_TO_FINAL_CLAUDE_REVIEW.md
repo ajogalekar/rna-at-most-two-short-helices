@@ -6,8 +6,9 @@ Date: 2026-08-22
 > prepublication review state. Its statements that the repository URL, DOI,
 > and public-source licenses were unresolved are superseded by the version
 > 1.0.0 release metadata in `../README.md`, `../CITATION.cff`, and
-> `../LICENSES.md`. The reserved DOI is `10.5281/zenodo.22075874`; the Zenodo
-> record remains an unpublished draft until the separate publication decision.
+> `../LICENSES.md`. The version DOI is `10.5281/zenodo.22075874`; the public
+> GitHub repository and immutable Zenodo Software record are the final release
+> endpoints.
 
 This record responds to every item in `FINAL_CLAUDE_REVIEW.md`. The review was produced by an AI system and is reported as a useful technical cross-check, not as independent human peer review. “Validation performed” distinguishes exact computation, Lean kernel checking, source-identity checking, and editorial inspection; none is treated as interchangeable with the others.
 

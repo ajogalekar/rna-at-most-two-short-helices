@@ -92,6 +92,7 @@ for forbidden_text in \
   'repository URL pending' \
   'archival DOI pending' \
   'public-source license pending' \
+  'is registered when that record is published' \
   'blinded independent audit' \
   'through August 2026' \
   'blinded review bundle' \
@@ -111,7 +112,9 @@ for required_text in \
   'Apache License 2.0' \
   'Creative Commons Attribution 4.0 International' \
   'SIL Open Font License 1.1' \
+  'immutable Zenodo Software record' \
   '\newcommand{\ReleaseVersion}{1.0.0}' \
+  'At the time of this release, the manuscript and formal proof have not yet been reviewed by an independent human subject-matter expert.' \
   'canonical source archive' \
   'release-qualification results package' \
   'blinded fidelity bundle' \

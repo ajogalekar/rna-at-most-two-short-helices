@@ -14,10 +14,11 @@ Watson–Crick maximum-base-pair model.
 - Version: `1.0.0`
 - Archival DOI: [10.5281/zenodo.22075874](https://doi.org/10.5281/zenodo.22075874)
 - Current paper: qualified DOI-bearing publication artifact
+- Human expert review: the manuscript and formal proof have not yet been
+  reviewed by an independent human subject-matter expert
 
-The repository remains private until the separate visibility decision. The
-Zenodo Software record is an unpublished draft until its separate publication
-confirmation; the reserved DOI is registered when that record is published.
+The canonical GitHub repository is public. The immutable Zenodo Software
+record for version `1.0.0` is published under the archival DOI above.
 
 ## Main theorem
 
@@ -60,7 +61,7 @@ in [the statement audit](docs/AT_MOST_TWO_FINAL_STATEMENT_AUDIT.md).
 - `lean-toolchain`, `lakefile.toml`, and `lake-manifest.json` — pinned Lean,
   Lake, and Mathlib environment.
 - `CITATION.cff` and `.zenodo.json` — synchronized version `1.0.0` software
-  metadata carrying the reserved version DOI.
+  metadata carrying the published version DOI.
 
 The frozen proof specification is
 [docs/CANONICAL_AT_MOST_TWO_PROOF.md](docs/CANONICAL_AT_MOST_TWO_PROOF.md).

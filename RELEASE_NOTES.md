@@ -10,6 +10,9 @@ Affiliation: Szilard Scientific, LLC
 This release combines the qualified Lean source with the coherent manuscript
 source tree and the DOI-bearing publication artifact.
 
+Review status: at the time of this release, the manuscript and formal proof
+have not yet been reviewed by an independent human subject-matter expert.
+
 ## Included
 
 - the complete Lean project and pinned Lean/Mathlib environment;
@@ -22,11 +25,14 @@ source tree and the DOI-bearing publication artifact.
 - synchronized GitHub citation and Zenodo Software metadata; and
 - a read-only CI workflow for the named formal builds and audits.
 
-## Separate publication actions
+## Publication endpoints
 
-- creating a GitHub release;
-- publishing the Zenodo record; and
-- changing the GitHub repository from private to public.
+- the canonical GitHub repository is public;
+- the immutable Zenodo Software record is published under the version DOI;
+  and
+- no GitHub Release or tag has been created as part of this Zenodo-first
+  publication workflow.
 
 The final deterministic archives and checksum manifests are release assets,
-not Git-history contents. No arXiv upload is part of this workflow.
+not Git-history contents. The arXiv preprint submission is a separate
+distribution step and does not alter the GitHub or Zenodo release bytes.

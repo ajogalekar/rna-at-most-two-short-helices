@@ -31,5 +31,5 @@
     "formal verification",
     "Lean 4 theorem proving"
   ],
-  "notes": "Mixed-license deposit: Lean source and software tools are Apache-2.0; manuscript text, original figures, and project documentation are CC BY 4.0; bundled STIX fonts are under their STIX Font License / SIL OFL 1.1 terms. See LICENSES.md. Version DOI: https://doi.org/10.5281/zenodo.22075874."
+  "notes": "Mixed-license deposit: Lean source and software tools are Apache-2.0; manuscript text, original figures, and project documentation are CC BY 4.0; bundled STIX fonts are under their STIX Font License / SIL OFL 1.1 terms. See LICENSES.md. Review status: the manuscript and formal proof have not yet been reviewed by an independent human subject-matter expert. Version DOI: https://doi.org/10.5281/zenodo.22075874."
 }

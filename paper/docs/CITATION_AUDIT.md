@@ -7,9 +7,9 @@
 > **Historical-record notice (2026-08-24 UTC).** This audit preserves the
 > prepublication citation-review state. Its release-blocker paragraph is
 > superseded by the version 1.0.0 metadata in `../../README.md`,
-> `../../CITATION.cff`, and `../../LICENSES.md`. The reserved DOI is
-> `10.5281/zenodo.22075874`; the Zenodo record remains an unpublished draft
-> until the separate publication decision.
+> `../../CITATION.cff`, and `../../LICENSES.md`. The version DOI is
+> `10.5281/zenodo.22075874`; the public GitHub repository and immutable Zenodo
+> Software record are the final release endpoints.
 
 **Status:** **PASS — no open citation-scope corrections**
 
