@@ -14,14 +14,14 @@ python3 verify_examples.py
 
 ```text
 PASS root two-demand T1: n=14, target_pairs=7, compatible=yes, optimum=7, optimum_count=1
-PASS corrected T2 coloring: xi=0, eta=1; helix_words=BBB,GBB,GB,GB,BBB; levels=[[1, 2, 3], [3, 4, 5], [5, 6], [5, 6], [4, 5, 6]]; proper=yes
+PASS T2 coloring certificate: xi=0, eta=1; helix_words=BBB,GBB,GB,GB,BBB; levels=[[1, 2, 3], [3, 4, 5], [5, 6], [5, 6], [4, 5, 6]]; proper=yes
 PASS internal two-demand T2: n=26, target_pairs=13, compatible=yes, optimum=13, optimum_count=1
 PASS three-short coloring boundary: searched=3^6=729, proper=180, proper_ordinary_separated=36, proper_modulo2_separated=0; ordinary_words=BB,WW,GB; gray_levels=[0], unpaired_levels=[-2, 1, 2]
 PASS three-short ordinary design: n=15, target_pairs=6, compatible=yes, optimum=6, optimum_count=1
 PASS nested AUAU negative control: target_pairs=2, optimum=2, optimum_count=2; competitor=()()
 ```
 
-## Corrected deterministic T2 construction
+## Deterministic T2 construction
 
 The retained target is
 

@@ -177,7 +177,7 @@ def check_unique_design(name: str, target_text: str, sequence: str) -> None:
     )
 
 
-def check_corrected_t2_coloring() -> None:
+def check_t2_coloring() -> None:
     target_text = "(((((((())(()))))((())))))"
     sequence = "GGGAGGAGCUUGCACCUGGGCCCCCC"
     pairs = parse_dot_bracket(target_text)
@@ -199,7 +199,7 @@ def check_corrected_t2_coloring() -> None:
     if not gray_levels or {level % 2 for level in gray_levels} != {1}:
         raise AssertionError(f"T2 gray residues are not eta=1: {gray_levels}")
     print(
-        "PASS corrected T2 coloring: xi=0, eta=1; "
+        "PASS T2 coloring certificate: xi=0, eta=1; "
         f"helix_words={','.join(words)}; levels={helix_levels}; proper=yes"
     )
 
@@ -282,7 +282,7 @@ def check_nested_tie() -> None:
 
 def main() -> None:
     check_unique_design("root two-demand T1", "(())(())((()))", "AGCUUGCAGGGCCC")
-    check_corrected_t2_coloring()
+    check_t2_coloring()
     check_unique_design(
         "internal two-demand T2",
         "(((((((())(()))))((())))))",

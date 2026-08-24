@@ -56,6 +56,8 @@ jobs:
           lake env lean paper/paper_listings/PaperLeanListingAudit.lean
           python3 paper/verify_examples.py > /tmp/rna-example-verification.txt
           diff -u paper/EXAMPLE_VERIFICATION.txt /tmp/rna-example-verification.txt
+          python3 paper/check_dot_bracket_literals.py > /tmp/rna-dot-bracket-literals.txt
+          diff -u paper/DOT_BRACKET_LITERAL_AUDIT.txt /tmp/rna-dot-bracket-literals.txt
 
       - name: Verify publication metadata and whitespace
         run: |

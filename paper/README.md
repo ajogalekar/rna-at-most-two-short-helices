@@ -13,6 +13,12 @@ verification records used to qualify version `1.0.0`.
 - `verify_examples.py` is a standard-library exact Nussinov optimum-and-count
   checker for all worked examples and negative controls reported in the paper.
 - `EXAMPLE_VERIFICATION.txt` is the pinned expected checker output.
+- `check_dot_bracket_literals.py` extracts every dot-bracket literal from the
+  manuscript and validates it with the same exact parser; its pinned output is
+  `DOT_BRACKET_LITERAL_AUDIT.txt`.
+- `ARXIV_METADATA.md` records the prepared categories, trimmed abstract,
+  comments field, and endorsement plan.  It is preparation only and does not
+  authorize an arXiv submission.
 - `FINAL_CLAUDE_REVIEW.md`, `RESPONSE_TO_FINAL_CLAUDE_REVIEW.md`, and
   `FINAL_REVISION_CHANGELOG.md` preserve the review and point-by-point response.
 - `SHA256SUMS.txt` records final digests for every distributed file except
@@ -31,7 +37,7 @@ The manuscript uses `fontspec`; build it with Tectonic (or another XeTeX-based
 engine), from this directory:
 
 ```bash
-tectonic --keep-logs \
+SOURCE_DATE_EPOCH=1787529600 tectonic --keep-logs \
   Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex
 ```
 
@@ -41,6 +47,9 @@ Run and compare the computational checks with:
 python3 verify_examples.py
 python3 verify_examples.py > /tmp/example-verification.txt
 diff -u EXAMPLE_VERIFICATION.txt /tmp/example-verification.txt
+python3 check_dot_bracket_literals.py
+python3 check_dot_bracket_literals.py > /tmp/dot-bracket-literals.txt
+diff -u DOT_BRACKET_LITERAL_AUDIT.txt /tmp/dot-bracket-literals.txt
 ```
 
 The manuscript directory is `paper/` inside the canonical Lean repository.

@@ -6,6 +6,11 @@
 *.ilean
 *.c
 
+# Python and local verification output
+__pycache__/
+*.pyc
+/tmp/
+
 # LaTeX/Tectonic build products (the qualified PDF is tracked explicitly)
 *.aux
 *.bbl

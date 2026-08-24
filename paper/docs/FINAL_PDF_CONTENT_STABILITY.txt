@@ -1,11 +1,23 @@
-release_date_utc=2026-08-24
-source_date_epoch=1787529600
-first_pdf_sha256=ef8ff08b36f1e9185b79170904ff5f6dfb70df3a202f7ab6d29c60a9b889c57c
-second_pdf_sha256=ef8ff08b36f1e9185b79170904ff5f6dfb70df3a202f7ab6d29c60a9b889c57c
+Final PDF content-stability record
+Date: 2026-08-24
+Result: PASS
+
+Build environment:
+  SOURCE_DATE_EPOCH=1787529600
+  engine=Tectonic
+
+The final TeX source was built twice with the fixed source-date epoch. The
+two PDF files were byte-identical (cmp exit status 0).
+
+first_pdf_sha256=9c6cd4c7fcb333944b5a2853edbd9fcc9d7f40fa5feafac81d50c1e3e32397e2
+second_pdf_sha256=9c6cd4c7fcb333944b5a2853edbd9fcc9d7f40fa5feafac81d50c1e3e32397e2
 pdf_binary_reproducibility=PASS
-stable_extracted_text=PASS
-doi_bearing_release_pdf=PASS
-revised_plain_language_abstract=PASS
-expanded_hales_and_isolated_stack_introduction=PASS
-coloring_obstruction_and_repair_figure=PASS
-human_expert_review_disclosure=PASS
+pages=36
+figures=7
+size_bytes=281617
+page_size=US letter (612 by 792 points)
+pdf_version=1.5
+encryption=none
+javascript=none
+forms=none
+fonts_embedded=PASS

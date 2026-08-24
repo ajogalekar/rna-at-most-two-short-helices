@@ -88,7 +88,7 @@ The first module checks these publication endpoints:
   target pairs, and is uniquely designed by literal `w1 = AGCUUGCAGGGCCC`;
 - `t2Target = (((((((())(()))))((())))))` is in
   `InTargetClassKLeTwo`, has thirteen target pairs, and is uniquely designed
-  by corrected literal `w2 = GGGAGGAGCUUGCACCUGGGCCCCCC`; its coloring has
+  by literal `w2 = GGGAGGAGCUUGCACCUGGGCCCCCC`; its coloring has
   the deterministic F/Q helix pattern `BBB`, `GBB`, `GB`, `GB`, `BBB`, and
   the audit checks the named-residue theorem with `xi = 0` (`eta = 1`);
 - `threeShortTarget = ((.))((.))((.))` has short-helix count three and is

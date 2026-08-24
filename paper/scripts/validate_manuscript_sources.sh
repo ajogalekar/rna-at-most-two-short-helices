@@ -67,13 +67,16 @@ printf '==> Resolving all displayed declarations with pinned Lean\n'
 
 printf '==> Comparing exact computational-example output\n'
 example_output="$(mktemp "${TMPDIR:-/tmp}/rna-example-verification.XXXXXX")"
+dot_bracket_output="$(mktemp "${TMPDIR:-/tmp}/rna-dot-bracket-literals.XXXXXX")"
 reference_labels="$(mktemp "${TMPDIR:-/tmp}/rna-reference-labels.XXXXXX")"
 cleanup() {
-  rm -f "$example_output" "$reference_labels"
+  rm -f "$example_output" "$dot_bracket_output" "$reference_labels"
 }
 trap cleanup EXIT
 python3 "$manuscript_dir/verify_examples.py" > "$example_output"
 diff -u "$manuscript_dir/EXAMPLE_VERIFICATION.txt" "$example_output"
+python3 "$manuscript_dir/check_dot_bracket_literals.py" > "$dot_bracket_output"
+diff -u "$manuscript_dir/DOT_BRACKET_LITERAL_AUDIT.txt" "$dot_bracket_output"
 
 printf '==> Scanning terminology, release language, and references\n'
 for forbidden_text in \
@@ -150,7 +153,8 @@ cat "$reference_labels"
 printf '==> Building the final manuscript with Tectonic\n'
 (
   cd "$manuscript_dir"
-  tectonic --keep-logs "$tex_name"
+  SOURCE_DATE_EPOCH="${SOURCE_DATE_EPOCH:-1787529600}" \
+    tectonic --keep-logs "$tex_name"
 )
 [[ -s "$pdf_path" ]] || die "Tectonic did not produce a nonempty PDF"
 [[ -f "$log_path" ]] || die "Tectonic did not retain the LaTeX log"

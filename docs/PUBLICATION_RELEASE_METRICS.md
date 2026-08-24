@@ -218,7 +218,7 @@ for all 18 audited publication endpoints.  Every endpoint reported exactly:
 [propext, Classical.choice, Quot.sound]
 ```
 
-This includes the two `UniqueDesigns` theorems, the corrected T2 literal-word
+This includes the two `UniqueDesigns` theorems, the T2 literal-word
 identity, the named `xi = 0` separation theorem, both rejection examples, the
 ordinary exhaustive three-short-coloring theorem, and the `AUAU` non-unique
 design theorem.  A prohibited-token scan of both publication modules found no

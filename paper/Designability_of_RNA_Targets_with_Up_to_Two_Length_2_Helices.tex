@@ -144,6 +144,8 @@ From the resulting coloring we construct an explicit RNA sequence and prove that
 
 \noindent\textbf{Keywords:} RNA inverse folding; RNA design; secondary structure; separated coloring; isolated stack; formal verification; Lean.
 
+\noindent\textbf{Subject classifications:} arXiv \texttt{q-bio.QM} (primary), \texttt{q-bio.BM} (cross-list); 2020 Mathematics Subject Classification: 92C40 (primary), 05C05, 05C15, 68W05, 68V20; ACM Computing Classification System: Applied computing---Molecular structural biology; Theory of computation---Design and analysis of algorithms; Theory of computation---Automated reasoning.
+
 \section{Introduction}
 
 \subsection{RNA inverse folding}
@@ -152,117 +154,260 @@ RNA inverse folding starts from a target secondary structure and asks for a nucl
 
 We study the combinatorial Watson--Crick base-pair model studied by Hale\v{s} et al. \citep{hales2017}.  Every permitted base pair contributes the same energy, and loops carry no additional energy term.  A sequence is a design for a target when the target is its unique compatible noncrossing structure with the maximum number of base pairs.  This is an idealized model, not a replacement for Turner nearest-neighbor thermodynamics \citep{turner2010}.  Its advantage is that structural conditions can be proved exactly and formalized completely.
 
-\subsection{Separated colorings and prior work}
+\subsection{From RNA loops to the Hale\v{s} coloring certificate}
 
-Hale\v{s} et al. encode a pseudoknot-free secondary structure by a rooted ordered interval tree \citep{hales2017}.  A target pair $(i,j)$ becomes the interval node $[i,j]$, a target-unpaired position $k$ becomes the singleton node $[k,k]$, and a virtual interval $[0,n+1]$ is added as the root.  The children of an interval are its maximal proper subintervals in backbone order.  Noncrossing pairs form a laminar family, so the tree records both nesting and the left-to-right order of the components exposed at each loop.
+The coloring method is easiest to understand by moving back and forth between the RNA drawing familiar to chemists and biologists and the tree used in the proof.  Consecutive nested base pairs form the rungs of a stem or helix.  At the inward end of a stem, a hairpin closes the backbone; a bulge or internal loop leads into one further stem with one or more unpaired nucleotides on the intervening backbone; and a multiloop is a junction at which two or more further stems leave the enclosing stem.  Hale\v{s} et al. encode exactly the same nesting information by a rooted ordered interval tree \citep{hales2017}.  A target pair $(i,j)$ becomes a node $[i,j]$, and each target-unpaired nucleotide $k$ becomes its own singleton leaf $[k,k]$.  Immediately nested pairs are parent and child, so every stem remains a chain with one tree node per base pair; it is not collapsed to a single node.  A virtual root represents the exterior of the molecule, and sibling order records the $5'$-to-$3'$ backbone order.  The tree is therefore the nesting skeleton of the stems and loops, not a different molecular model.
 
-Every paired node other than the root is colored black $\Bcol$, white $\Wcol$, or gray $\Gray$.  To preview the formal definition in Section~\ref{sec:model}, the colors exposed at a loop are the colors on its outgoing paired children together with the inverse of its own closing color, where black and white are inverses and gray is self-inverse.  A coloring is \emph{proper} when each such exposed multiset contains at most one black, at most one white, and at most two gray incidences.  Thus a black node may have one black child but no white child; a white node has the symmetric restriction; and a gray node may have at most one child of each color because its own closing incidence already consumes one of the two gray places.  At the virtual root, which has no closing incidence, the child capacities are one black, one white, and two gray.
+The labels black $\Bcol$, white $\Wcol$, and gray $\Gray$ are sequence-design instructions on target base pairs, not physical colors or energetic states.  For an ordered target pair $(i,j)$ with $i<j$, they prescribe
+\[
+\Bcol\longmapsto(\G,\C),\qquad
+\Wcol\longmapsto(\C,\G),\qquad
+\Gray\longmapsto(\A,\U)\ \text{or}\ (\U,\A),
+\]
+while every target-unpaired position receives $\A$.  Black and white are the two backbone orientations of a G--C pair.  Gray is the A--U class; its orientation is selected later so that the nucleotide identities presented around each loop are locally distinct.
 
-Hale\v{s} et al. give a concrete top-down way to satisfy these local restrictions when the paired degrees permit it.  At a black node, color the first paired child black and the remaining paired children gray; at a white node, use white and then gray; at a gray node or the root, use black for the first paired child, white for the second, and gray for any remaining paired children.  Here ``first'' and ``second'' refer to backbone order.  This \emph{greedy coloring} explains the role of the three colors: black and white provide two distinct orientations of a G--C pair, while gray supplies the remaining local capacity.  Properness is local, however, and is only half of the certificate.
+Each loop sees one incidence from every bordering stem.  In the tree, an internal loop node sees the colors of its outgoing paired children and the inward-facing side of its own closing pair.  Viewing that closing pair from the loop reverses its orientation, so its contribution is $\inv(\Bcol)=\Wcol$, $\inv(\Wcol)=\Bcol$, or $\inv(\Gray)=\Gray$.  Hale\v{s} et al.'s \emph{properness} conditions are equivalently the capacity rule
+\[
+X(v)=\{\inv(c(v))\}\uplus\{c(u):u\text{ is a paired child of }v\}
+\quad\text{contains at most one $\Bcol$, one $\Wcol$, and two $\Gray$'s.}
+\]
+At the exterior root there is no closing incidence.  In the original parent--child formulation, a node has at most one black child, one white child, and two gray children; at most one child shares the parent's color; and black and white are never adjacent as parent and child.  The incidence formulation makes the loop interpretation visible.  It allocates four distinguishable sequence ``ports''---G, C, A, and U---around a loop, and is not a claim about physical loop energetics.
 
-The other half is a global level condition.  Give black, white, and gray the increments $+1$, $-1$, and $0$, respectively, and sum those increments along each root-to-node path, including the node itself when it is paired.  An unpaired singleton inherits the level of its enclosing paired node.  A proper coloring is \emph{separated} if no integer is occupied both by a gray paired node and by an unpaired node.  The color-to-sequence map then assigns G--C to a black pair, C--G to a white pair, A--U or U--A to a suitably oriented gray pair, and A to every target-unpaired position.  Properness makes the paired restriction a unique compatible saturated matching.  Separation protects the unpaired A's: if an equal-size alternative fold paired one of them to a U from a gray target pair, the unequal prefix G--C balances at the two endpoints would force some G or C to remain unused.  That alternative cannot tie the target's pair count.  Hale\v{s} et al. thereby proved that a proper separated coloring yields a design in the four-letter Watson--Crick model \citep{hales2017}; Sections~\ref{sec:sequence}--\ref{sec:notie} give the complete argument used here.
+Hale\v{s} et al. make the local rule constructive with a greedy top-down coloring.  At a black parent, color the first paired child black and all remaining paired children gray; at a white parent, use white and then gray; and at a gray parent or the root, use black for the first paired child, white for the second, and gray for the rest.  ``First'' and ``second'' refer only to backbone order.  Under the paired-degree bound this coloring is proper.  The obstruction $m_5$ is the clearest failure of the capacity count: five paired incidences cannot fit into the four slots $\Bcol,\Wcol,\Gray,\Gray$.  The companion obstruction $m_{3\bullet}$ occurs when an unpaired nucleotide is exposed together with too many paired incidences.  Properness controls the target-paired positions locally, but it does not yet stop a distant target-unpaired A from pairing with a U assigned to a gray target pair.
 
-The theorem is a certificate, not a promise that every motif-free target already has such a coloring.  In the general structure-approximation result of Hale\v{s} et al., an incorrect level parity can be repaired by inserting a paired node into the affected helix, adding at most one pair per helix and shifting the level parity of the affected descendant subtree \citep{hales2017}.  That operation proves designability of an enlarged structure, not of the unchanged prescribed target.  Boury, Bulteau, and Ponty instead introduced modulo-$m$ separation and gave a linear-time construction for the original target when every helix has length at least three \citep{boury2024,boury2025}.  They also proved motif-free separability hardness, strengthened in their 2025 journal expansion to targets without isolated base pairs.  In their terminology, a helix of length 1 is an isolated base pair and a helix of length 2 is an isolated stack.  Their all-long construction leaves open what can be guaranteed when a small number of isolated stacks is present.
+That global protection is supplied by \emph{levels}.  Give $\Bcol$, $\Wcol$, and $\Gray$ the increments $+1$, $-1$, and $0$, respectively, and sum them on the path from the root to a node.  An unpaired singleton inherits the level of its enclosing loop.  Thus the level tracks the relevant G--C prefix imbalance encoded by the orientations along the nesting path.  A proper coloring is \emph{separated} when no integer level is occupied both by a gray paired node and by a target-unpaired node.
 
-\subsection{Why isolated stacks require an additional argument}
+Figure~\ref{fig:hales-bridge} follows one small RNA from its biological drawing to this mathematical certificate.  The incoming stem has color word $\Bcol\Bcol\Bcol$, the left isolated stack has $\Gray\Bcol$, and the right stem has $\Bcol\Bcol\Bcol$.  At the multiloop, the closing black pair is seen as white, so the exposure is $\{\Wcol,\Gray,\Bcol\}$.  The only gray pair has level $3$, whereas the unpaired A has level $4$.
 
-Modulo two, black and white have the same effect on the level: each flips its residue, whereas gray preserves it.  The all-long construction exploits the third pair of a helix as a local transfer resource \citep{boury2024,boury2025}.  If the prescribed first color is a non-gray color $a$, a helix of length at least three can compare a constant word $a^h$ with a word containing one suitably placed gray pair; the two choices reach opposite exit residues while retaining the first color.  If the helix enters at $\eta$ with a prescribed gray first pair, the words $\Gray^h$ and $\Gray^{h-1}a$ supply the two exit residues.  In every case gray pairs stay in the residue class disjoint from unpaired nodes, and an exit at $\xi$ closes non-gray.  An ordinary exit at $\eta$, however, may still close gray.
+\begin{figure}[t]
+\centering
+\begin{subfigure}[t]{0.48\linewidth}
+\centering
+\begin{tikzpicture}[x=1cm,y=0.92cm,font=\scriptsize,
+  backbone/.style={DeepBlue,very thick,line cap=round},
+  bond/.style={ProofGray,thick},
+  call/.style={rounded corners,draw=ProofGray,fill=SoftGray,inner sep=2.5pt,align=center}]
+  \draw[backbone] (-0.34,-2.45)--(-0.34,0.06);
+  \draw[backbone] (0.34,-2.45)--(0.34,0.06);
+  \foreach \y in {-2.05,-1.48,-0.91}{\draw[bond] (-0.34,\y)--(0.34,\y);}
+  \draw[backbone] (0,0.78) circle[radius=0.76];
+  \begin{scope}[shift={(-0.50,1.34)},rotate=43]
+    \draw[backbone] (-0.24,0)--(-0.24,1.42);
+    \draw[backbone] (0.24,0)--(0.24,1.42);
+    \foreach \y in {0.42,0.94}{\draw[bond] (-0.24,\y)--(0.24,\y);}
+    \draw[backbone] (-0.24,1.42) .. controls (-0.82,1.70) and (-0.58,2.22) .. (0,2.28)
+      .. controls (0.58,2.22) and (0.82,1.70) .. (0.24,1.42);
+    \node[circle,fill=NucA!14,draw=NucA,text=NucA,inner sep=1.4pt,font=\scriptsize\bfseries] at (0,2.26) {A};
+  \end{scope}
+  \begin{scope}[shift={(0.50,1.34)},rotate=-43]
+    \draw[backbone] (-0.24,0)--(-0.24,1.72);
+    \draw[backbone] (0.24,0)--(0.24,1.72);
+    \foreach \y in {0.38,0.86,1.34}{\draw[bond] (-0.24,\y)--(0.24,\y);}
+    \draw[backbone] (-0.24,1.72) .. controls (-0.70,1.96) and (-0.52,2.25) .. (0,2.30)
+      .. controls (0.52,2.25) and (0.70,1.96) .. (0.24,1.72);
+  \end{scope}
+  \node[font=\bfseries] at (0,0.78) {multiloop};
+  \node[call] at (-2.15,2.48) {hairpin loop\\one unpaired A};
+  \draw[-{Latex[length=1.7mm]},ProofGray] (-1.70,2.30)--(-1.28,1.86);
+  \node[call] at (2.06,2.48) {hairpin loop};
+  \draw[-{Latex[length=1.7mm]},ProofGray] (1.72,2.30)--(1.34,1.86);
+  \node[align=center] at (-1.72,0.30) {isolated stack\\$h=2$};
+  \node[align=center] at (1.72,0.30) {stem\\$h=3$};
+  \node[align=center] at (1.14,-1.54) {incoming stem\\$h=3$};
+  \node[anchor=east] at (-0.43,-2.43) {$5'$};
+  \node[anchor=west] at (0.43,-2.43) {$3'$};
+\end{tikzpicture}
+\caption{A secondary-structure drawing in the paper's $\theta=0$ model.}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{0.48\linewidth}
+\centering
+\begin{tikzpicture}[x=1cm,y=0.78cm,font=\scriptsize,
+  edge/.style={DeepBlue,thick},
+  pcB/.style={circle,draw=black,fill=black,text=white,minimum size=6.5mm,inner sep=0pt},
+  pcG/.style={circle,draw=DeepBlue,fill=ProofGray!45,text=black,minimum size=6.5mm,inner sep=0pt},
+  root/.style={rounded corners,draw=DeepBlue,fill=SoftBlue,inner sep=2.3pt},
+  unp/.style={circle,draw=NucA,fill=NucA!12,text=NucA,minimum size=6.5mm,inner sep=0pt}]
+  \node[root] (r) at (0,3.05) {virtual root $\ell=0$};
+  \node[pcB] (b1) at (0,2.30) {$\Bcol$};
+  \node[pcB] (b2) at (0,1.55) {$\Bcol$};
+  \node[pcB] (b3) at (0,0.80) {$\Bcol$};
+  \node[pcG] (g1) at (-1.25,-0.05) {$\Gray$};
+  \node[pcB] (lb) at (-1.25,-0.85) {$\Bcol$};
+  \node[unp] (ua) at (-1.25,-1.70) {A};
+  \node[pcB] (rb1) at (1.25,-0.05) {$\Bcol$};
+  \node[pcB] (rb2) at (1.25,-0.85) {$\Bcol$};
+  \node[pcB] (rb3) at (1.25,-1.65) {$\Bcol$};
+  \foreach \a/\b in {r/b1,b1/b2,b2/b3,b3/g1,g1/lb,lb/ua,b3/rb1,rb1/rb2,rb2/rb3}{\draw[edge] (\a)--(\b);}
+  \node[anchor=west] at (0.26,2.30) {$\ell=1$};
+  \node[anchor=west] at (0.26,1.55) {$\ell=2$};
+  \node[anchor=west] at (0.26,0.80) {$\ell=3$; loop $M$};
+  \node[anchor=west] at (-0.90,-0.05) {$\ell=3$};
+  \node[anchor=west] at (-0.90,-0.85) {$\ell=4$};
+  \node[anchor=west,text=NucA] at (-0.90,-1.70) {$\ell=4$};
+  \node[anchor=west] at (1.57,-0.05) {$\ell=4$};
+  \node[anchor=west] at (1.57,-0.85) {$\ell=5$};
+  \node[anchor=west] at (1.57,-1.65) {$\ell=6$};
+  \node[rounded corners,draw=GoodGreen,fill=GoodGreen!6,align=center,inner sep=3pt] at (0,-2.65)
+    {gray-pair levels $=\{3\}$\\unpaired levels $=\{4\}$: separated};
+\end{tikzpicture}
+\caption{The same fold as an interval tree.}
+\end{subfigure}
 
-A length-2 helix has no comparable spare position.  Fix residue $\xi$ for unpaired nodes and the other residue $\eta=1-\xi$ for gray pairs.  Previewing Lemma~\ref{lem:two-pair}, the complete set of valid two-pair color words is
+\vspace{2mm}
+\begin{subfigure}[t]{0.98\linewidth}
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,
+  pcB/.style={circle,draw=black,fill=black,text=white,minimum size=6.5mm,inner sep=0pt},
+  pcW/.style={circle,draw=black,fill=white,text=black,minimum size=6.5mm,inner sep=0pt},
+  pcG/.style={circle,draw=DeepBlue,fill=ProofGray!45,text=black,minimum size=6.5mm,inner sep=0pt},
+  port/.style={rounded corners,draw=ProofGray,fill=SoftGray,inner sep=3pt,align=center}]
+  \node[circle,draw=DeepBlue,fill=SoftBlue,minimum size=10mm,font=\bfseries] (m) at (-4.65,0) {$M$};
+  \node[pcW] (pw) at (-4.65,-1.00) {$\Wcol$};
+  \node[pcG] (pg) at (-5.72,0.72) {$\Gray$};
+  \node[pcB] (pb) at (-3.58,0.72) {$\Bcol$};
+  \draw[DeepBlue,thick] (m)--(pw) (m)--(pg) (m)--(pb);
+  \node[anchor=west] at (-4.30,-1.00) {closing $\Bcol$ is seen as $\Wcol$; port C};
+  \node[anchor=east] at (-6.05,0.72) {A--U port: A};
+  \node[anchor=west] at (-3.25,0.72) {G--C port: G};
+  \node[port] at (-4.65,-1.72) {$X(M)=\{\Wcol,\Gray,\Bcol\}$ is proper;\\the loop-facing nucleotide ports C, A, G are distinct.};
+  \draw[ProofGray] (-1.15,-1.80)--(-1.15,1.18);
+  \node[anchor=west,align=left] at (-0.75,0.62) {\textbf{pair-color instructions}\\[2pt]
+    $\Bcol\mapsto\textcolor{NucG}{\G}\! -\!\textcolor{NucC}{\C}$,\quad $\delta(\Bcol)=+1$\\
+    $\Wcol\mapsto\textcolor{NucC}{\C}\! -\!\textcolor{NucG}{\G}$,\quad $\delta(\Wcol)=-1$\\
+    $\Gray\mapsto\textcolor{NucA}{\A}\! -\!\textcolor{NucU}{\U}$ or $\textcolor{NucU}{\U}\! -\!\textcolor{NucA}{\A}$,\quad $\delta(\Gray)=0$\\
+    target-unpaired $\mapsto\textcolor{NucA}{\A}$};
+\end{tikzpicture}
+\caption{The loop-facing capacity rule and its nucleotide meaning.}
+\end{subfigure}
+\caption{One RNA target in biological and mathematical representations.  (a) The backbone drawing shows stems, hairpins, a multiloop, and an unpaired nucleotide.  (b) Every target base pair becomes one colored tree node, every unpaired nucleotide becomes one leaf, and levels are root-path sums.  (c) At the multiloop, the incoming black closing pair contributes its inverse white incidence.  All pair markers carry explicit $\Bcol$, $\Wcol$, or $\Gray$ labels, so the figure does not rely on hue.}
+\label{fig:hales-bridge}
+\end{figure}
+
+The two parts of the certificate now have different jobs.  Properness makes the target pairing unique after the target-unpaired positions are removed: the exposed nucleotide ports prevent an equal-pair-count local rerouting among the paired positions.  Separation protects the unpaired A's.  If a competing noncrossing fold pairs one of them to a U taken from a gray target pair, the unequal G--C prefix balances at the two endpoints force at least one G or C to remain unused.  The target already pairs every C and every U, and every Watson--Crick pair consumes one C or one U.  The competitor therefore loses a pair and cannot tie the target.  Hale\v{s} et al. proved that a proper separated coloring consequently yields a design in the four-letter Watson--Crick model \citep{hales2017}; Sections~\ref{sec:sequence}--\ref{sec:notie} give the complete argument used here.
+
+This result is a sufficient certificate, not a characterization of designability and not a promise that the greedy coloring of every motif-free target is separated.  In Hale\v{s} et al.'s general structure-approximation construction, a parity conflict in the greedy coloring is repaired by inserting or duplicating at most one base pair in the affected helix and adjusting the coloring, thereby shifting descendant levels \citep{hales2017}.  That proves designability of a modified, enlarged structure; it does not design the original target unchanged.  This distinction is central in inverse folding, where the target is prescribed.
+
+\subsection{Boury's finite-state construction and the length-2 gap}
+
+Boury, Bulteau, and Ponty replaced the target-changing repair with a finite-state coloring method \citep{boury2024,boury2025}.  In a modulo-$m$ separated coloring, gray-pair levels and unpaired-nucleotide levels occupy disjoint residue classes modulo $m$.  This condition is stronger than ordinary separation, but it replaces unbounded integer levels by finitely many states.  For $m=2$, black and white both change parity because $+1\equiv-1\equiv1\pmod 2$, while gray preserves parity.  We write $\xi$ for the residue used by unpaired nodes and $\eta=1-\xi$ for the residue used by gray pairs.
+
+Biologically, their recursion contracts each maximal stem to a connection between loops.  Mathematically, that connection is a two-state transfer device.  A hairpin, bulge, or internal loop containing unpaired nucleotides must sit in the $\xi$ state; a multiloop in the construction sits in the $\eta$ state.  The first pair of a helix must present a color allowed by the loop above it, the colors inside the helix must keep every gray pair at residue $\eta$, and the last pair must deliver the residue required by the loop below it.  Boury et al. proved that a helix of at least three pairs has enough internal positions to retain a prescribed first color and realize either required exit residue.  Consequently every $(m_5,m_{3\bullet})$-free target whose helices all have length at least three admits a modulo-2 separated coloring and a linear-time design \citep{boury2024,boury2025}.  The third pair has no special thermodynamic significance here; it is an additional combinatorial switching position in the maximum-pair model.
+
+In the notation developed below, a useful explicit normal form for that transfer property is as follows.  If the prescribed first color is non-gray $a$, a constant word $a^h$ and a word with one suitably placed gray pair reach opposite exit residues while preserving the first color.  If a helix enters at $\eta$ with a prescribed gray first pair, $\Gray^h$ and $\Gray^{h-1}a$ provide the two exits.  These words are the present proof's concrete realization of the all-long transfer guarantee.  They keep every gray pair at $\eta$; moreover an exit at $\xi$ closes non-gray, although an ordinary exit at $\eta$ may still close gray.
+
+An isolated stack---a maximal helix of exactly two pairs---has only one position after its head and therefore no comparable spare switch.  The complete transition table, proved as Lemma~\ref{lem:two-pair}, is
 \[
 \begin{array}{c@{\quad\longrightarrow\quad}c@{\qquad}l}
-\text{entry residue} & \text{exit residue} & \text{valid color words}\\[1mm]
+\text{entry residue} & \text{exit residue} & \text{valid two-pair color words}\\[1mm]
 \xi & \xi & \Bcol\Bcol,\ \Wcol\Wcol,\\
 \xi & \eta & \Bcol\Gray,\ \Wcol\Gray,\\
 \eta & \xi & \Gray\Bcol,\ \Gray\Wcol,\\
 \eta & \eta & \Bcol\Bcol,\ \Wcol\Wcol,\ \Gray\Gray.
 \end{array}
 \]
-For example, an isolated stack entering at $\eta$ and required to exit at $\xi$ must begin gray.  More generally, the inductive guarantee for a subtree containing an isolated stack is weaker than for an all-long subtree: at an $\eta$ entry, the former can be guaranteed a gray first pair, while the latter can also accept black or white.  Two existing pairs cannot in general satisfy entry color, terminal residue, and terminal color independently.
+For instance, an $\eta\to\xi$ isolated stack must start gray.  In the $\eta\to\eta$ case, if the loop above also prescribes a gray head, the only two-pair word is $\Gray\Gray$, which necessarily closes gray.  Thus two pairs cannot in general satisfy the entry color, the gray-residue restriction, the exit residue, and the terminal color independently.  This is exactly where the all-long guarantee stops; it is not evidence that targets containing isolated stacks are undesignable.
 
-That lost degree of freedom matters when branches meet.  A multiloop in the construction lies at residue $\eta$.  If two outgoing child subtrees contain isolated stacks, both may require gray first pairs there.  The ordinary long-helix transfer used in the all-long proof is allowed to end gray when it exits at $\eta$.  If it were reused without strengthening, the loop would expose three gray incidences: the inverse of the gray closing pair and the two gray child heads.  Properness permits only two.  This is why the earlier construction does not apply as stated; it is not a claim that targets with isolated stacks are themselves undesignable.
+The missing terminal-color control becomes visible when branches meet.  Suppose a multiloop at residue $\eta$ has two outgoing child subtrees containing isolated stacks.  The weaker short-helix guarantee may require both child heads to be gray.  If the ordinary all-long transfer above the loop is reused with a gray-ending $\eta$ exit, the loop exposes the inverse of that gray close together with the two gray heads: $\{\Gray,\Gray,\Gray\}$.  Properness permits only two gray incidences.
 
-The global bound of two isolated stacks supplies exactly the missing resource.  If the two outgoing child subtrees already contain both isolated stacks allowed in the target, then the incoming helix cannot itself have length 2, since that would put at least three isolated stacks in its subtree.  By the other target-class assumptions, it therefore has length at least three.  We use the additional position to enter and exit at $\eta$ while closing non-gray.  At length three the essential words are $\Gray\Bcol\Bcol$ and $\Gray\Wcol\Wcol$.  The corresponding loop exposures are $\{\Wcol,\Gray,\Gray\}$ and $\{\Bcol,\Gray,\Gray\}$, both proper.  Longer helices realize the same strengthened transfer.  The two stack-bearing child subtrees consume the two permitted gray incidences, while the long incoming helix supplies the non-gray close that makes the allocation fit.
-
-Figure~\ref{fig:coloring-gap} makes the complete mechanism visible: the Hale\v{s} certificate, the three-gray collision produced by a naive reuse of the old transfer, and the non-gray-ending repair forced available by the at-most-two hypothesis.
+The global bound of two isolated stacks supplies exactly the missing position.  Once the two outgoing child subtrees contain both isolated stacks allowed in the target, the incoming helix cannot also have length 2.  Because length-1 helices are excluded, it has length at least three.  We can therefore strengthen its transfer to enter and exit at $\eta$ while closing non-gray.  At length three the words $\Gray\Bcol\Bcol$ and $\Gray\Wcol\Wcol$ do this.  They change the loop exposures to $\{\Wcol,\Gray,\Gray\}$ or $\{\Bcol,\Gray,\Gray\}$, both proper.  Figure~\ref{fig:boury-gap} shows the bottleneck and repair on RNA-shaped stem--loop drawings.
 
 \begin{figure}[t]
 \centering
-\begin{subfigure}[t]{0.32\linewidth}
+\begin{subfigure}[t]{0.29\linewidth}
 \centering
-\resizebox{0.99\linewidth}{!}{%
-\begin{tikzpicture}[font=\scriptsize,
-  pair/.style={circle,draw=DeepBlue,thick,minimum size=8.5mm,align=center},
-  B/.style={pair,fill=black!15}, W/.style={pair,fill=white},
-  G/.style={pair,fill=ProofGray!35},
-  root/.style={rounded corners,draw=DeepBlue,fill=SoftBlue,align=center,inner sep=2.5pt},
-  unp/.style={circle,draw=GoodGreen,fill=NucA!12,minimum size=7mm,align=center},
-  edge/.style={thick,DeepBlue},
-  note/.style={rounded corners,draw=ProofGray,fill=SoftGray,align=left,inner sep=3pt}]
-  \node[root] (r) at (0,1.75) {root\\$\ell=0$};
-  \node[B] (b) at (0,0.62) {$\Bcol$\\$\ell=1$};
-  \node[B] (bb) at (-0.68,-0.58) {$\Bcol$\\$\ell=2$};
-  \node[G] (g) at (0.68,-0.58) {$\Gray$\\$\ell=1$};
-  \node[unp] (u) at (-0.68,-1.67) {A\\$\ell=2$};
-  \draw[edge] (r)--(b);
-  \draw[edge] (b)--(bb);
-  \draw[edge] (b)--(g);
-  \draw[edge] (bb)--(u);
-  \node[note,text width=0.90\linewidth] at (0,-2.72) {At the middle $\Bcol$ node,\\$X=\{\Wcol,\Bcol,\Gray\}$ is proper.\\Gray level $1$ and unpaired level $2$ are separated.};
-  \node[align=center,text width=0.96\linewidth] at (0,-4.02) {$\Bcol\mapsto\textcolor{NucG}{\G}\! -\!\textcolor{NucC}{\C}$,\quad
-  $\Wcol\mapsto\textcolor{NucC}{\C}\! -\!\textcolor{NucG}{\G}$\\
-  $\Gray\mapsto\textcolor{NucA}{\A}\! -\!\textcolor{NucU}{\U}$ or $\textcolor{NucU}{\U}\! -\!\textcolor{NucA}{\A}$;\quad unpaired $\mapsto\textcolor{NucA}{\A}$.};
+\begin{tikzpicture}[x=0.78cm,y=0.72cm,font=\scriptsize,
+  rail/.style={DeepBlue,thick}, bond/.style={ProofGray,thick},
+  pcB/.style={circle,draw=black,fill=black,text=white,minimum size=5.2mm,inner sep=0pt},
+  pcG/.style={circle,draw=DeepBlue,fill=ProofGray!45,text=black,minimum size=5.2mm,inner sep=0pt}]
+  \node[font=\bfseries] at (-1.05,3.10) {$h=2$};
+  \draw[rail] (-1.30,-0.05)--(-1.30,2.18);
+  \draw[rail] (-0.80,-0.05)--(-0.80,2.18);
+  \foreach \y in {0.68,1.43}{\draw[bond] (-1.30,\y)--(-0.80,\y);}
+  \node[pcG] at (-1.05,0.68) {$\Gray$};
+  \node[pcG] at (-1.05,1.43) {$\Gray$};
+  \node at (-1.05,-0.42) {entry $\eta$};
+  \node at (-1.05,2.55) {exit $\eta$};
+
+  \node[font=\bfseries] at (1.05,3.10) {$h=3$};
+  \draw[rail] (0.80,-0.05)--(0.80,2.18);
+  \draw[rail] (1.30,-0.05)--(1.30,2.18);
+  \foreach \y in {0.46,1.05,1.64}{\draw[bond] (0.80,\y)--(1.30,\y);}
+  \node[pcG] at (1.05,0.46) {$\Gray$};
+  \node[pcB] at (1.05,1.05) {$\Bcol$};
+  \node[pcB] at (1.05,1.64) {$\Bcol$};
+  \node at (1.05,-0.42) {entry $\eta$};
+  \node at (1.05,2.55) {exit $\eta$};
 \end{tikzpicture}
-}
-\caption{The certificate.}
+\caption{The missing third position.}
 \end{subfigure}\hfill
-\begin{subfigure}[t]{0.32\linewidth}
+\begin{subfigure}[t]{0.34\linewidth}
 \centering
-\begin{tikzpicture}[font=\scriptsize,
-  pair/.style={circle,draw=DeepBlue,thick,minimum size=9mm,align=center},
-  G/.style={pair,fill=ProofGray!35},
-  helix/.style={rounded corners,draw=DeepBlue,fill=SoftBlue,align=center,inner sep=3pt},
-  short/.style={helix,draw=orange!75!black,fill=orange!12,inner sep=2pt},
-  edge/.style={thick,DeepBlue},
-  bad/.style={rounded corners,draw=AlertRed,fill=AlertRed!7,align=center,inner sep=3pt}]
-  \node[helix] (in) at (0,1.65) {ordinary $\eta$-exit\\transfer};
-  \node[G] (m) at (0,0.34) {$\Gray$\\$M$};
-  \node[short] (q1) at (-1.10,-1.16) {stack-bearing\\subtree\\head $\Gray$};
-  \node[short] (q2) at (1.10,-1.16) {stack-bearing\\subtree\\head $\Gray$};
-  \draw[edge] (in)--(m);
-  \draw[edge] (m)--(q1);
-  \draw[edge] (m)--(q2);
-  \node[bad,text width=0.96\linewidth] at (0,-2.58) {$X(M)=\{\Gray,\Gray,\Gray\}$\\three gray incidences $>2$\\\textbf{not proper}};
+\begin{tikzpicture}[x=0.78cm,y=0.72cm,font=\scriptsize,
+  rail/.style={DeepBlue,thick}, bond/.style={ProofGray,thick},
+  pcB/.style={circle,draw=black,fill=black,text=white,minimum size=5.1mm,inner sep=0pt},
+  pcG/.style={circle,draw=DeepBlue,fill=ProofGray!45,text=black,minimum size=5.1mm,inner sep=0pt},
+  bad/.style={rounded corners,draw=AlertRed,fill=AlertRed!6,align=center,inner sep=2.5pt}]
+  \draw[rail] (0,0) circle[radius=0.55];
+  \node[font=\bfseries] at (0,0) {$M$};
+  \draw[rail] (-0.20,-0.50)--(-0.20,-2.28);
+  \draw[rail] (0.20,-0.50)--(0.20,-2.28);
+  \foreach \y in {-0.78,-1.36,-1.94}{\draw[bond] (-0.20,\y)--(0.20,\y);\node[pcG] at (0,\y) {$\Gray$};}
+  \begin{scope}[shift={(-0.38,0.40)},rotate=46]
+    \draw[rail] (-0.18,0)--(-0.18,1.55); \draw[rail] (0.18,0)--(0.18,1.55);
+    \foreach \y in {0.43,1.00}{\draw[bond] (-0.18,\y)--(0.18,\y);}
+    \node[pcG] at (0,0.43) {$\Gray$};
+    \node[pcB] at (0,1.00) {$\Bcol$};
+    \draw[rail] (-0.18,1.55) .. controls (-0.55,1.78) and (-0.45,2.05) .. (0,2.08) .. controls (0.45,2.05) and (0.55,1.78) .. (0.18,1.55);
+  \end{scope}
+  \begin{scope}[shift={(0.38,0.40)},rotate=-46]
+    \draw[rail] (-0.18,0)--(-0.18,1.55); \draw[rail] (0.18,0)--(0.18,1.55);
+    \foreach \y in {0.43,1.00}{\draw[bond] (-0.18,\y)--(0.18,\y);}
+    \node[pcG] at (0,0.43) {$\Gray$};
+    \node[pcB] at (0,1.00) {$\Bcol$};
+    \draw[rail] (-0.18,1.55) .. controls (-0.55,1.78) and (-0.45,2.05) .. (0,2.08) .. controls (0.45,2.05) and (0.55,1.78) .. (0.18,1.55);
+  \end{scope}
+  \node[align=center,text=orange!75!black] at (0,3.08) {two outgoing isolated stacks\\shown as $h=2$ stems};
+  \node[bad] at (0,-2.92) {$X(M)=\{\Gray,\Gray,\Gray\}$\\three gray incidences: not proper};
 \end{tikzpicture}
-\caption{The naive collision.}
+\caption{Naive reuse at the junction.}
 \end{subfigure}\hfill
-\begin{subfigure}[t]{0.32\linewidth}
+\begin{subfigure}[t]{0.34\linewidth}
 \centering
-\begin{tikzpicture}[font=\scriptsize,
-  pair/.style={circle,draw=DeepBlue,thick,minimum size=7.5mm,align=center},
-  B/.style={pair,fill=black!15}, G/.style={pair,fill=ProofGray!35},
-  helix/.style={rounded corners,draw=DeepBlue,fill=SoftBlue,align=center,inner sep=3pt},
-  short/.style={helix,draw=orange!75!black,fill=orange!12,inner sep=2pt},
-  edge/.style={thick,DeepBlue},
-  good/.style={rounded corners,draw=GoodGreen,fill=GoodGreen!7,align=center,inner sep=3pt}]
-  \node[font=\scriptsize\bfseries] at (0,2.12) {incoming helix has $h\ge3$};
-  \node[G] (g0) at (0,1.53) {$\Gray$};
-  \node[B] (b1) at (0,0.76) {$\Bcol$};
-  \node[B] (m) at (0,-0.01) {$\Bcol$\\$M$};
-  \node[font=\scriptsize,anchor=east] at (-0.30,1.53) {entry $\eta$};
-  \node[font=\scriptsize,anchor=west] at (0.30,-0.01) {exit $\eta$};
-  \node[short] (q1) at (-1.10,-1.28) {stack-bearing\\subtree\\head $\Gray$};
-  \node[short] (q2) at (1.10,-1.28) {stack-bearing\\subtree\\head $\Gray$};
-  \draw[edge] (g0)--(b1);
-  \draw[edge] (b1)--(m);
-  \draw[edge] (m)--(q1);
-  \draw[edge] (m)--(q2);
-  \node[good,text width=0.96\linewidth] at (0,-2.62) {$\Gray\Bcol\Bcol$ closes non-gray\\$X(M)=\{\Wcol,\Gray,\Gray\}$\\\textbf{proper}};
+\begin{tikzpicture}[x=0.78cm,y=0.72cm,font=\scriptsize,
+  rail/.style={DeepBlue,thick}, bond/.style={ProofGray,thick},
+  pcB/.style={circle,draw=black,fill=black,text=white,minimum size=5.1mm,inner sep=0pt},
+  pcG/.style={circle,draw=DeepBlue,fill=ProofGray!45,text=black,minimum size=5.1mm,inner sep=0pt},
+  good/.style={rounded corners,draw=GoodGreen,fill=GoodGreen!6,align=center,inner sep=2.5pt}]
+  \draw[rail] (0,0) circle[radius=0.55];
+  \node[font=\bfseries] at (0,0) {$M$};
+  \draw[rail] (-0.20,-0.50)--(-0.20,-2.28);
+  \draw[rail] (0.20,-0.50)--(0.20,-2.28);
+  \foreach \y in {-0.78,-1.36,-1.94}{\draw[bond] (-0.20,\y)--(0.20,\y);}
+  \node[pcB] at (0,-0.78) {$\Bcol$};
+  \node[pcB] at (0,-1.36) {$\Bcol$};
+  \node[pcG] at (0,-1.94) {$\Gray$};
+  \node[anchor=west] at (0.38,-1.36) {$\Gray\Bcol\Bcol$ bottom-to-top};
+  \begin{scope}[shift={(-0.38,0.40)},rotate=46]
+    \draw[rail] (-0.18,0)--(-0.18,1.55); \draw[rail] (0.18,0)--(0.18,1.55);
+    \foreach \y in {0.43,1.00}{\draw[bond] (-0.18,\y)--(0.18,\y);}
+    \node[pcG] at (0,0.43) {$\Gray$};
+    \node[pcB] at (0,1.00) {$\Bcol$};
+    \draw[rail] (-0.18,1.55) .. controls (-0.55,1.78) and (-0.45,2.05) .. (0,2.08) .. controls (0.45,2.05) and (0.55,1.78) .. (0.18,1.55);
+  \end{scope}
+  \begin{scope}[shift={(0.38,0.40)},rotate=-46]
+    \draw[rail] (-0.18,0)--(-0.18,1.55); \draw[rail] (0.18,0)--(0.18,1.55);
+    \foreach \y in {0.43,1.00}{\draw[bond] (-0.18,\y)--(0.18,\y);}
+    \node[pcG] at (0,0.43) {$\Gray$};
+    \node[pcB] at (0,1.00) {$\Bcol$};
+    \draw[rail] (-0.18,1.55) .. controls (-0.55,1.78) and (-0.45,2.05) .. (0,2.08) .. controls (0.45,2.05) and (0.55,1.78) .. (0.18,1.55);
+  \end{scope}
+  \node[align=center,text=orange!75!black] at (0,3.08) {both allowed isolated stacks\\are already downstream};
+  \node[good] at (0,-2.92) {$X(M)=\{\inv(\Bcol),\Gray,\Gray\}$\\$=\{\Wcol,\Gray,\Gray\}$: proper};
 \end{tikzpicture}
-\caption{The long-helix repair.}
+\caption{The bounded long-helix repair.}
 \end{subfigure}
-\caption{How the coloring certificate works and why two isolated stacks require a new transfer.  Every colored node carries an explicit $\Bcol$, $\Wcol$, or $\Gray$ label, so the argument does not depend on hue.  (a) Properness is a local capacity condition, while separated levels keep gray A--U pairs away from target-unpaired A's.  (b) Two short-bearing child subtrees may both require gray heads at a multiloop; a gray terminal pair would create three gray incidences.  (c) Because those children already contain both allowed isolated stacks, the incoming helix is long and may use $\Gray\Bcol\Bcol$: it enters and exits at residue $\eta$ but closes black, leaving a proper exposure $\{\Wcol,\Gray,\Gray\}$.}
-\label{fig:coloring-gap}
+\caption{Why the all-long construction does not apply unchanged when isolated stacks are admitted.  (a) With a gray head and an $\eta\to\eta$ requirement, a two-pair helix must use $\Gray\Gray$ and close gray; a third pair permits $\Gray\Bcol\Bcol$ and a non-gray close.  (b) At a multiloop with two gray child heads, a gray close creates three gray incidences.  (c) In the illustrative immediate-stack case drawn here, the two outgoing stems already account for both allowed isolated stacks, so the incoming helix is long and the strengthened word closes black.  In the general theorem, either isolated stack may occur deeper in the corresponding child subtree; the same two gray head demands and counting argument apply.  The failed coloring in (b) is a failure of the prior construction, not a proof of target non-designability.  Letters on the rungs make the diagrams color-blind accessible.}
+\label{fig:boury-gap}
 \end{figure}
 
 \subsection{Main result and proof outline}
@@ -310,9 +455,93 @@ arr/.style={-{Latex[length=2.5mm]},thick,DeepBlue}]
 
 Figure~\ref{fig:pipeline} separates the new coloring construction from the established coloring-to-design implication and from the three layers of formal-artifact checking.
 
+\subsection{Plain-language glossary}
+\label{sec:glossary}
+
+The following definitions are reading aids for the terminology used throughout the paper; the exact mathematical definitions in Section~\ref{sec:model} and later sections remain authoritative.  Three distinctions are especially important.  A pair ``color'' is an instruction for assigning nucleotides, not a physical color.  A ``level'' is an integer used for bookkeeping, not an energy, distance, or height.  And a modulo-2 separated coloring still uses the three pair colors $\Bcol$, $\Wcol$, and $\Gray$: ``modulo 2'' refers only to whether a level is even or odd.
+
+{\small
+\setlength{\LTpre}{5pt}
+\setlength{\LTpost}{5pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{@{}>{\raggedright\arraybackslash\bfseries}p{0.235\linewidth}>{\raggedright\arraybackslash}p{0.705\linewidth}@{}}
+\toprule
+Term & Plain-language meaning in this paper \\
+\midrule
+\endfirsthead
+\toprule
+Term & Plain-language meaning in this paper, continued \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\multicolumn{2}{@{}l}{\textcolor{DeepBlue}{\bfseries RNA structure and the design problem}}\\
+\addlinespace[2pt]
+Target or target structure & The desired pattern of paired and unpaired nucleotide positions.  It is fixed before the sequence is chosen.  A secondary-structure target records this pairing pattern, not the molecule's full three-dimensional shape. \\
+\addlinespace[3pt]
+Compatible fold & A fold that the chosen sequence can form in this model: every one of its pairs is A--U, U--A, C--G, or G--C.  ``Compatible'' means allowed, not necessarily optimal or unique. \\
+\addlinespace[3pt]
+Design; designable & A sequence is a \emph{design} when the target is its only compatible noncrossing fold with the largest possible number of pairs.  A target is \emph{designable} if at least one such sequence exists. \\
+\addlinespace[3pt]
+Maximum-pair model & The simplified energy model used here: each allowed Watson--Crick pair receives the same score, so more pairs means lower energy.  It omits wobble pairs, stacking energies, loop entropies, salt effects, kinetics, and three-dimensional interactions. \\
+\addlinespace[3pt]
+Noncrossing; pseudoknot-free & If base pairs are drawn as arcs above the sequence, their arcs may be nested or disjoint but may not cross.  This is the usual pseudoknot-free secondary-structure condition. \\
+\addlinespace[3pt]
+Stem or helix & A maximal uninterrupted ladder of consecutively nested target base pairs.  Its length is the number of paired rungs.  ``Maximal'' matters: two rungs lying inside a longer stem do not form a separate length-2 helix. \\
+\addlinespace[3pt]
+Hairpin, bulge/internal loop, multiloop & A hairpin caps a stem without another stem leaving it.  A bulge or internal loop contains unpaired nucleotides and continues into one stem.  A multiloop is a junction with two or more outgoing stems.  In the proof, $E$, $L$, and $M$ abbreviate an empty terminus, a loop with unpaired nucleotides and at most one outgoing helix, and an unpaired-free multiloop with two or three outgoing helices, respectively. \\
+\addlinespace[3pt]
+Isolated base pair; isolated stack & A maximal helix of length 1 is an isolated base pair; a maximal helix of exactly length 2 is an isolated stack.  ``Isolated stack'' does not mean any adjacent pair of rungs chosen from a longer helix. \\
+
+\midrule
+\multicolumn{2}{@{}l}{\textcolor{DeepBlue}{\bfseries The coloring certificate}}\\
+\addlinespace[2pt]
+Interval tree; virtual root & A nesting map of the target.  Every target base pair becomes one paired node, every target-unpaired nucleotide becomes one leaf, and a virtual root represents the exterior.  A stem therefore appears as a chain of nodes rather than one collapsed node. \\
+\addlinespace[3pt]
+Pair colors $\Bcol$, $\Wcol$, $\Gray$ & Sequence-design labels: $\Bcol$ prescribes G--C, $\Wcol$ prescribes C--G, and gray $\Gray$ prescribes A--U or U--A.  Every target-unpaired position receives A.  The symbol $\Gray$ for the gray pair color is not the nucleotide guanine $\G$. \\
+\addlinespace[3pt]
+Inverse color; exposure $X(v)$ & A loop sees the first colors of its outgoing stems plus the loop-facing side of its own closing pair.  Viewing a closing pair from the other side exchanges $\Bcol$ with $\Wcol$ and leaves $\Gray$ unchanged.  The resulting \emph{exposure} is a multiset, so repeated colors count separately.  The exterior root has no closing contribution. \\
+\addlinespace[3pt]
+Proper coloring & A local capacity rule: every exposure contains at most one $\Bcol$, one $\Wcol$, and two gray $\Gray$ incidences.  This permits distinct nucleotide identities to be presented around each loop.  It is not a statement about physical loop energetics, and by itself it does not yet guarantee a design. \\
+\addlinespace[3pt]
+Increment; level & The colors contribute numerical increments $+1$, $-1$, and $0$ for $\Bcol$, $\Wcol$, and $\Gray$.  A paired node's \emph{level} is the running sum from the virtual root through that node, including its own color.  An unpaired nucleotide inherits the level of its enclosing loop, or level $0$ at the exterior.  Level is not tree depth, energy, helix length, or physical height. \\
+\addlinespace[3pt]
+Separation; separated coloring & \emph{Separation} means that no gray target pair and no target-unpaired nucleotide have the same exact integer level.  Gray pairs may share levels with other gray pairs, and unpaired positions may share levels with other unpaired positions; the two classes are what must be separated.  A \emph{separated coloring} is a proper coloring with this global property.  It is a sufficient design certificate, not a necessary condition for every designable target. \\
+\addlinespace[3pt]
+Residue; $\xi$ and $\eta$ & Here \emph{residue} means an arithmetic remainder, not a nucleotide residue.  Modulo two, a level has residue $0$ or $1$---equivalently, it is even or odd.  In the uniform form constructed here, $\xi$ names the residue of every unpaired node and $\eta=1-\xi$ names the other residue, occupied by every gray pair.  The symbols are roles, not fixed choices of even and odd. \\
+\addlinespace[3pt]
+Modulo-$m$ separation & Instead of comparing complete integer levels, compare only their remainders after division by $m$.  No remainder used by a gray-pair level may be used by an unpaired-node level.  This is stronger than ordinary separation because disjoint remainder classes cannot contain an equal integer level. \\
+\addlinespace[3pt]
+Modulo-2 separated coloring & Modulo-$m$ separation with $m=2$, so only even versus odd is remembered.  In the nonvacuous uniform form used by this theorem, all unpaired nodes have parity $\xi$ and all gray pairs have the opposite parity $\eta$.  The phrase is sometimes shortened informally to ``modulo-2 coloring,'' but it is not a two-coloring: the pair labels remain $\Bcol$, $\Wcol$, and $\Gray$.  Failure of this certificate does not imply failure of ordinary separation or designability. \\
+
+\midrule
+\multicolumn{2}{@{}l}{\textcolor{DeepBlue}{\bfseries Terms used in the recursive construction}}\\
+\addlinespace[2pt]
+Color word & The ordered list of pair colors along one helix, read from its outermost first pair toward its innermost terminal pair.  For example, $\Gray\Bcol\Bcol$ describes a three-pair helix, not the nucleotide word GBB. \\
+\addlinespace[3pt]
+Helix head; terminal pair; entry and exit residue & The \emph{head} is the helix's first, outermost pair; the \emph{terminal pair} is its last, innermost pair.  The entry residue is the parent level's parity immediately before the head color is added.  The exit residue is the inclusive parity at the terminal pair.  An \emph{entry state} records both the entry residue and the prescribed head color. \\
+\addlinespace[3pt]
+Helix transfer & A permitted $\Bcol/\Wcol/\Gray$ color word that carries a specified entry residue and head color to a requested exit residue, while keeping adjacent exposures proper and every gray pair at residue $\eta$.  ``Transfer'' is proof bookkeeping, not a chemical transport process. \\
+\addlinespace[3pt]
+All-long target & A target in which every maximal helix contains at least three base pairs.  Boury et al.'s earlier guarantee applies to motif-free all-long targets. \\
+\addlinespace[3pt]
+Stack-bearing subtree & A branch of the interval tree that contains an isolated stack somewhere below it.  Its first outgoing helix need not itself be short; the term describes the whole descendant branch. \\
+\addlinespace[3pt]
+Feasible-state sets $F$ and $Q$ & Two finite lists of entry states guaranteed by the induction.  $F$ is the guarantee for a helix subtree with no isolated stack; $Q$ is the weaker guarantee for a subtree containing at least one.  They are bookkeeping sets, not additional RNA objects. \\
+\addlinespace[3pt]
+Motifs $m_5$ and $m_{3\bullet}$ & Two local capacity obstructions.  Paired degree counts the closing paired incidence plus outgoing paired children, or only outgoing children at the exterior root.  Motif $m_5$ means paired degree greater than $4$; $m_{3\bullet}$ means an unpaired child is present while paired degree is greater than $2$. \\
+\addlinespace[3pt]
+Target class $\Ktwo$ & The targets covered by the theorem: no isolated base pair, at most two isolated stacks, every other helix of length at least three, and neither obstruction motif $m_5$ nor $m_{3\bullet}$. \\
+\addlinespace[3pt]
+Structure approximation & A method that resolves a coloring conflict by adding or duplicating a base pair in a helix.  It proves a statement about a modified target, not a design of the original target unchanged. \\
+\addlinespace[3pt]
+Formal verification in Lean & The proof has been translated into definitions and logical steps checked by the Lean kernel.  This checks that the theorem follows from the stated formal assumptions; it does not establish biological realism, experimental usefulness, novelty, or independent human expert review. \\
+\end{longtable}
+}
+
 \subsection{Organization}
 
-Sections~\ref{sec:model}--\ref{sec:prior} define the model and summarize prior results.  Sections~\ref{sec:structural}--\ref{sec:globalcolor} construct the coloring.  Sections~\ref{sec:sequence}--\ref{sec:notie} convert it into a unique design.  Section~\ref{sec:examples} gives examples, Section~\ref{sec:formal} describes the Lean development and artifact checks, Section~\ref{sec:ai} records the AI-assisted development and audit trail, Section~\ref{sec:scope} discusses scope and open questions, and Section~\ref{sec:conclusion} concludes.
+Section~\ref{sec:glossary} provides a reading guide to the terminology.  Sections~\ref{sec:model}--\ref{sec:prior} define the model and summarize prior results.  Sections~\ref{sec:structural}--\ref{sec:globalcolor} construct the coloring.  Sections~\ref{sec:sequence}--\ref{sec:notie} convert it into a unique design.  Section~\ref{sec:examples} gives examples, Section~\ref{sec:formal} describes the Lean development and artifact checks, Section~\ref{sec:ai} records the AI-assisted development and audit trail, Section~\ref{sec:scope} discusses scope and open questions, and Section~\ref{sec:conclusion} concludes.
 
 \section{Model and definitions}
 \label{sec:model}
@@ -1242,7 +1471,7 @@ The examples demonstrate that the new $r=2$ root and multiloop cases are nonvacu
 \section{Lean formalization and artifact verification}
 \label{sec:formal}
 
-The complete theorem was formalized in Lean~4 \citep{lean4}.  The following listing is generated directly from the frozen source; it includes the exact public proposition, theorem, and proof term rather than Lean-like pseudocode.
+The complete theorem was formalized in Lean~4 \citep{lean4} using Mathlib \citep{mathlib2020}.  The following listing is generated directly from the frozen source; it includes the exact public proposition, theorem, and proof term rather than Lean-like pseudocode.
 
 \lstinputlisting[language={},caption={Exact final Lean proposition and theorem, extracted from the frozen source.},label={lst:public-theorem}]{paper_listings/03_public_theorem.lean}
 
@@ -1262,7 +1491,7 @@ The old exact-one theorem is not a premise of the at-most-two result; it is deri
 
 \subsection{Concrete semantic regression theorems}
 
-Two new downstream-only Lean modules pin the formal definitions to concrete publication examples without entering the dependency closure of Listing~\ref{lst:public-theorem}.  Kernel-checked theorems establish that $T_1$ and the corrected $T_2$ belong to \texttt{InTargetClassKLeTwo}; that their displayed literal sequences satisfy \texttt{UniqueDesigns}; that the $T_2$ coloring has helix words $\Bcol\Bcol\Bcol/\Gray\Bcol\Bcol/\Gray\Bcol/\Gray\Bcol/\Bcol\Bcol\Bcol$ and satisfies the named-residue condition with $\xi=0$; that the three-isolated-stack and length-1 examples are rejected by the target predicate; and that \texttt{AUAU} fails to uniquely design the nested target \texttt{(())}.  Ordinary kernel reduction over all $3^6=729$ colorings also proves that the three-isolated-stack target has no coloring that is both proper and strongly modulo-2 separated.
+Two new downstream-only Lean modules pin the formal definitions to concrete publication examples without entering the dependency closure of Listing~\ref{lst:public-theorem}.  Kernel-checked theorems establish that $T_1$ and $T_2$ belong to \texttt{InTargetClassKLeTwo}; that their displayed literal sequences satisfy \texttt{UniqueDesigns}; that the $T_2$ coloring has helix words $\Bcol\Bcol\Bcol/\Gray\Bcol\Bcol/\Gray\Bcol/\Gray\Bcol/\Bcol\Bcol\Bcol$ and satisfies the named-residue condition with $\xi=0$; that the three-isolated-stack and length-1 examples are rejected by the target predicate; and that \texttt{AUAU} fails to uniquely design the nested target \texttt{(())}.  Ordinary kernel reduction over all $3^6=729$ colorings also proves that the three-isolated-stack target has no coloring that is both proper and strongly modulo-2 separated.
 
 The literal design theorems do not call an external folding oracle.  They identify each literal word with the generic sequence produced from an explicit proper separated coloring, then apply the universal uniqueness theorem.  Their transitive axiom set is the same three foundational principles listed below.  Hash comparison confirms that all 60 pre-existing tracked Lean files remained byte-identical and that no reverse import from the theorem closure to either publication-example module was introduced.
 
@@ -1278,7 +1507,7 @@ A frozen source archive was rebuilt in an isolated Linux container using the pin
 
 The final publication branch was also qualified by a measured local clean build.  The authoritative 46-file theorem closure contains 20,738 physical lines, 16,908 nonblank noncomment code lines, and 1,616 source declaration commands: 390 \texttt{def}, 36 \texttt{abbrev}, 20 \texttt{structure}, 7 \texttt{inductive}, 1,102 \texttt{theorem}, and 61 \texttt{instance} commands.  After \texttt{lake clean}, the bare full-project command \texttt{lake build} passed with 3,070 Lake graph jobs in 894.10 seconds wall-clock on the recorded ten-logical-CPU host.  These are measured qualification values, not performance claims.  The two downstream publication modules add 613 physical lines and 56 declaration commands; their named build and 18-endpoint axiom audit also passed.  The release metrics report states the counting method, environment, user and system times, and complete command log; its SHA-256 is \hashtext{b97a0465d97c9568211cf959e35569a4f82c766f511ca553fd1dd6ef1e1433f9}.
 
-A separate anonymous package contained only the mathematical specification, the handwritten Lean files needed by the final theorem, and the version-pinned build files.  A fresh Claude Code session checked the file list and checksums, built the target module, traced the theorem dependencies, tested concrete examples and counterexamples, and compared the Lean definitions with the specification.  This was a blinded automated audit by an independent AI session, not an independent human review.  Its recorded verdict was \textbf{FAITHFUL AND COMPLETE}.  The audit report records the following checks:
+A separate anonymous package contained only the mathematical specification, the handwritten Lean files needed by the final theorem, and the version-pinned build files.  A fresh Claude Code session checked the file list and checksums, built the target module, traced the theorem dependencies, tested concrete examples and counterexamples, and compared the Lean definitions with the specification.  This was a blinded automated audit by an independent AI session, not an independent human review.  The audit report recorded the outcome ``faithful and complete.''  It records the following checks:
 \begin{itemize}
 \item exactly four nucleotides and strict Watson--Crick compatibility;
 \item arbitrary noncrossing partial-match competitors on the same sequence;
@@ -1435,7 +1664,7 @@ Lean toolchain & Lean \texttt{4.34.0-rc1}; Mathlib revision \texttt{de5ce8a9a66a
 Isolated rebuild & Full clean build passed; final theorem printed with axiom set \texttt{[propext, Classical.choice, Quot.sound]}. \\
 Release-qualification results package & SHA-256 \hashtext{2da05881fb3808e7add46526f6f202f81e6f0b4f9b37acd622a8acd7b435615b}. \\
 Blinded fidelity bundle & SHA-256 \hashtext{bfd2c8d90f5666ccb2dda6a3e9c2f81b84419ae84cc25beb3f880c80b5c66b8b}. \\
-Claude fidelity-audit package & Automated-AI verdict \textbf{FAITHFUL AND COMPLETE}; SHA-256 \hashtext{0a77ea7e9f9dc0342a14330b93644dc943a0b2c0e89f302b092ca08de404092b}. \\
+Claude fidelity-audit package & Automated-AI outcome ``faithful and complete''; SHA-256 \hashtext{0a77ea7e9f9dc0342a14330b93644dc943a0b2c0e89f302b092ca08de404092b}. \\
 Publication examples & Downstream modules \texttt{PublicationExamples.lean} and \texttt{PublicationExamplesAxiomAudit.lean}; no reverse import and no change to any pre-existing Lean file. \\
 Publication qualification metrics & Clean full-project build: 3,070 Lake graph jobs and 894.10 seconds wall-clock; closure: 46 files, 20,738 physical lines, 1,616 declaration commands; report SHA-256 \hashtext{b97a0465d97c9568211cf959e35569a4f82c766f511ca553fd1dd6ef1e1433f9}. \\
 Derived listings & \texttt{SOURCE\_MAP.tsv}, extraction script, and 28-declaration \texttt{\#check} audit included in the manuscript source package. \\
@@ -1444,12 +1673,16 @@ Availability & Version \ReleaseVersion; canonical repository \RepositoryURL; arc
 \bottomrule
 \end{longtable}
 
+\section*{Author declarations}
+\textbf{Author capacity.} This work was undertaken through Szilard Scientific, LLC, in the author's private capacity.  The views expressed are the author's own, not those of any employer or client.
+
 \section*{Acknowledgments}
 The author thanks the developers and communities of Lean and Mathlib.  The proof was developed with substantial assistance from OpenAI ChatGPT and Codex and Anthropic Claude Code.  These systems generated candidate proofs, formal code, test strategies, and adversarial reviews under human direction.  They are not authors and bear no responsibility for the scientific claims.
 
 \section*{Data and code availability}
 The version \ReleaseVersion{} archival release contains the manuscript source and PDF, source-derived Lean listings and their audit, deterministic example checker and output, citation and provenance audits, downstream Lean publication examples, and frozen qualification packages.  Appendix~\ref{app:artifacts} records the canonical repository, archival DOI, and mixed-license scope; the external SHA-256 manifest identifies the exact release bytes.
 
+\small
 \begin{thebibliography}{99}
 
 \bibitem[Andronescu et al.(2004)]{andronescu2004}
@@ -1529,6 +1762,12 @@ L.~de Moura and S.~Ullrich.
   2021.
 \newblock doi:10.1007/978-3-030-79876-5\_37.
 
+\bibitem[The mathlib Community(2020)]{mathlib2020}
+The mathlib Community.
+\newblock The Lean Mathematical Library.
+\newblock In \emph{Proceedings of the 9th ACM SIGPLAN International Conference on Certified Programs and Proofs}, pages 367--381. ACM, New Orleans, LA, USA, 2020.
+\newblock doi:10.1145/3372885.3373824.
+
 \bibitem[Nussinov and Jacobson(1980)]{nussinov1980}
 R.~Nussinov and A.~B. Jacobson.
 \newblock Fast algorithm for predicting the secondary structure of
@@ -1551,5 +1790,6 @@ J.~N. Zadeh, B.~R. Wolfe, and N.~A. Pierce.
 \newblock doi:10.1002/jcc.21633.
 
 \end{thebibliography}
+\normalsize
 
 \end{document}

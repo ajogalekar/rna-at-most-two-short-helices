@@ -82,6 +82,7 @@ python3 scripts/audit_handwritten_lean_tokens.py
 python3 scripts/audit_source_integrity.py
 python3 scripts/measure_formalization.py
 python3 paper/verify_examples.py
+python3 paper/check_dot_bracket_literals.py
 ```
 
 Check the 46-file theorem-closure identity with one of:
@@ -100,6 +101,11 @@ fresh Tectonic PDF build), install Tectonic and run:
 ```bash
 bash paper/scripts/validate_manuscript_sources.sh .
 ```
+
+For a public-clone build in a fresh Linux container, use the pinned recipe in
+[`reproducibility/`](reproducibility/README.md).  It runs the bare
+`lake build`, then prints the exact theorem and verifies its transitive axiom
+set.
 
 The final theorem's kernel-reported transitive axiom set is exactly:
 
