@@ -94,8 +94,8 @@
 \newcommand{\UniqueDesigns}{\operatorname{UniqueDesigns}}
 \newcommand{\hashtext}[1]{\texttt{\seqsplit{#1}}}
 \newcommand{\RepositoryURL}{\url{https://github.com/ajogalekar/rna-at-most-two-short-helices}}
-\newcommand{\ArchiveDOI}{\href{https://doi.org/10.5281/zenodo.22100052}{\texttt{10.5281/zenodo.22100052}}}
-\newcommand{\ReleaseVersion}{1.0.2}
+\newcommand{\ArchiveDOI}{\href{https://doi.org/10.5281/zenodo.22101755}{\texttt{10.5281/zenodo.22101755}}}
+\newcommand{\ReleaseVersion}{1.0.3}
 \input{generated/publication_example_literals.tex}
 
 \newtcolorbox{contributionbox}{
@@ -136,11 +136,11 @@
 \begin{abstract}
 RNA inverse folding asks whether one can choose an RNA sequence whose unique optimal secondary structure is a prescribed target.  We study this problem in a simplified four-letter model: only Watson--Crick A--U and C--G pairs are allowed, structures contain no pseudoknots, adjacent nucleotides may pair, and lower energy means a larger number of base pairs.
 
-Earlier work showed that a large class of targets is designable when every helix contains at least three base pairs.  Shorter helices are more difficult because they provide less freedom for coordinating the base-pair choices made at neighboring loops.  We prove that designability is nevertheless guaranteed when the target contains at most two helices of length 2, contains no helix of length 1, avoids the two standard local obstruction motifs $m_5$ and $m_{3\bullet}$, and has all remaining helices of length at least 3.
+Building on the separated-coloring certificate and parity device of Hale\v{s} et al. and the modulo-$m$ construction of Boury et al., earlier work guarantees designability when every helix contains at least three base pairs.  Shorter helices are more difficult because they provide less freedom for coordinating the base-pair choices made at neighboring loops.  We prove that designability is nevertheless guaranteed when the target contains at most two helices of length 2, contains no helix of length 1, avoids the two standard local obstruction motifs $m_5$ and $m_{3\bullet}$, and has all remaining helices of length at least 3.
 
-The proof labels the target base pairs with three colors that encode how nucleotides will later be assigned.  A length-2 helix can require a flexible gray connection at an adjacent loop.  Because the target contains at most two such helices, no loop must accommodate more than two of these demands.  When both demands meet at the same multiloop, the incoming longer helix can be colored to end with a non-gray pair, leaving the two available gray choices for the short branches.  These local choices can then be assembled consistently across the entire target.
+The proof builds on Boury et al.'s local helix-coloring transfers and adds a global counting argument showing that the demands created by at most two short helices can always be coordinated.
 
-From the resulting coloring we construct an explicit RNA sequence and prove that every different compatible fold has fewer base pairs than the target.  The complete theorem and its supporting lemmas were formalized in Lean~4 and rebuilt from frozen source in an isolated environment.
+From the resulting coloring we construct an explicit RNA sequence and prove that every different compatible fold has fewer base pairs than the target.  The complete theorem and its supporting lemmas were formalized in Lean~4 and rebuilt from frozen source in an isolated environment.  The work was developed with foundational generative-AI assistance under the author's direction and has not yet received independent human expert review.
 \end{abstract}
 
 \noindent\textbf{Keywords:} RNA inverse folding; RNA design; secondary structure; separated coloring; isolated stack; formal verification; Lean.
@@ -177,6 +177,8 @@ At the exterior root there is no closing incidence.  In the original parent--chi
 Hale\v{s} et al. make the local rule constructive with a greedy top-down coloring.  At a black parent, color the first paired child black and all remaining paired children gray; at a white parent, use white and then gray; and at a gray parent or the root, use black for the first paired child, white for the second, and gray for the rest.  ``First'' and ``second'' refer only to backbone order.  Under the paired-degree bound this coloring is proper.  The obstruction $m_5$ is the clearest failure of the capacity count: five paired incidences cannot fit into the four slots $\Bcol,\Wcol,\Gray,\Gray$.  The companion obstruction $m_{3\bullet}$ occurs when an unpaired nucleotide is exposed together with too many paired incidences.  Properness controls the target-paired positions locally, but it does not yet stop a distant target-unpaired A from pairing with a U assigned to a gray target pair.
 
 That global protection is supplied by \emph{levels}.  Give $\Bcol$, $\Wcol$, and $\Gray$ the increments $+1$, $-1$, and $0$, respectively, and sum them on the path from the root to a node.  An unpaired singleton inherits the level of its enclosing loop.  Thus the level tracks the relevant G--C prefix imbalance encoded by the orientations along the nesting path.  A proper coloring is \emph{separated} when no integer level is occupied both by a gray paired node and by a target-unpaired node.
+
+The even--odd device used later in this paper is already present in Hale\v{s} et al.'s 2017 construction.  In the proof of their Theorem~10, selected pairs are inflated so that gray paired nodes and unpaired nodes occupy opposite parity classes, after which one type is kept even and the other odd \citep{hales2017}.  Thus parity separation predates the later modulo-$m$ terminology.  Boury et al.'s contribution was to formalize the general modulo-$m$ condition, give a finite-state decision and construction algorithm, and obtain a target-preserving all-long guarantee.
 
 Figure~\ref{fig:hales-bridge} follows one small RNA from its biological drawing to this mathematical certificate.  The incoming stem has color word $\Bcol\Bcol\Bcol$, the left isolated stack has $\Gray\Bcol$, and the right stem has $\Bcol\Bcol\Bcol$.  At the multiloop, the closing black pair is seen as white, so the exposure is $\{\Wcol,\Gray,\Bcol\}$.  The only gray pair has level $3$, whereas the unpaired A has level $4$.
 
@@ -290,11 +292,11 @@ This result is a sufficient certificate, not a characterization of designability
 
 \subsection{Boury's finite-state construction and the length-2 gap}
 
-Boury, Bulteau, and Ponty replaced the target-changing repair with a finite-state coloring method \citep{boury2024,boury2025}.  In a modulo-$m$ separated coloring, gray-pair levels and unpaired-nucleotide levels occupy disjoint residue classes modulo $m$.  This condition is stronger than ordinary separation, but it replaces unbounded integer levels by finitely many states.  For $m=2$, black and white both change parity because $+1\equiv-1\equiv1\pmod 2$, while gray preserves parity.  We write $\xi$ for the residue used by unpaired nodes and $\eta=1-\xi$ for the residue used by gray pairs.
+Building on Hale\v{s} et al.'s parity idea, Boury, Bulteau, and Ponty introduced modulo-$m$ separability as a finite-state, target-preserving method \citep{boury2024,boury2025}.  In a modulo-$m$ separated coloring, gray-pair levels and unpaired-nucleotide levels occupy disjoint residue classes modulo $m$.  This condition is stronger than ordinary separation, but it replaces unbounded integer levels by finitely many states.  Their dynamic program decides and constructs such a coloring, when one exists, in $O(n\,2^m)$ time; in particular, fixed $m=2$ is linear-time.  For $m=2$, black and white both change parity because $+1\equiv-1\equiv1\pmod 2$, while gray preserves parity.  We write $\xi$ for the residue used by unpaired nodes and $\eta=1-\xi$ for the residue used by gray pairs.
 
 Biologically, their recursion contracts each maximal stem to a connection between loops.  Mathematically, that connection is a two-state transfer device.  A hairpin, bulge, or internal loop containing unpaired nucleotides must sit in the $\xi$ state; a multiloop in the construction sits in the $\eta$ state.  The first pair of a helix must present a color allowed by the loop above it, the colors inside the helix must keep every gray pair at residue $\eta$, and the last pair must deliver the residue required by the loop below it.  Boury et al. proved that a helix of at least three pairs has enough internal positions to retain a prescribed first color and realize either required exit residue.  Consequently every $(m_5,m_{3\bullet})$-free target whose helices all have length at least three admits a modulo-2 separated coloring and a linear-time design \citep{boury2024,boury2025}.  The third pair has no special thermodynamic significance here; it is an additional combinatorial switching position in the maximum-pair model.
 
-In the notation developed below, a useful explicit normal form for that transfer property is as follows.  If the prescribed first color is non-gray $a$, a constant word $a^h$ and a word with one suitably placed gray pair reach opposite exit residues while preserving the first color.  If a helix enters at $\eta$ with a prescribed gray first pair, $\Gray^h$ and $\Gray^{h-1}a$ provide the two exits.  These words are the present proof's concrete realization of the all-long transfer guarantee.  They keep every gray pair at $\eta$; moreover an exit at $\xi$ closes non-gray, although an ordinary exit at $\eta$ may still close gray.
+The non-gray-ending transfer words selected below are already displayed in Boury et al.'s WABI Figure~8 and journal Figure~12 \citep{boury2024,boury2025}.  Up to black--white symmetry, those figures tabulate the families $a^h$, $a\Gray a^{h-2}$, $aa\Gray a^{h-3}$, $\Gray a^{h-1}$, and $\Gray\Gray a^{h-2}$.  Lemma~\ref{lem:strong-long} uses all but the $aa\Gray a^{h-3}$ family.  The selected words preserve the prescribed first color, place gray pairs in the required residue, realize the needed exit residue, and visibly end non-gray.  The lemma records the exact subfamily needed by the global induction; it does not introduce new local color words.
 
 An isolated stack---a maximal helix of exactly two pairs---has only one position after its head and therefore no comparable spare switch.  The complete transition table, proved as Lemma~\ref{lem:two-pair}, is
 \[
@@ -310,7 +312,7 @@ For instance, an $\eta\to\xi$ isolated stack must start gray.  In the $\eta\to\e
 
 The missing terminal-color control becomes visible when branches meet.  Suppose a multiloop at residue $\eta$ has two outgoing child subtrees containing isolated stacks.  The weaker short-helix guarantee may require both child heads to be gray.  If the ordinary all-long transfer above the loop is reused with a gray-ending $\eta$ exit, the loop exposes the inverse of that gray close together with the two gray heads: $\{\Gray,\Gray,\Gray\}$.  Properness permits only two gray incidences.
 
-The global bound of two isolated stacks supplies exactly the missing position.  Once the two outgoing child subtrees contain both isolated stacks allowed in the target, the incoming helix cannot also have length 2.  Because length-1 helices are excluded, it has length at least three.  We can therefore strengthen its transfer to enter and exit at $\eta$ while closing non-gray.  At length three the words $\Gray\Bcol\Bcol$ and $\Gray\Wcol\Wcol$ do this.  They change the loop exposures to $\{\Wcol,\Gray,\Gray\}$ or $\{\Bcol,\Gray,\Gray\}$, both proper.  Figure~\ref{fig:boury-gap} shows the bottleneck and repair on RNA-shaped stem--loop drawings.
+The global bound of two isolated stacks supplies exactly the missing position.  Once the two outgoing child subtrees contain both isolated stacks allowed in the target, the incoming helix cannot also have length 2.  Because length-1 helices are excluded, it has length at least three.  We can therefore select a non-gray-ending $\eta\to\eta$ word from Boury et al.'s transfer table.  At length three the published family specializes to $\Gray\Bcol\Bcol$ or, by black--white symmetry, $\Gray\Wcol\Wcol$.  These choices change the loop exposures to $\{\Wcol,\Gray,\Gray\}$ or $\{\Bcol,\Gray,\Gray\}$, both proper.  Figure~\ref{fig:boury-gap} shows the bottleneck and its bounded-resource resolution on RNA-shaped stem--loop drawings.
 
 \begin{figure}[t]
 \centering
@@ -405,9 +407,9 @@ The global bound of two isolated stacks supplies exactly the missing position.  
   \node[align=center,text=orange!75!black] at (0,3.08) {both allowed isolated stacks\\are already downstream};
   \node[good] at (0,-2.92) {$X(M)=\{\inv(\Bcol),\Gray,\Gray\}$\\$=\{\Wcol,\Gray,\Gray\}$: proper};
 \end{tikzpicture}
-\caption{The bounded long-helix repair.}
+\caption{Bounded use of a non-gray close.}
 \end{subfigure}
-\caption{Why the all-long construction does not apply unchanged when isolated stacks are admitted.  (a) With a gray head and an $\eta\to\eta$ requirement, a two-pair helix must use $\Gray\Gray$ and close gray; a third pair permits $\Gray\Bcol\Bcol$ and a non-gray close.  (b) At a multiloop with two gray child heads, a gray close creates three gray incidences.  (c) In the illustrative immediate-stack case drawn here, the two outgoing stems already account for both allowed isolated stacks, so the incoming helix is long and the strengthened word closes black.  In the general theorem, either isolated stack may occur deeper in the corresponding child subtree; the same two gray head demands and counting argument apply.  The failed coloring in (b) is a failure of the prior construction, not a proof of target non-designability.  Letters on the rungs make the diagrams color-blind accessible.}
+\caption{Why the all-long construction does not apply unchanged when isolated stacks are admitted.  (a) With a gray head and an $\eta\to\eta$ requirement, a two-pair helix must use $\Gray\Gray$ and close gray; a third pair permits the already published Boury word $\Gray\Bcol\Bcol$ and a non-gray close.  (b) At a multiloop with two gray child heads, a gray close creates three gray incidences.  (c) In the illustrative immediate-stack case drawn here, the two outgoing stems already account for both allowed isolated stacks, so the incoming helix is long and the induction selects a non-gray-ending word from Boury et al.'s transfer table.  In the general theorem, either isolated stack may occur deeper in the corresponding child subtree; the same two gray head demands and counting argument apply.  The failed coloring in (b) is a failure of a naive local choice, not a proof of target non-designability.  Letters on the rungs make the diagrams color-blind accessible \citep{boury2024,boury2025}.}
 \label{fig:boury-gap}
 \end{figure}
 
@@ -453,7 +455,7 @@ arr/.style={-{Latex[length=2.5mm]},thick,DeepBlue}]
 \draw[arr,dashed] (formal.east)--(uniq.south west);
 \end{tikzpicture}%
 }
-\caption{Structure of the proof.  The new step is the construction of a proper modulo-2 separated coloring for targets with at most two isolated stacks.  The remaining implications are proved self-containedly and formalized in Lean.}
+\caption{Structure of the proof.  The new step is the global resource-counting induction that constructs a proper modulo-2 separated coloring for targets with at most two isolated stacks, using previously published local transfer words.  The remaining implications are proved self-containedly and formalized in Lean.}
 \label{fig:pipeline}
 \end{figure}
 
@@ -735,7 +737,7 @@ A target whose tree representation admits a proper separated coloring is designa
 Hale\v{s} et al. also showed that saturated targets are designable over the four-letter alphabet precisely when their maximum paired degree is at most four, and that the motifs $m_5$ and $m_{3\bullet}$ are local obstructions.  Their separated-coloring theorem is sufficient but not necessary in general.
 
 \begin{theorem}[Boury--Bulteau--Ponty]
-Every $(m_5,m_{3\bullet})$-free target whose helices all have length at least three admits a modulo-2 separated coloring and can be designed in linear time \citep{boury2024,boury2025}.  Deciding separability remains NP-complete for motif-free targets without isolated base pairs \citep{boury2025}.
+Every $(m_5,m_{3\bullet})$-free target whose helices all have length at least three admits a modulo-2 separated coloring and can be designed in linear time \citep{boury2024,boury2025}.  More generally, their dynamic program decides modulo-$m$ separability in $O(n\,2^m)$ time.  Deciding ordinary separability remains NP-complete for motif-free targets without isolated base pairs \citep{boury2025}.
 \end{theorem}
 
 The same work gives a motif-free nonseparable construction with minimum helix length 2 that uses many isolated stacks.  A documented primary-source search through 19 August 2026 located no theorem or counterexample for the class with at most two isolated stacks; this negative search result is not by itself evidence of novelty.
@@ -750,7 +752,7 @@ Every target $T\in\Ktwo$ admits a proper modulo-2 separated coloring.  In fact, 
 Every target $T\in\Ktwo$ is designable in the four-letter Watson--Crick base-pair model with $\theta=0$.
 \end{theorem}
 
-Theorem~\ref{thm:maincolor} is the new structural result.  Theorem~\ref{thm:maindesign} follows from the sequence construction and uniqueness argument in Sections~\ref{sec:sequence}--\ref{sec:notie}.
+The novel part of Theorem~\ref{thm:maincolor} is the bounded-resource extension of the uniform modulo-2 guarantee to targets containing one or two length-2 helices.  The all-long case is due to Boury et al.  For saturated members of the class, the designability conclusion already follows from Hale\v{s} et al.'s Result~R4; the present theorem supplies the stated modulo-2 certificate.  Theorem~\ref{thm:maindesign} then follows from the sequence construction and uniqueness argument in Sections~\ref{sec:sequence}--\ref{sec:notie}.
 
 \begin{proposition}[Three isolated stacks can prevent modulo-2 separation]
 \label{prop:three-short}
@@ -760,6 +762,13 @@ The motif-free target
 \]
 has three isolated stacks and admits no proper modulo-2 separated coloring.  It nevertheless admits a proper ordinarily separated coloring and is uniquely designable.
 \end{proposition}
+
+This witness is closely related to Hale\v{s} et al.'s three-branch examples in their Figures~6--7 \citep{hales2017}.  In particular, their Figure~6 compares
+\[
+\texttt{(..)(..)(..)}\qquad\text{with}\qquad\texttt{((..))((..))((..))}.
+\]
+The latter is inflated and designable.  The literal above has the same three length-2 root branches but one, rather than two, unpaired positions in each hairpin.  Hale\v{s} et al. did not formulate modulo-2 nonseparability, although the proof below applies unchanged to their designable two-stutter because duplicate unpaired leaves inherit the same terminal level.  The exact literal and unique-design computation reported here use the one-unpaired-per-hairpin variant; the underlying three-branch geometry is adapted from that earlier example family.
+
 \begin{proof}
 Suppose a proper modulo-2 separated coloring existed.  The target has three unpaired nodes.  Its degree-3 root cannot have only black and white children, because properness permits at most one of each, so at least one root child is gray.  Lemma~\ref{lem:modtwo-uniform} therefore supplies residue classes $\xi$ for all unpaired nodes and $\eta$ for all gray pairs.
 
@@ -959,11 +968,11 @@ Fix a non-gray color $a\in\{\Bcol,\Wcol\}$.  The local patterns
 are proper, whereas $(a,\inv(a))$ is not.  If the first color is $a$, compare the constant word $a^h$ with a word having one gray insertion at the second or third position, chosen so that the gray lies at $\eta$.  The two words have opposite exit parities because a non-gray contributes $1$ modulo two and a gray contributes $0$.  The insertion position exists because $h\ge3$, and the $\xi$-exit choice cannot close gray.  If the first color is gray at an $\eta$ entry, use $\Gray^h$ for exit $\eta$ and $\Gray^{h-1}a$ for exit $\xi$.
 \end{proof}
 
-This sufficient transfer is the local engine in the all-long theorem of Boury et al. \citep{boury2024,boury2025}.  The at-most-two proof needs one additional option that was not required by the one-short construction.
+This sufficient transfer is the local engine in the all-long theorem of Boury et al. \citep{boury2024,boury2025}.  The at-most-two proof needs to select a particular non-gray-ending subfamily of their published transfer table when two short-helix demands meet.
 
-\subsection[An additional non-gray-ending transfer]{An additional non-gray-ending transfer}
+\subsection[Non-gray-ending selection from Boury's transfer table]{Non-gray-ending selection from Boury's transfer table}
 
-\begin{lemma}[Strengthened long transfer]
+\begin{lemma}[Non-gray-ending long transfer]
 \label{lem:strong-long}
 Let $h\ge3$ and suppose the entry state lies in $Q$.  There exists a valid length-$h$ word that exits at $\eta$ and closes non-gray.
 \end{lemma}
@@ -982,10 +991,10 @@ $\eta$, first $\Gray$ & even & $\Gray\Gray a^{h-2}$ \\
 \bottomrule
 \end{tabular}
 \end{center}
-Each word preserves the first color and closes with $a$.  Counting non-gray contributions modulo two gives exit $\eta$.  The displayed gray positions remain at $\eta$, and every adjacency is one of the proper patterns above.  In particular, the odd $\eta$-entry words at length three are $\Gray\Bcol\Bcol$ and $\Gray\Wcol\Wcol$.
+Each word preserves the first color and closes with $a$.  Counting non-gray contributions modulo two gives exit $\eta$.  The displayed gray positions remain at $\eta$, and every adjacency is one of the proper patterns above.  These are precisely the relevant columns of Boury et al.'s WABI Figure~8 and journal Figure~12, with black--white symmetry made explicit \citep{boury2024,boury2025}.  In particular, the odd $\eta$-entry words at length three are $\Gray\Bcol\Bcol$ and $\Gray\Wcol\Wcol$.
 \end{proof}
 
-The words $\Gray\Bcol\Bcol$ and $\Gray\Wcol\Wcol$ are the additional local patterns needed for two isolated stacks.  They allow a helix to enter at $\eta$ with a gray first pair, reach a multiloop at the same residue, and still end with a non-gray pair.
+The words $\Gray\Bcol\Bcol$ and $\Gray\Wcol\Wcol$ are therefore prior local ingredients, not new patterns.  The contribution below is the global counting argument that identifies when the incoming helix must be long and hence when this published non-gray-ending option is guaranteed to be available.
 
 \section{Color assignments at loops and the root}
 \label{sec:allocations}
@@ -1376,7 +1385,7 @@ Consider
 \[
 T_1=\texttt{(())(())((()))},
 \]
-which has two isolated stacks at the root and one root helix of length three.  The root has no unpaired position and degree three, so choose $\eta=0$, $\xi=1$, and the root row for two such children
+which has two isolated stacks at the root and one root helix of length three.\footnote{Because $T_1$ is saturated and has maximum paired degree at most four, its designability already follows from Hale\v{s} et al.'s Result~R4 \citep{hales2017}.  It is included here only to illustrate the bounded-two coloring construction and its formalized example checker.}  The root has no unpaired position and degree three, so choose $\eta=0$, $\xi=1$, and the root row for two such children
 \[
 \Gray,\Gray,\Bcol.
 \]
@@ -1509,7 +1518,7 @@ The final theorem uses no project-defined axiom or unfinished proof placeholder.
 
 A frozen source archive was rebuilt in an isolated Linux container using the pinned Lean and Mathlib revisions.  The archived qualification rebuild completed 3,070 jobs, printed the exact final theorem, checked its foundational dependencies, searched the source for unfinished or externally supplied proof steps, and verified that compilation did not alter the source files.
 
-The final publication branch was also qualified by a measured local clean build.  The authoritative 46-file theorem closure contains 20,738 physical lines, 16,908 nonblank noncomment code lines, and 1,616 source declaration commands: 390 \texttt{def}, 36 \texttt{abbrev}, 20 \texttt{structure}, 7 \texttt{inductive}, 1,102 \texttt{theorem}, and 61 \texttt{instance} commands.  After \texttt{lake clean}, the bare full-project command \texttt{lake build} passed with 3,070 Lake graph jobs in 894.10 seconds wall-clock on the recorded ten-logical-CPU host.  These are measured qualification values, not performance claims.  The two downstream publication modules add 613 physical lines and 56 declaration commands; their named build and 18-endpoint axiom audit also passed.  The release metrics report states the counting method, environment, user and system times, and complete command log; its SHA-256 is \hashtext{b97a0465d97c9568211cf959e35569a4f82c766f511ca553fd1dd6ef1e1433f9}.
+The final publication branch was also qualified by a measured local clean build.  The authoritative 46-file theorem closure contains 20,738 physical lines, 16,908 nonblank noncomment code lines, and 1,616 source declaration commands: 390 \texttt{def}, 36 \texttt{abbrev}, 20 \texttt{structure}, 7 \texttt{inductive}, 1,102 \texttt{theorem}, and 61 \texttt{instance} commands.  After \texttt{lake clean}, the bare full-project command \texttt{lake build} passed with 3,070 Lake graph jobs in 894.10 seconds wall-clock on the recorded ten-logical-CPU host.  These are measured qualification values, not performance claims.  The two downstream publication modules add 613 physical lines and 56 declaration commands; their named build and 18-endpoint axiom audit also passed.  The \texttt{docs/FORMALIZATION\_METRICS.md} report states the counting method, environment, user and system times, and complete command log; its SHA-256 is \hashtext{b97a0465d97c9568211cf959e35569a4f82c766f511ca553fd1dd6ef1e1433f9}.
 
 A separate anonymous package contained only the mathematical specification, the handwritten Lean files needed by the final theorem, and the version-pinned build files.  A fresh Claude Code session checked the file list and checksums, built the target module, traced the theorem dependencies, tested concrete examples and counterexamples, and compared the Lean definitions with the specification.  This was a blinded automated audit by a separate, fresh AI session, not an independent human review.  The audit report recorded the outcome ``faithful and complete.''  It records the following checks:
 \begin{itemize}
@@ -1578,7 +1587,7 @@ Avoidance of $m_{3\bullet}$ is biologically restrictive.  Any nonroot loop with 
 
 \subsection{What the bound two means}
 
-The theorem gives a uniform modulo-2 coloring for every target in $\Ktwo$: the stated motif-free class with no isolated base pair, at most two isolated stacks, and all remaining helices of length at least three.  Proposition~\ref{prop:three-short} shows that a target with three isolated stacks can already fail to admit any proper modulo-2 separated coloring.  It does not show that three isolated stacks always imply modulo-2 nonseparability, ordinary nonseparability, or undesignability.  Indeed, the displayed target is ordinarily separated and designable.  The natural next questions are therefore:
+The phrase ``at most two'' is a resource limit of the present universal construction, not a claimed structural boundary for designability or even for modulo-2 separability.  The theorem gives a uniform modulo-2 coloring for every target in $\Ktwo$: the stated motif-free class with no isolated base pair, at most two isolated stacks, and all remaining helices of length at least three.  Proposition~\ref{prop:three-short} shows only that a target with three isolated stacks can fail to admit a proper modulo-2 separated coloring.  It does not show that three isolated stacks always imply modulo-2 nonseparability, ordinary nonseparability, or undesignability.  Indeed, the displayed target is ordinarily separated and designable.  The natural next questions are therefore:
 \begin{itemize}
 \item which targets with three or more isolated stacks admit modulo-2 separated colorings;
 \item whether a higher modulus, ordinary separation, or biseparability \citep{boury2025seeding} yields broader bounded-isolated-stack theorems;
@@ -1586,20 +1595,26 @@ The theorem gives a uniform modulo-2 coloring for every target in $\Ktwo$: the s
 \item which structural placements, rather than counts alone, govern the transition from universal guarantees to obstructions.
 \end{itemize}
 
+The last question is the most informative formulation of the remaining problem: find a local placement criterion that distinguishes harmless collections of short helices from genuine coloring obstructions.  More broadly, constructive work on infinite unsaturated designable tree families and complementary work on undesignable motifs and asymptotic scarcity show that positive and negative structural phenomena coexist well beyond any one helix-count threshold \citep{jedwab2020,yao2026}.
+
 \subsection{Novelty and related-work boundary}
 
-The all-long case was previously covered by Boury et al., and the general implication from separated colorings to designability originates with Hale\v{s} et al.  The new contribution is the direct induction on helix subtrees proving that zero, one, or two length-2 helices can always be accommodated while preserving the stated modulo-2 residue condition.  A documented search through 19 August 2026 did not locate an exact prior theorem or counterexample for this bounded-isolated-stack class.  That search is necessarily incomplete and should not be treated as a proof of novelty.
+The attribution boundary is as follows.  Proper separated colorings and their implication to designability originate with Hale\v{s} et al.; their Theorem~10 already uses opposite parity classes for gray and unpaired nodes, and their Result~R4 already covers the designability of saturated targets \citep{hales2017}.  Boury et al. introduced general modulo-$m$ separability, its $O(n\,2^m)$ dynamic program, and the universal all-long theorem \citep{boury2024,boury2025}.  Their WABI Figure~8 and journal Figure~12 also contain every local word family used in Lemma~\ref{lem:strong-long}, including the non-gray-ending $\Gray\Bcol\Bcol$ case.  They note that the modulo-2 method extends beyond the no-short-helix class ``in a way that remains to be fully characterized'' \citep{boury2024,boury2025}.
+
+Subject to the literature-search limitation below, the new structural contribution here is therefore not the parity idea, the finite-state decision algorithm, or a new long-helix transfer word.  It is the direct resource-counting induction proving that targets with one or two isolated stacks always admit the required modulo-2 coloring: when two downstream short-helix demands coincide, they exhaust the global budget, forcing the incoming helix to be long and making Boury et al.'s published non-gray-ending option available.  For saturated members, only this certificate is new; their designability was already known.  Individual unsaturated targets may also belong to other previously known sufficient classes \citep{jedwab2020}.  A documented search through 19 August 2026 did not locate an exact prior theorem or counterexample for this bounded-isolated-stack class.  That search is necessarily incomplete and should not be treated as a proof of novelty.
 
 \subsection{Algorithmic implications}
 
-The coloring algorithm runs in linear time when the tree representation and maximal helices are stored explicitly.  After fixing the root-residue convention, symmetric transfer choices, child order, and gray-pair orientations, the top-down rules supply a deterministic sequence.  This gives an exact constructive baseline for testing inverse-folding software and for initializing more realistic thermodynamic design methods.  Whether these sequences are good seeds under Turner energies is an empirical question; published work suggests that separated and biseparable sequences can be useful starting points, but the present theorem makes no thermodynamic claim \citep{boury2025,boury2025seeding}.
+Boury et al.'s dynamic program already decides modulo-2 separability and constructs a witness in linear time, so this theorem neither supplies a previously unavailable decision capability nor improves the general asymptotic bound \citep{boury2024,boury2025}.  Its algorithmic content is a structural success guarantee: on every target in $\Ktwo$, the modulo-2 procedure cannot report nonseparability, and the direct proof gives an explicit top-down witness without searching the full state table.  Targets outside $\Ktwo$ can still be tested by the same fixed-$m$ algorithm, at $m=2$, $m=3$, or another fixed modulus; the present theorem provides no blanket guarantee for them.
+
+The explicit coloring algorithm here runs in linear time when the tree representation and maximal helices are stored explicitly.  After fixing the root-residue convention, symmetric transfer choices, child order, and gray-pair orientations, the top-down rules supply a deterministic sequence.  This gives an exact constructive baseline for testing inverse-folding software and for initializing more realistic thermodynamic design methods.  Whether these sequences are good seeds under Turner energies is an empirical question; published work suggests that separated and biseparable sequences can be useful starting points, but the present theorem makes no thermodynamic claim \citep{boury2025,boury2025seeding}.
 
 \section{Conclusion}
 \label{sec:conclusion}
 
 We have proved that every motif-free RNA target with no isolated base pair, at most two isolated stacks, and all other helices of length at least three is designable in the four-letter Watson--Crick base-pair model.  The proof uses the two sets of feasible entry states $F$ and $Q$ in an induction on helix subtrees.  If two child subtrees both require gray first pairs, they already contain the two isolated stacks allowed in the target.  The incoming helix is therefore long and can reach residue $\eta$ while ending non-gray, allowing both child helices to start gray.
 
-The complete result, including the sequence construction and uniqueness theorem, has been formalized in Lean and rebuilt from frozen source.  A blinded automated AI audit separately compared the mathematical specification with the Lean source as a secondary cross-check.  The result gives a new positive class in the $h_{\min}=2$ regime and an example of how AI-assisted research, formalization, auditing, and manuscript preparation can be brought to a reproducible formal endpoint.
+The complete result, including the sequence construction and uniqueness theorem, has been formalized in Lean and rebuilt from frozen source.  A blinded automated AI audit separately compared the mathematical specification with the Lean source as a secondary cross-check.  The result gives a formally verified sufficient class in the $h_{\min}=2$ regime.  Its new step is the bounded-resource induction that deploys Hale\v{s} et al.'s parity idea and Boury et al.'s published local transfers in a global construction, not a new parity device or helix word.  It also illustrates how AI-assisted research, formalization, auditing, and manuscript preparation can be brought to a reproducible formal endpoint.
 
 \appendix
 
@@ -1681,7 +1696,7 @@ Release-qualification results package & SHA-256 \hashtext{2da05881fb3808e7add465
 Blinded fidelity bundle & SHA-256 \hashtext{bfd2c8d90f5666ccb2dda6a3e9c2f81b84419ae84cc25beb3f880c80b5c66b8b}. \\
 Claude fidelity-audit package & Automated-AI outcome ``faithful and complete''; SHA-256 \hashtext{0a77ea7e9f9dc0342a14330b93644dc943a0b2c0e89f302b092ca08de404092b}. \\
 Publication examples & Downstream modules \texttt{PublicationExamples.lean} and \texttt{PublicationExamplesAxiomAudit.lean}; no reverse import and no change to any pre-existing Lean file. \\
-Publication qualification metrics & Clean full-project build: 3,070 Lake graph jobs and 894.10 seconds wall-clock; closure: 46 files, 20,738 physical lines, 1,616 declaration commands; report SHA-256 \hashtext{b97a0465d97c9568211cf959e35569a4f82c766f511ca553fd1dd6ef1e1433f9}. \\
+Formalization-metrics report & Clean full-project build: 3,070 Lake graph jobs and 894.10 seconds wall-clock; closure: 46 files, 20,738 physical lines, 1,616 declaration commands; \texttt{docs/FORMALIZATION\_METRICS.md} SHA-256 \hashtext{b97a0465d97c9568211cf959e35569a4f82c766f511ca553fd1dd6ef1e1433f9}. \\
 Derived listings & \texttt{SOURCE\_MAP.tsv}, extraction script, and 42-declaration \texttt{\#check} audit included in the manuscript source package. \\
 Manuscript source package & Generated from this revision; SHA-256 recorded in the external release manifest to avoid a circular self-digest. \\
 Availability & Version \ReleaseVersion; canonical repository \RepositoryURL; archival DOI \ArchiveDOI; mixed license per \texttt{LICENSES.md}. \\
@@ -1770,6 +1785,13 @@ I.~L. Hofacker, W.~Fontana, P.~F. Stadler, L.~S. Bonhoeffer, M.~Tacker,
   125(2):167--188, 1994.
 \newblock doi:10.1007/BF00818163.
 
+\bibitem[Jedwab et al.(2020)]{jedwab2020}
+J.~Jedwab, T.~Petrie, and S.~Simon.
+\newblock An infinite class of unsaturated rooted trees corresponding to
+  designable RNA secondary structures.
+\newblock \emph{Theoretical Computer Science}, 833:147--163, 2020.
+\newblock doi:10.1016/j.tcs.2020.05.046.
+
 \bibitem[de Moura and Ullrich(2021)]{lean4}
 L.~de Moura and S.~Ullrich.
 \newblock The Lean 4 theorem prover and programming language.
@@ -1797,6 +1819,13 @@ D.~H. Turner and D.~H. Mathews.
   stability of nucleic acid secondary structure.
 \newblock \emph{Nucleic Acids Research}, 38(suppl.~1):D280--D282, 2010.
 \newblock doi:10.1093/nar/gkp892.
+
+\bibitem[Yao et al.(2026)]{yao2026}
+H.-T.~Yao, C.~Chauve, M.~R\'egnier, and Y.~Ponty.
+\newblock Undesignable motifs in structural RNAs and combinatorial
+  consequences.
+\newblock \emph{Journal of Mathematical Biology}, 92:49, 2026.
+\newblock doi:10.1007/s00285-026-02358-6.
 
 \bibitem[Zadeh et al.(2011)]{zadeh2011}
 J.~N. Zadeh, B.~R. Wolfe, and N.~A. Pierce.

@@ -9,8 +9,8 @@
       "affiliation": "Szilard Scientific, LLC"
     }
   ],
-  "version": "1.0.2",
-  "doi": "10.5281/zenodo.22100052",
+  "version": "1.0.3",
+  "doi": "10.5281/zenodo.22101755",
   "access_right": "open",
   "license": "Apache-2.0",
   "language": "eng",
@@ -31,5 +31,5 @@
     "formal verification",
     "Lean 4 theorem proving"
   ],
-  "notes": "Mixed-license deposit: Lean source and software tools are Apache-2.0; manuscript text, original figures, and project documentation are CC BY 4.0; bundled STIX fonts are under their STIX Font License / SIL OFL 1.1 terms. See LICENSES.md. Review status: the manuscript and formal proof have not yet received a completed independent review by a human subject-matter expert. The complete AI-use disclosure and division of responsibility appear in the manuscript's dedicated section, 'AI-assisted research and manuscript preparation.' Lean kernel checking, isolated rebuilding of the frozen source, and automated audits address logical correctness, reproducibility, and fidelity to the stated formal model. They do not substitute for human expert review and do not establish novelty, significance, or biological relevance. The author takes full responsibility for the final scientific model, theorem statement, proof exposition, formalization, computations, examples and figures, citations, and all claims. Version DOI: https://doi.org/10.5281/zenodo.22100052."
+  "notes": "Mixed-license deposit: Lean source and software tools are Apache-2.0; manuscript text, original figures, and project documentation are CC BY 4.0; bundled STIX fonts are under their STIX Font License / SIL OFL 1.1 terms. See LICENSES.md. Review status: the manuscript and formal proof have not yet received a completed independent review by a human subject-matter expert. The complete AI-use disclosure and division of responsibility appear in the manuscript's dedicated section, 'AI-assisted research and manuscript preparation.' Lean kernel checking, isolated rebuilding of the frozen source, and automated audits address logical correctness, reproducibility, and fidelity to the stated formal model. They do not substitute for human expert review and do not establish novelty, significance, or biological relevance. The author takes full responsibility for the final scientific model, theorem statement, proof exposition, formalization, computations, examples and figures, citations, and all claims. Version DOI: https://doi.org/10.5281/zenodo.22101755."
 }

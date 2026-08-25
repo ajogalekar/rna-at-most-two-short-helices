@@ -7,25 +7,39 @@ Date: 2026-08-22
 > and public-source licenses were pending were first superseded by version
 > 1.0.0. The first synchronized editorial patch is version 1.0.1 under DOI
 > `10.5281/zenodo.22089626`. The disclosure-and-metadata patch is version 1.0.2
-> in `../README.md`, `../CITATION.cff`, and `../LICENSES.md`, under DOI
-> `10.5281/zenodo.22100052`; versions 1.0.1 and 1.0.0 remain immutable under
-> their own DOIs.
+> under DOI `10.5281/zenodo.22100052`. The novelty-and-attribution calibration
+> is version 1.0.3 in `../README.md`, `../CITATION.cff`, and `../LICENSES.md`,
+> under DOI `10.5281/zenodo.22101755`; all earlier versions remain immutable
+> under their own DOIs.
 
 This changelog records the final mathematical, editorial, citation, formal-artifact, and packaging revision. Exact values that depend on the final assembled bytes or a fresh timed build are recorded in the final release manifest and metrics report; no provisional package digest or build metric is asserted here.
+
+## Novelty and attribution calibration (2026-08-25)
+
+| area | change | validation |
+|---|---|---|
+| Haleš parity credit | States explicitly that Haleš et al.'s Theorem 10 already uses opposite parity classes for gray-pair and unpaired-node levels, while Boury et al. later introduced the general modulo-$m$ framework and target-preserving dynamic program. | Checked against the Haleš primary paper and author manuscript. |
+| Boury transfer-table credit | Recasts Lemma 6.3 as a non-gray-ending selection from Boury et al.'s WABI Figure 8 / journal Figure 12. Removes wording that could imply `GBB`, `GWW`, or the four word families are new local discoveries. | Checked column-by-column against both published figures; all four manuscript families are prior columns up to black-white symmetry. |
+| Global novelty statement | Limits the claimed new step to the resource-counting induction that forces an incoming helix to be long when both allowed short-helix demands occur downstream. | Abstract, proof roadmap, lemma discussion, novelty section, and conclusion now agree. |
+| Three-branch antecedent | Credits Haleš et al.'s closely related `(..)^3` / `((..))^3` examples and identifies Proposition 3.5's `((.))^3` as a distinct one-unpaired-per-hairpin variant. | Primary Figure 6 and Theorem 10 context inspected; exact present literal remains checked by Lean and exhaustive coloring enumeration. |
+| Saturated scope | States that Haleš et al.'s Result R4 already gives the designability conclusion for saturated members; the present theorem supplies a modulo-2 certificate. Adds the caveat directly to saturated example $T_1$. | Compared with Result R4/Theorem 4 and the target's paired-degree profile. |
+| Algorithmic significance | States that Boury et al. already decide modulo-$m$ separability in $O(n\,2^m)$ time. The present result is a structural success guarantee and explicit witness construction, not a new decision capability or asymptotic improvement. | Checked against the WABI and journal algorithm statements. |
+| Broader context | Adds the Jedwab--Petrie--Simon unsaturated-tree family and Yao--Chauve--Régnier--Ponty undesignable-motif work. Does not cite the inaccessible forthcoming WABI 2026 stacked-base-pair paper substantively. | Bibliographic metadata checked against DOI/publisher and the official WABI accepted-paper list. |
+| Exploratory computations | Excludes the proposed approximately 75,000-target and helix-frequency claims from the manuscript. | Scripts were recoverable only from a private AI transcript and are not archived with methods and outputs; distribution-dependent percentages are not publication-ready. |
 
 ## AI-use disclosure and metadata-scope revision (2026-08-25)
 
 | area | change | validation |
 |---|---|---|
-| Dedicated AI-use disclosure | Expanded the existing dedicated subsection to state explicitly that generative-AI systems played a foundational and pervasive role across problem framing, literature and citation support, mathematical development, Lean formalization, computational checks and audits, examples and figures, release preparation, and drafting, revising, proofreading, and typesetting the manuscript. Preserved the human author's final decision-making and responsibility. | The comprehensive disclosure is placed in the dedicated manuscript section; the manuscript and arXiv-metadata abstracts contain no AI-use sentence. Cross-references, the development history, review-status statement, conclusion, and acknowledgments are consistent with the full disclosure. |
+| Dedicated AI-use disclosure | Expanded the existing dedicated subsection to state explicitly that generative-AI systems played a foundational and pervasive role across problem framing, literature and citation support, mathematical development, Lean formalization, computational checks and audits, examples and figures, release preparation, and drafting, revising, proofreading, and typesetting the manuscript. Preserved the human author's final decision-making and responsibility. | The comprehensive disclosure remains in the dedicated manuscript section. A concise sentence at the end of both abstracts states the foundational AI role, author direction, and absence of independent human expert review; arXiv Comments carries a shorter metadata disclosure. Cross-references, the development history, review-status statement, conclusion, and acknowledgments remain consistent with the full disclosure. |
 | Release and discussion scope | Replaced the overbroad Zenodo and citation descriptions with the exact sufficient target conditions: no maximal helix of length 1, at most two maximal helices of length 2, every other maximal helix of length at least 3, and exclusion of the `m5` and `m3dot` obstruction motifs. Tightened a shorthand discussion sentence to refer explicitly to the complete class $\mathcal K_{\le 2}$. | The revised metadata and discussion agree with the Lean target predicate and the manuscript and arXiv abstracts. |
-| Literal audit provenance | Regenerated the dot-bracket literal audit after the disclosure shifted manuscript source line numbers. | All eight displayed occurrences and five distinct literals still parse and pass unchanged. |
+| Literal audit provenance | Regenerated the dot-bracket literal audit after the disclosure and citation revisions shifted manuscript source line numbers and added two cited comparison structures. | All ten displayed occurrences and seven distinct literals parse and pass. |
 
 ## Pre-arXiv abstract and literal-provenance revision (2026-08-24)
 
 | area | change | validation |
 |---|---|---|
-| Abstract disclosure | Removed the sentence about the absence of completed independent human review from the manuscript and arXiv-metadata abstracts because the full review-status and author-responsibility statement remains at the end of Section 15. Version 1.0.2 also removes the shorter AI-use sentence from both abstracts in favor of the comprehensive dedicated-section disclosure recorded above. | The metadata abstract remains below arXiv's 1,920-character limit. Full-resolution inspection confirms the revised abstract fits cleanly on page 1. |
+| Earlier v1.0.2 abstract disclosure | Removed the sentence about the absence of completed independent human review from the manuscript and arXiv-metadata abstracts because the full review-status and author-responsibility statement remains at the end of Section 15. Version 1.0.2 also removed the shorter AI-use sentence from both abstracts in favor of the comprehensive dedicated-section disclosure recorded above. | Historical record only: v1.0.3 restores a newly worded concise disclosure to both abstracts and adds a shorter arXiv Comments disclosure. The metadata abstract remains below arXiv's 1,920-character limit. |
 | Publication-example literals | Replaced the handwritten `w1` and `w2` strings in the manuscript with TeX macros emitted by a Lean exporter that evaluates the actual definitions in `RNA.AtMostTwoShort.PublicationExamples`. The validator regenerates the macros and requires byte identity before checking the examples or building the PDF. | The alleged extra G in `w2` was a visual/OCR false positive: Lean, TeX, and PDF all give `GGGAGGAGCUUGCACCUGGGCCCCCC` (26 nt; 10 G, 10 C, 3 A, 3 U). Exact optimum-count and coloring checks pass unchanged. |
 | Appendix-B fidelity chain | Expanded the source-derived Lean appendix beyond the top-level motif and helix predicates to include the interval-tree node types, parent/child operations, paired degree, unpaired-child predicate, and exact stack-offset/stacked relations on which those predicates depend. The extractor now generates the `#check` audit module as well as the listings and source map. | Seven frozen source files and 42 mapped declarations are hash-pinned, regenerated, and resolved in the real theorem import context. This makes the `m5`, `m3dot`, and maximal-helix encodings substantially auditable from the PDF itself while preserving direct links to the complete public source. |
 

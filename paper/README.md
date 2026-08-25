@@ -24,6 +24,10 @@ records used to qualify the publication files.
   does not authorize an arXiv submission.
 - `FINAL_CLAUDE_REVIEW.md`, `RESPONSE_TO_FINAL_CLAUDE_REVIEW.md`, and
   `FINAL_REVISION_CHANGELOG.md` preserve the review and point-by-point response.
+- `NOVELTY_ATTRIBUTION_AUDIT.md` records the final primary-source check of the
+  parity attribution, Boury transfer-table overlap, three-branch antecedent,
+  saturated-target scope, algorithmic significance, and excluded unsupported
+  computational claims.
 - `SHA256SUMS.txt` records final digests for every distributed file except
   itself.
 
@@ -95,14 +99,14 @@ argument or environment variable it defaults to the repository parent of this
 
 ## Release status
 
-Published version `1.0.2` is fixed in the canonical repository at
+Published version `1.0.3` is fixed in the canonical repository at
 <https://github.com/ajogalekar/rna-at-most-two-short-helices> and under DOI
-<https://doi.org/10.5281/zenodo.22100052>. It adds the comprehensive AI-use
-disclosure in the dedicated manuscript section, removes the shorter AI-use
-sentence from both abstracts, preserves the Lean-derived publication
-sequences and expanded Appendix B, and corrects the release metadata's theorem
-scope. The GitHub and Zenodo release assets are byte-synchronized; the arXiv
-package is built from the same manuscript source.
+<https://doi.org/10.5281/zenodo.22101755>. It preserves the comprehensive
+AI-use disclosure, Lean-derived publication sequences, and expanded Appendix
+B while calibrating the novelty and attribution discussion against the Haleš
+and Boury primary sources and adding verified related-work citations. The
+GitHub and Zenodo release assets are byte-synchronized; the arXiv package is
+built from the same manuscript source.
 At the time of this release, the manuscript and formal proof have not yet been
 reviewed by an independent human subject-matter expert.
 The authoritative license scopes are fixed in `../LICENSES.md`. Exact

@@ -9,15 +9,17 @@ Build environment:
 The final TeX source was built twice with the fixed source-date epoch. The
 two PDF files were byte-identical (cmp exit status 0).
 
-first_pdf_sha256=b31e22222c0e6c9174895d7f3520d6c46cc78f2672ecdba5cb78f5003bd0605f
-second_pdf_sha256=b31e22222c0e6c9174895d7f3520d6c46cc78f2672ecdba5cb78f5003bd0605f
+first_pdf_sha256=7964ee23dbdfc89f996c72edc231d6e689cb8043392ef2ddd87ea9909a1f49e2
+second_pdf_sha256=7964ee23dbdfc89f996c72edc231d6e689cb8043392ef2ddd87ea9909a1f49e2
 pdf_binary_reproducibility=PASS
 pages=39
 figures=7
-size_bytes=288344
+size_bytes=300173
 page_size=US letter (612 by 792 points)
 pdf_version=1.5
 encryption=none
 javascript=none
 forms=none
+font_records=35
 fonts_embedded=PASS
+fonts_subset=PASS

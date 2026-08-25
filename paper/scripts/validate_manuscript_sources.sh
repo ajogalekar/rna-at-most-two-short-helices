@@ -138,12 +138,12 @@ cutoff_count="$(rg -o -F 'through 19 August 2026' "$tex_path" | awk 'END {print 
 
 for required_text in \
   'github.com/ajogalekar/rna-at-most-two-short-helices' \
-  '10.5281/zenodo.22100052' \
+  '10.5281/zenodo.22101755' \
   'Apache License 2.0' \
   'Creative Commons Attribution 4.0 International' \
   'SIL Open Font License 1.1' \
   'immutable Zenodo Software record' \
-  '\newcommand{\ReleaseVersion}{1.0.2}' \
+  '\newcommand{\ReleaseVersion}{1.0.3}' \
   '\textbf{Review status and author responsibility.}' \
   'canonical source archive' \
   'release-qualification results package' \

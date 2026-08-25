@@ -12,11 +12,11 @@ abstract: >-
   span: every target with no maximal helix of length 1, at most two maximal
   helices of length 2, all other maximal helices of length at least 3, and no
   m5 or m3-dot obstruction motif is uniquely designable.
-version: "1.0.2"
-doi: "10.5281/zenodo.22100052"
+version: "1.0.3"
+doi: "10.5281/zenodo.22101755"
 date-released: "2026-08-25"
 repository-code: "https://github.com/ajogalekar/rna-at-most-two-short-helices"
-url: "https://doi.org/10.5281/zenodo.22100052"
+url: "https://doi.org/10.5281/zenodo.22101755"
 license: Apache-2.0
 keywords:
   - RNA inverse folding

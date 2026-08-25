@@ -21,25 +21,26 @@ Validated operations:
 
 Final source facts:
   labels=53
-  references=77
+  references=79
   missing_labels=0
   duplicate_labels=0
-  bibliography_entries=14
-  unique_cited_keys=14
+  bibliography_entries=16
+  citation_commands=31
+  unique_cited_keys=16
   undefined_citation_keys=0
   uncited_bibliography_entries=0
 
 Final files:
   TeX SHA-256:
-    e54234c8ef96d9bbe35aa3e5f4cbb5552ad5155298647c828069435f5a8dabce
+    dfa42437ec41ab9ed14e6b3555d3a301b0081eabd34449da2e9e4e2865df23e4
   PDF SHA-256:
-    b31e22222c0e6c9174895d7f3520d6c46cc78f2672ecdba5cb78f5003bd0605f
+    7964ee23dbdfc89f996c72edc231d6e689cb8043392ef2ddd87ea9909a1f49e2
   Lean-derived TeX macro SHA-256:
     df0d6462028ff1abe1f7ffcd0c3944933ef9f0e21c426422e9d025ca35a52eb5
   PDF pages: 39
   PDF figures: 7
 
-The Tectonic log contains seven harmless underfull-box warnings in wrapped
+The Tectonic log contains eight harmless underfull-box warnings in wrapped
 identifier/table material. Three invalid-byte replacements originate in
 comments inside Tectonic's bundled algorithm2e.sty; the algorithm and every
 manuscript glyph render correctly.

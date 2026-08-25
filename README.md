@@ -11,14 +11,16 @@ targets in the strict four-letter Watson–Crick maximum-base-pair model.
 - Publication branch: `final-publication-release`
 - Qualified Lean-source commit (before publication-only additions):
   `f8076891735ff7bff07e785c37aad63855c6745a`
-- Version: `1.0.2`
-- Archival DOI: [10.5281/zenodo.22100052](https://doi.org/10.5281/zenodo.22100052)
+- Version: `1.0.3`
+- Archival DOI: [10.5281/zenodo.22101755](https://doi.org/10.5281/zenodo.22101755)
 - Current paper: qualified DOI-bearing publication artifact
 - Human expert review: the manuscript and formal proof have not yet been
   reviewed by an independent human subject-matter expert
 
 The canonical GitHub repository is public. The immutable Zenodo Software
-record for version `1.0.2` is published under the archival DOI above. Version
+record for version `1.0.3` is published under the archival DOI above. Version
+`1.0.2` remains immutable under DOI
+[10.5281/zenodo.22100052](https://doi.org/10.5281/zenodo.22100052), version
 `1.0.1` remains immutable under DOI
 [10.5281/zenodo.22089626](https://doi.org/10.5281/zenodo.22089626), and version
 `1.0.0` remains immutable under DOI
@@ -75,7 +77,7 @@ in [the statement audit](docs/AT_MOST_TWO_FINAL_STATEMENT_AUDIT.md).
   formalization reports, and model-fidelity audits.
 - `lean-toolchain`, `lakefile.toml`, and `lake-manifest.json` — pinned Lean,
   Lake, and Mathlib environment.
-- `CITATION.cff` and `.zenodo.json` — synchronized version `1.0.2` software
+- `CITATION.cff` and `.zenodo.json` — synchronized version `1.0.3` software
   metadata carrying the published version DOI.
 
 The frozen proof specification is
@@ -163,11 +165,11 @@ The root [LICENSE](LICENSE) is the exact Apache-2.0 text so GitHub and Zenodo
 identify the software license correctly. [LICENSES.md](LICENSES.md) gives the
 authoritative file-by-file scope and links to all license texts.
 
-Use [CITATION.cff](CITATION.cff) to cite version `1.0.2` of the formal artifact
-at DOI [10.5281/zenodo.22100052](https://doi.org/10.5281/zenodo.22100052).
+Use [CITATION.cff](CITATION.cff) to cite version `1.0.3` of the formal artifact
+at DOI [10.5281/zenodo.22101755](https://doi.org/10.5281/zenodo.22101755).
 For exact source identity, also record the Git commit used.
 
 Redundant source ZIPs and frozen qualification bundles are intentionally not
-duplicated in Git history. The version `1.0.2` GitHub Release and Zenodo record
+duplicated in Git history. The version `1.0.3` GitHub Release and Zenodo record
 carry the same eight release assets; the five frozen supporting assets remain
-byte-identical to versions `1.0.1` and `1.0.0`.
+byte-identical to versions `1.0.2`, `1.0.1`, and `1.0.0`.
