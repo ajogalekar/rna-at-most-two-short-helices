@@ -94,8 +94,8 @@
 \newcommand{\UniqueDesigns}{\operatorname{UniqueDesigns}}
 \newcommand{\hashtext}[1]{\texttt{\seqsplit{#1}}}
 \newcommand{\RepositoryURL}{\url{https://github.com/ajogalekar/rna-at-most-two-short-helices}}
-\newcommand{\ArchiveDOI}{\href{https://doi.org/10.5281/zenodo.22089626}{\texttt{10.5281/zenodo.22089626}}}
-\newcommand{\ReleaseVersion}{1.0.1}
+\newcommand{\ArchiveDOI}{\href{https://doi.org/10.5281/zenodo.22100052}{\texttt{10.5281/zenodo.22100052}}}
+\newcommand{\ReleaseVersion}{1.0.2}
 \input{generated/publication_example_literals.tex}
 
 \newtcolorbox{contributionbox}{
@@ -140,7 +140,7 @@ Earlier work showed that a large class of targets is designable when every helix
 
 The proof labels the target base pairs with three colors that encode how nucleotides will later be assigned.  A length-2 helix can require a flexible gray connection at an adjacent loop.  Because the target contains at most two such helices, no loop must accommodate more than two of these demands.  When both demands meet at the same multiloop, the incoming longer helix can be colored to end with a non-gray pair, leaving the two available gray choices for the short branches.  These local choices can then be assembled consistently across the entire target.
 
-From the resulting coloring we construct an explicit RNA sequence and prove that every different compatible fold has fewer base pairs than the target.  The complete theorem and its supporting lemmas were formalized in Lean~4 and independently rebuilt from frozen source in an isolated environment.  The work was developed with substantial generative-AI assistance under human supervision.
+From the resulting coloring we construct an explicit RNA sequence and prove that every different compatible fold has fewer base pairs than the target.  The complete theorem and its supporting lemmas were formalized in Lean~4 and rebuilt from frozen source in an isolated environment.
 \end{abstract}
 
 \noindent\textbf{Keywords:} RNA inverse folding; RNA design; secondary structure; separated coloring; isolated stack; formal verification; Lean.
@@ -425,9 +425,12 @@ The paper makes four main contributions.
 
 The theorem is a sufficient condition, not a characterization of all designable targets with isolated stacks.  The target $((.))((.))((.))$ admits no proper modulo-2 separated coloring at all.  It nevertheless has a proper ordinarily separated coloring and is uniquely designable, so the example marks a sharp boundary for this modulo-2 criterion rather than a general designability boundary.
 
-\subsection{AI-assisted proof development}
+\subsection{AI-assisted research and manuscript preparation}
+\label{sec:ai-disclosure}
 
-The proof was developed with extensive assistance from ChatGPT, Codex, and Claude Code under human supervision.  The human author fixed the scientific model, clarified the quantifiers, selected the acceptance criteria, and controlled the canonical versions.  AI systems proposed arguments, generated test programs and Lean code, and were also used in separate sessions to search for counterexamples and hidden assumptions.  Several early formulations were rejected or repaired before the final proof was frozen.
+This project was carried out with foundational and pervasive assistance from generative-AI systems---principally OpenAI's ChatGPT and Codex and Anthropic's Claude Code---under the human author's direction.  Their role extended across all major stages: framing and refining the research problem and theorem statement; assisting with literature searches and citation and provenance checks; proposing, revising, and stress-testing mathematical arguments; generating and reviewing Lean code, test programs, computational checkers, and audit procedures; searching for counterexamples and hidden assumptions; developing examples and figures; assembling reproducibility and release artifacts; and drafting, restructuring, editing, proofreading, and typesetting the manuscript.  These systems were foundational tools in both the research and the writing, not merely language editors or after-the-fact verifiers.
+
+The human author directed the work; chose and approved the final scientific model, scope, theorem statement, acceptance criteria, and canonical versions; decided which AI-generated material to accept, revise, or reject; and approved the final manuscript and release.  AI output was not treated as evidence merely because one or more systems agreed.  The author takes full responsibility for the final model, theorem statement, proof exposition, formalization, computations, figures, citations, and all claims.  Several early formulations were rejected or repaired before the final proof was frozen.
 
 The evidence is ranked rather than treated as a vote among AI systems.  In descending order of logical strength, it consists of Lean kernel acceptance of the exact final theorem; isolated clean reconstruction of the frozen source and pinned dependencies; source-integrity, dependency, and axiom audits; a blinded automated source-to-specification review by a fresh AI session; and independent finite computational checks and negative controls.  The correctness claim does not rest on agreement among AI systems.  Its strongest evidence is kernel checking of the formal proof and isolated reconstruction of the frozen source.  The AI reviews are adversarial checks of interpretation, model fidelity, and exposition.  Section~\ref{sec:formal} records these checks and their limitations.
 
@@ -1508,7 +1511,7 @@ A frozen source archive was rebuilt in an isolated Linux container using the pin
 
 The final publication branch was also qualified by a measured local clean build.  The authoritative 46-file theorem closure contains 20,738 physical lines, 16,908 nonblank noncomment code lines, and 1,616 source declaration commands: 390 \texttt{def}, 36 \texttt{abbrev}, 20 \texttt{structure}, 7 \texttt{inductive}, 1,102 \texttt{theorem}, and 61 \texttt{instance} commands.  After \texttt{lake clean}, the bare full-project command \texttt{lake build} passed with 3,070 Lake graph jobs in 894.10 seconds wall-clock on the recorded ten-logical-CPU host.  These are measured qualification values, not performance claims.  The two downstream publication modules add 613 physical lines and 56 declaration commands; their named build and 18-endpoint axiom audit also passed.  The release metrics report states the counting method, environment, user and system times, and complete command log; its SHA-256 is \hashtext{b97a0465d97c9568211cf959e35569a4f82c766f511ca553fd1dd6ef1e1433f9}.
 
-A separate anonymous package contained only the mathematical specification, the handwritten Lean files needed by the final theorem, and the version-pinned build files.  A fresh Claude Code session checked the file list and checksums, built the target module, traced the theorem dependencies, tested concrete examples and counterexamples, and compared the Lean definitions with the specification.  This was a blinded automated audit by an independent AI session, not an independent human review.  The audit report recorded the outcome ``faithful and complete.''  It records the following checks:
+A separate anonymous package contained only the mathematical specification, the handwritten Lean files needed by the final theorem, and the version-pinned build files.  A fresh Claude Code session checked the file list and checksums, built the target module, traced the theorem dependencies, tested concrete examples and counterexamples, and compared the Lean definitions with the specification.  This was a blinded automated audit by a separate, fresh AI session, not an independent human review.  The audit report recorded the outcome ``faithful and complete.''  It records the following checks:
 \begin{itemize}
 \item exactly four nucleotides and strict Watson--Crick compatibility;
 \item arbitrary noncrossing partial-match competitors on the same sequence;
@@ -1536,19 +1539,21 @@ Canonical repository: \RepositoryURL.  Archival DOI: \ArchiveDOI.  Version \Rele
 
 Kernel acceptance establishes that the final theorem follows from the formal definitions and the listed foundational principles.  The isolated rebuild establishes reproducibility of the exact frozen source.  The automated specification comparison addresses, with lower evidentiary weight, the separate risk that Lean might have proved a subtly weakened or different theorem.  Because that comparison was performed by an AI system, its verdict is not a substitute for kernel checking, reproducibility, public inspection, or human peer review.  None of these checks establishes biological realism, novelty, importance, empirical utility, or correctness of claims outside the formal model.
 
-\section{Development history and audit trail}
+\section{AI-assisted development, manuscript preparation, and audit trail}
 \label{sec:ai}
 
-The proof was developed with substantial assistance from AI systems, but the mathematical model and acceptance criteria were set by the human author.  A recurring difficulty was the distinction among the target structure, the sequence assigned to it, and alternative folds of that same sequence.  Recasting the argument in terms of base-pair use and alternative folds helped clarify the role of the coloring construction.
+Section~\ref{sec:ai-disclosure} gives the full AI-use disclosure and division of responsibility.  The present section records how that assistance entered the development and how the final result was audited.  A recurring difficulty was the distinction among the target structure, the sequence assigned to it, and alternative folds of that same sequence.  Recasting the argument in terms of base-pair use and alternative folds helped clarify the role of the coloring construction.
 
 The development proceeded in several stages:
 \begin{enumerate}
-\item clarification of the theorem statement and its quantifiers;
-\item generation and revision of candidate proofs by ChatGPT and Codex;
-\item independent attempts by Claude Code to find counterexamples or missing cases;
-\item independent programs for exact colorability and optimum-counting folding;
-\item a staged Lean formalization with source review after each major part; and
-\item an isolated rebuild followed by a blinded comparison of the mathematical specification with the Lean source.
+\item framing and refinement of the research problem, formal model, theorem statement, and quantifiers;
+\item assistance with literature discovery and citation and provenance checks;
+\item generation, revision, and stress-testing of candidate proofs by ChatGPT and Codex;
+\item separate attempts by Claude Code to find counterexamples, missing cases, and hidden assumptions;
+\item independently implemented programs for exact colorability, optimum-counting folding, and negative controls;
+\item a staged Lean formalization with code generation, debugging, and source and axiom review after each major part;
+\item development of examples and figures and drafting, restructuring, editing, proofreading, and typesetting of the manuscript; and
+\item assembly of reproducibility and release artifacts, followed by an isolated rebuild and a blinded automated comparison of the mathematical specification with the Lean source.
 \end{enumerate}
 
 Several early versions contained genuine errors or incomplete case analyses, including an incorrect orientation rule for gray pairs and overly broad statements about long-helix transfers.  The evidence hierarchy for the final theorem is:
@@ -1560,7 +1565,7 @@ Several early versions contained genuine errors or incomplete case analyses, inc
 \item computational checks.
 \end{enumerate}
 
-\noindent\textbf{Review status and author responsibility.} At the time of this arXiv version, the manuscript has not yet received a completed independent review by a human expert. The proof was developed with substantial generative-AI assistance and was formally verified in Lean. Lean kernel checking, isolated rebuilding of the frozen source, and automated audits address logical correctness, reproducibility, and fidelity to the stated formal model. They do not substitute for human expert review and do not establish novelty, significance, or biological relevance. The author takes full responsibility for the theorem statement, proof exposition, citations, and all claims in the manuscript.
+\noindent\textbf{Review status and author responsibility.} At the time of this arXiv version, the manuscript and formal proof have not yet received a completed independent review by a human subject-matter expert. Generative-AI systems played the foundational and pervasive role described in Section~\ref{sec:ai-disclosure} throughout the research, formalization, verification, artifact preparation, figure development, and writing, under the human author's direction; the formal proof was verified in Lean. Lean kernel checking, isolated rebuilding of the frozen source, and automated audits address logical correctness, reproducibility, and fidelity to the stated formal model. They do not substitute for human expert review and do not establish novelty, significance, or biological relevance. The author takes full responsibility for the final scientific model, theorem statement, proof exposition, formalization, computations, examples and figures, citations, and all claims in the manuscript.
 
 \section{Scope, limitations, and discussion}
 \label{sec:scope}
@@ -1573,7 +1578,7 @@ Avoidance of $m_{3\bullet}$ is biologically restrictive.  Any nonroot loop with 
 
 \subsection{What the bound two means}
 
-The theorem gives a uniform modulo-2 coloring for every target with at most two isolated stacks.  Proposition~\ref{prop:three-short} shows that a target with three isolated stacks can already fail to admit any proper modulo-2 separated coloring.  It does not show that three isolated stacks always imply modulo-2 nonseparability, ordinary nonseparability, or undesignability.  Indeed, the displayed target is ordinarily separated and designable.  The natural next questions are therefore:
+The theorem gives a uniform modulo-2 coloring for every target in $\Ktwo$: the stated motif-free class with no isolated base pair, at most two isolated stacks, and all remaining helices of length at least three.  Proposition~\ref{prop:three-short} shows that a target with three isolated stacks can already fail to admit any proper modulo-2 separated coloring.  It does not show that three isolated stacks always imply modulo-2 nonseparability, ordinary nonseparability, or undesignability.  Indeed, the displayed target is ordinarily separated and designable.  The natural next questions are therefore:
 \begin{itemize}
 \item which targets with three or more isolated stacks admit modulo-2 separated colorings;
 \item whether a higher modulus, ordinary separation, or biseparability \citep{boury2025seeding} yields broader bounded-isolated-stack theorems;
@@ -1594,7 +1599,7 @@ The coloring algorithm runs in linear time when the tree representation and maxi
 
 We have proved that every motif-free RNA target with no isolated base pair, at most two isolated stacks, and all other helices of length at least three is designable in the four-letter Watson--Crick base-pair model.  The proof uses the two sets of feasible entry states $F$ and $Q$ in an induction on helix subtrees.  If two child subtrees both require gray first pairs, they already contain the two isolated stacks allowed in the target.  The incoming helix is therefore long and can reach residue $\eta$ while ending non-gray, allowing both child helices to start gray.
 
-The complete result, including the sequence construction and uniqueness theorem, has been formalized in Lean and rebuilt from frozen source.  A blinded automated AI audit separately compared the mathematical specification with the Lean source as a secondary cross-check.  The result gives a new positive class in the $h_{\min}=2$ regime and an example of how AI-assisted proof development can be brought to a reproducible formal endpoint.
+The complete result, including the sequence construction and uniqueness theorem, has been formalized in Lean and rebuilt from frozen source.  A blinded automated AI audit separately compared the mathematical specification with the Lean source as a secondary cross-check.  The result gives a new positive class in the $h_{\min}=2$ regime and an example of how AI-assisted research, formalization, auditing, and manuscript preparation can be brought to a reproducible formal endpoint.
 
 \appendix
 
@@ -1687,7 +1692,7 @@ Availability & Version \ReleaseVersion; canonical repository \RepositoryURL; arc
 \textbf{Author capacity.} This work was undertaken through Szilard Scientific, LLC, in the author's private capacity.  The views expressed are the author's own, not those of any employer or client.
 
 \section*{Acknowledgments}
-The author thanks the developers and communities of Lean and Mathlib.  The proof was developed with substantial assistance from OpenAI ChatGPT and Codex and Anthropic Claude Code.  These systems generated candidate proofs, formal code, test strategies, and adversarial reviews under human direction.  They are not authors and bear no responsibility for the scientific claims.
+The author thanks the developers and communities of Lean and Mathlib.  OpenAI's ChatGPT and Codex and Anthropic's Claude Code played the foundational role detailed in Section~\ref{sec:ai-disclosure} under the human author's direction.  They are not authors and bear no responsibility for the scientific claims.
 
 \section*{Data and code availability}
 The version \ReleaseVersion{} archival release contains the manuscript source and PDF, source-derived Lean listings and their audit, deterministic example checker and output, citation and provenance audits, downstream Lean publication examples, and frozen qualification packages.  Appendix~\ref{app:artifacts} records the canonical repository, archival DOI, and mixed-license scope; the external SHA-256 manifest identifies the exact release bytes.

@@ -7,14 +7,16 @@ authors:
     given-names: Ashutosh S.
     affiliation: "Szilard Scientific, LLC"
 abstract: >-
-  Lean 4 formalization and reproducibility materials for universal unique
-  designability in the four-letter Watson-Crick maximum-base-pair model for
-  RNA targets with up to two length-2 helices.
-version: "1.0.1"
-doi: "10.5281/zenodo.22089626"
-date-released: "2026-08-24"
+  Lean 4 formal artifact and manuscript for a theorem in the pseudoknot-free
+  four-letter Watson-Crick maximum-base-pair model with zero minimum base-pair
+  span: every target with no maximal helix of length 1, at most two maximal
+  helices of length 2, all other maximal helices of length at least 3, and no
+  m5 or m3-dot obstruction motif is uniquely designable.
+version: "1.0.2"
+doi: "10.5281/zenodo.22100052"
+date-released: "2026-08-25"
 repository-code: "https://github.com/ajogalekar/rna-at-most-two-short-helices"
-url: "https://doi.org/10.5281/zenodo.22089626"
+url: "https://doi.org/10.5281/zenodo.22100052"
 license: Apache-2.0
 keywords:
   - RNA inverse folding

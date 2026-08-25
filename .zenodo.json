@@ -1,16 +1,16 @@
 {
   "title": "Designability of RNA Targets with Up to Two Length-2 Helices",
-  "description": "Lean 4 formalization and reproducibility materials for universal unique designability in the four-letter Watson-Crick maximum-base-pair model for RNA targets with up to two length-2 helices. Includes the manuscript source, verified examples, and release audits.",
+  "description": "Lean 4 formal artifact and manuscript for a theorem in the pseudoknot-free four-letter Watson-Crick maximum-base-pair model with zero minimum base-pair span: every target with no maximal helix of length 1, at most two maximal helices of length 2, all other maximal helices of length at least 3, and no m5 or m3-dot obstruction motif is uniquely designable. Includes verified examples and release audits.",
   "upload_type": "software",
-  "publication_date": "2026-08-24",
+  "publication_date": "2026-08-25",
   "creators": [
     {
       "name": "Jogalekar, Ashutosh S.",
       "affiliation": "Szilard Scientific, LLC"
     }
   ],
-  "version": "1.0.1",
-  "doi": "10.5281/zenodo.22089626",
+  "version": "1.0.2",
+  "doi": "10.5281/zenodo.22100052",
   "access_right": "open",
   "license": "Apache-2.0",
   "language": "eng",
@@ -31,5 +31,5 @@
     "formal verification",
     "Lean 4 theorem proving"
   ],
-  "notes": "Mixed-license deposit: Lean source and software tools are Apache-2.0; manuscript text, original figures, and project documentation are CC BY 4.0; bundled STIX fonts are under their STIX Font License / SIL OFL 1.1 terms. See LICENSES.md. Review status: the manuscript has not yet received a completed independent review by a human expert. The proof was developed with substantial generative-AI assistance and was formally verified in Lean. Lean kernel checking, isolated rebuilding of the frozen source, and automated audits address logical correctness, reproducibility, and fidelity to the stated formal model. They do not substitute for human expert review and do not establish novelty, significance, or biological relevance. The author takes full responsibility for the theorem statement, proof exposition, citations, and all claims in the manuscript. Version DOI: https://doi.org/10.5281/zenodo.22089626."
+  "notes": "Mixed-license deposit: Lean source and software tools are Apache-2.0; manuscript text, original figures, and project documentation are CC BY 4.0; bundled STIX fonts are under their STIX Font License / SIL OFL 1.1 terms. See LICENSES.md. Review status: the manuscript and formal proof have not yet received a completed independent review by a human subject-matter expert. The complete AI-use disclosure and division of responsibility appear in the manuscript's dedicated section, 'AI-assisted research and manuscript preparation.' Lean kernel checking, isolated rebuilding of the frozen source, and automated audits address logical correctness, reproducibility, and fidelity to the stated formal model. They do not substitute for human expert review and do not establish novelty, significance, or biological relevance. The author takes full responsibility for the final scientific model, theorem statement, proof exposition, formalization, computations, examples and figures, citations, and all claims. Version DOI: https://doi.org/10.5281/zenodo.22100052."
 }

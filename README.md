@@ -2,8 +2,8 @@
 
 This repository contains the Lean 4 formalization, manuscript source,
 DOI-bearing publication PDF, executable examples, and reproducibility records for a
-universal unique-designability theorem in the strict four-letter
-Watson–Crick maximum-base-pair model.
+unique-designability theorem for a precisely defined class of pseudoknot-free
+targets in the strict four-letter Watson–Crick maximum-base-pair model.
 
 ## Publication status
 
@@ -11,16 +11,29 @@ Watson–Crick maximum-base-pair model.
 - Publication branch: `final-publication-release`
 - Qualified Lean-source commit (before publication-only additions):
   `f8076891735ff7bff07e785c37aad63855c6745a`
-- Version: `1.0.1`
-- Archival DOI: [10.5281/zenodo.22089626](https://doi.org/10.5281/zenodo.22089626)
+- Version: `1.0.2`
+- Archival DOI: [10.5281/zenodo.22100052](https://doi.org/10.5281/zenodo.22100052)
 - Current paper: qualified DOI-bearing publication artifact
 - Human expert review: the manuscript and formal proof have not yet been
   reviewed by an independent human subject-matter expert
 
 The canonical GitHub repository is public. The immutable Zenodo Software
-record for version `1.0.1` is published under the archival DOI above. Version
+record for version `1.0.2` is published under the archival DOI above. Version
+`1.0.1` remains immutable under DOI
+[10.5281/zenodo.22089626](https://doi.org/10.5281/zenodo.22089626), and version
 `1.0.0` remains immutable under DOI
 [10.5281/zenodo.22075874](https://doi.org/10.5281/zenodo.22075874).
+
+## AI use and author responsibility
+
+Generative-AI systems played a foundational and pervasive role across problem
+framing, literature and citation support, mathematical development, Lean
+formalization, computational checks and audits, examples and figures, release
+preparation, and manuscript drafting, revision, proofreading, and typesetting,
+under the human author's direction. Section 1.5 of the manuscript gives the
+complete disclosure and division of responsibility. The human author made and
+approved the final scientific and publication decisions and takes full
+responsibility for the released work.
 
 ## Main theorem
 
@@ -62,7 +75,7 @@ in [the statement audit](docs/AT_MOST_TWO_FINAL_STATEMENT_AUDIT.md).
   formalization reports, and model-fidelity audits.
 - `lean-toolchain`, `lakefile.toml`, and `lake-manifest.json` — pinned Lean,
   Lake, and Mathlib environment.
-- `CITATION.cff` and `.zenodo.json` — synchronized version `1.0.1` software
+- `CITATION.cff` and `.zenodo.json` — synchronized version `1.0.2` software
   metadata carrying the published version DOI.
 
 The frozen proof specification is
@@ -150,11 +163,11 @@ The root [LICENSE](LICENSE) is the exact Apache-2.0 text so GitHub and Zenodo
 identify the software license correctly. [LICENSES.md](LICENSES.md) gives the
 authoritative file-by-file scope and links to all license texts.
 
-Use [CITATION.cff](CITATION.cff) to cite version `1.0.1` of the formal artifact
-at DOI [10.5281/zenodo.22089626](https://doi.org/10.5281/zenodo.22089626).
+Use [CITATION.cff](CITATION.cff) to cite version `1.0.2` of the formal artifact
+at DOI [10.5281/zenodo.22100052](https://doi.org/10.5281/zenodo.22100052).
 For exact source identity, also record the Git commit used.
 
 Redundant source ZIPs and frozen qualification bundles are intentionally not
-duplicated in Git history. The version `1.0.1` GitHub Release and Zenodo record
+duplicated in Git history. The version `1.0.2` GitHub Release and Zenodo record
 carry the same eight release assets; the five frozen supporting assets remain
-byte-identical to version `1.0.0`.
+byte-identical to versions `1.0.1` and `1.0.0`.

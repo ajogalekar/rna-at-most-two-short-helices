@@ -5,17 +5,27 @@ Date: 2026-08-22
 > **Historical-record notice (2026-08-24 UTC).** This document preserves the
 > prepublication revision state. Its statements that the repository URL, DOI,
 > and public-source licenses were pending were first superseded by version
-> 1.0.0. The synchronized editorial patch is version 1.0.1 in `../README.md`,
-> `../CITATION.cff`, and `../LICENSES.md`, under DOI
-> `10.5281/zenodo.22089626`; version 1.0.0 remains immutable under its own DOI.
+> 1.0.0. The first synchronized editorial patch is version 1.0.1 under DOI
+> `10.5281/zenodo.22089626`. The disclosure-and-metadata patch is version 1.0.2
+> in `../README.md`, `../CITATION.cff`, and `../LICENSES.md`, under DOI
+> `10.5281/zenodo.22100052`; versions 1.0.1 and 1.0.0 remain immutable under
+> their own DOIs.
 
 This changelog records the final mathematical, editorial, citation, formal-artifact, and packaging revision. Exact values that depend on the final assembled bytes or a fresh timed build are recorded in the final release manifest and metrics report; no provisional package digest or build metric is asserted here.
+
+## AI-use disclosure and metadata-scope revision (2026-08-25)
+
+| area | change | validation |
+|---|---|---|
+| Dedicated AI-use disclosure | Expanded the existing dedicated subsection to state explicitly that generative-AI systems played a foundational and pervasive role across problem framing, literature and citation support, mathematical development, Lean formalization, computational checks and audits, examples and figures, release preparation, and drafting, revising, proofreading, and typesetting the manuscript. Preserved the human author's final decision-making and responsibility. | The comprehensive disclosure is placed in the dedicated manuscript section; the manuscript and arXiv-metadata abstracts contain no AI-use sentence. Cross-references, the development history, review-status statement, conclusion, and acknowledgments are consistent with the full disclosure. |
+| Release and discussion scope | Replaced the overbroad Zenodo and citation descriptions with the exact sufficient target conditions: no maximal helix of length 1, at most two maximal helices of length 2, every other maximal helix of length at least 3, and exclusion of the `m5` and `m3dot` obstruction motifs. Tightened a shorthand discussion sentence to refer explicitly to the complete class $\mathcal K_{\le 2}$. | The revised metadata and discussion agree with the Lean target predicate and the manuscript and arXiv abstracts. |
+| Literal audit provenance | Regenerated the dot-bracket literal audit after the disclosure shifted manuscript source line numbers. | All eight displayed occurrences and five distinct literals still parse and pass unchanged. |
 
 ## Pre-arXiv abstract and literal-provenance revision (2026-08-24)
 
 | area | change | validation |
 |---|---|---|
-| Abstract disclosure | Removed the sentence about the absence of completed independent human review from the manuscript and arXiv-metadata abstracts because the full review-status and author-responsibility statement remains at the end of Section 15. Retained the concise disclosure of substantial generative-AI assistance under human supervision. | The metadata abstract is ASCII-only and 1,487 normalized characters, below arXiv's 1,920-character limit. Full-resolution inspection confirms the revised abstract fits cleanly on page 1. |
+| Abstract disclosure | Removed the sentence about the absence of completed independent human review from the manuscript and arXiv-metadata abstracts because the full review-status and author-responsibility statement remains at the end of Section 15. Version 1.0.2 also removes the shorter AI-use sentence from both abstracts in favor of the comprehensive dedicated-section disclosure recorded above. | The metadata abstract remains below arXiv's 1,920-character limit. Full-resolution inspection confirms the revised abstract fits cleanly on page 1. |
 | Publication-example literals | Replaced the handwritten `w1` and `w2` strings in the manuscript with TeX macros emitted by a Lean exporter that evaluates the actual definitions in `RNA.AtMostTwoShort.PublicationExamples`. The validator regenerates the macros and requires byte identity before checking the examples or building the PDF. | The alleged extra G in `w2` was a visual/OCR false positive: Lean, TeX, and PDF all give `GGGAGGAGCUUGCACCUGGGCCCCCC` (26 nt; 10 G, 10 C, 3 A, 3 U). Exact optimum-count and coloring checks pass unchanged. |
 | Appendix-B fidelity chain | Expanded the source-derived Lean appendix beyond the top-level motif and helix predicates to include the interval-tree node types, parent/child operations, paired degree, unpaired-child predicate, and exact stack-offset/stacked relations on which those predicates depend. The extractor now generates the `#check` audit module as well as the listings and source map. | Seven frozen source files and 42 mapped declarations are hash-pinned, regenerated, and resolved in the real theorem import context. This makes the `m5`, `m3dot`, and maximal-helix encodings substantially auditable from the PDF itself while preserving direct links to the complete public source. |
 
@@ -53,7 +63,7 @@ This changelog records the final mathematical, editorial, citation, formal-artif
 
 | area | change | validation |
 |---|---|---|
-| Audit description | Replaced language that could imply a human third party with “blinded automated audit by an independent AI session.” Replaced “primary verdict” with “recorded verdict.” | Complete-source terminology inspection finds no claim of independent human review. |
+| Audit description | Replaced language that could imply a human third party with “blinded automated audit by a separate, fresh AI session.” Replaced “primary verdict” with “recorded verdict.” | Complete-source terminology inspection finds no claim of independent human review. |
 | Evidence hierarchy | Ranked, in order, kernel acceptance; isolated reconstruction; source-integrity, dependency, and axiom audits; the automated specification comparison; and finite checks and negative controls. Stated that the AI cross-check does not replace kernel checking, reproducibility, public inspection, or human peer review. | The hierarchy appears consistently in the abstract, introduction, formal-verification section, development history, conclusion, and artifact appendix. |
 | Scope of formal evidence | Added explicit limits: formal verification does not establish biological realism, novelty, importance, empirical utility, or claims outside the formal model. | Wording checked against the formal theorem and the documented audit scope. |
 

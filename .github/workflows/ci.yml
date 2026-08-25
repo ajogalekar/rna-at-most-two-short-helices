@@ -67,13 +67,13 @@ jobs:
       - name: Verify publication metadata and whitespace
         run: |
           python3 -m json.tool .zenodo.json > /dev/null
-          python3 -c 'import json; z=json.load(open(".zenodo.json")); assert z["version"] == "1.0.1"; assert z["doi"] == "10.5281/zenodo.22089626"; assert z["publication_date"] == "2026-08-24"'
+          python3 -c 'import json; z=json.load(open(".zenodo.json")); assert z["version"] == "1.0.2"; assert z["doi"] == "10.5281/zenodo.22100052"; assert z["publication_date"] == "2026-08-25"'
           grep -Fqx 'type: software' CITATION.cff
-          grep -Fqx 'version: "1.0.1"' CITATION.cff
-          grep -Fqx 'doi: "10.5281/zenodo.22089626"' CITATION.cff
+          grep -Fqx 'version: "1.0.2"' CITATION.cff
+          grep -Fqx 'doi: "10.5281/zenodo.22100052"' CITATION.cff
           grep -Fqx 'license: Apache-2.0' CITATION.cff
-          grep -Fqx 'version = "1.0.1"' lakefile.toml
-          grep -Fq '10.5281/zenodo.22089626' README.md RELEASE_NOTES.md \
+          grep -Fqx 'version = "1.0.2"' lakefile.toml
+          grep -Fq '10.5281/zenodo.22100052' README.md RELEASE_NOTES.md \
             paper/ARXIV_METADATA.md \
             paper/Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex
           if rg -n -i 'orcid|funding|competing interests|conflict of interest' \

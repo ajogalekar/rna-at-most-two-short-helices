@@ -1,43 +1,44 @@
-# Version 1.0.1 synchronized manuscript revision
+# Version 1.0.2 AI-use disclosure and metadata-scope revision
 
-Release date: 2026-08-24
+Release date: 2026-08-25
 Branch: `final-publication-release`
-Tag: `v1.0.1`
-DOI: <https://doi.org/10.5281/zenodo.22089626>
+Tag: `v1.0.2`
+DOI: <https://doi.org/10.5281/zenodo.22100052>
 Concept DOI: <https://doi.org/10.5281/zenodo.22075873>
 Canonical repository: <https://github.com/ajogalekar/rna-at-most-two-short-helices>
 Creator: Ashutosh S. Jogalekar
 Affiliation: Szilard Scientific, LLC
 
-This patch release synchronizes the final pre-arXiv manuscript bytes across
+This editorial patch synchronizes the final pre-arXiv manuscript bytes across
 the public GitHub repository, GitHub Release, and immutable Zenodo record.
-Version `1.0.0` remains unchanged under DOI
-<https://doi.org/10.5281/zenodo.22075874>.
+Version `1.0.1` remains unchanged under DOI
+<https://doi.org/10.5281/zenodo.22089626>, and version `1.0.0` remains
+unchanged under DOI <https://doi.org/10.5281/zenodo.22075874>.
 
-Review status: at the time of this release, the manuscript has not yet
-received a completed independent review by a human expert. The proof was
-developed with substantial generative-AI assistance and was formally verified
-in Lean. The author remains responsible for every claim.
+Review status: at the time of this release, the manuscript and formal proof
+have not yet received a completed independent review by a human subject-matter expert. The dedicated
+manuscript section gives the complete AI-use disclosure and division of
+responsibility. The formal proof was verified in Lean, and the author remains
+responsible for every claim.
 
-## Changes from 1.0.0
+## Changes from 1.0.1
 
-- removed the short human-review-status sentence from the abstract while
-  retaining the full review-status and author-responsibility statement in the
-  AI-assisted-development and formal-verification section;
-- generated the displayed `w1` and `w2` nucleotide literals from their actual
-  Lean definitions, with validator checks tying each macro to its intended
-  manuscript assignment;
-- expanded Appendix B with source-derived interval-tree, paired-degree,
-  unpaired-child, stack-offset, and stacked definitions needed to audit the
-  `m5`, `m3dot`, and maximal-helix encodings;
-- generated and checked a 42-declaration Lean listing audit from seven
-  hash-pinned source files; and
-- strengthened CI and release checks for generated literals, manuscript file
-  hashes, source-derived listings, examples, and dot-bracket literals.
+- expanded the existing dedicated AI-use section to disclose generative AI's
+  foundational and pervasive role across all major research, formalization,
+  auditing, figure, release-preparation, and manuscript-writing stages;
+- removed the shorter AI-use sentence from both the manuscript and arXiv
+  metadata abstracts;
+- preserved the explicit human decision-making and full author-responsibility
+  statement;
+- corrected the Zenodo and citation descriptions so they state every formal
+  target-class restriction rather than overgeneralizing the theorem, and
+  tightened the corresponding shorthand in the manuscript's discussion; and
+- regenerated the line-number-sensitive dot-bracket audit and all
+  manuscript-dependent release bytes.
 
 No theorem-closure Lean file changed. The 46-file theorem dependency closure,
 canonical source archive, release-qualification results, and two fidelity
-bundles remain byte-identical to version `1.0.0`.
+bundles remain byte-identical to versions `1.0.1` and `1.0.0`.
 
 ## Release assets
 

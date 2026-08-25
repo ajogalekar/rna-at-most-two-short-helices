@@ -20,8 +20,8 @@ records used to qualify the publication files.
   values of `w1` and `w2` by `scripts/ExportPublicationExampleLiterals.lean`;
   the manuscript imports those macros instead of retyping the sequences.
 - `ARXIV_METADATA.md` records the prepared categories, trimmed abstract,
-  comments field, and endorsement plan.  It is preparation only and does not
-  authorize an arXiv submission.
+  comments field, and confirmed endorsement status. It is preparation only and
+  does not authorize an arXiv submission.
 - `FINAL_CLAUDE_REVIEW.md`, `RESPONSE_TO_FINAL_CLAUDE_REVIEW.md`, and
   `FINAL_REVISION_CHANGELOG.md` preserve the review and point-by-point response.
 - `SHA256SUMS.txt` records final digests for every distributed file except
@@ -95,14 +95,14 @@ argument or environment variable it defaults to the repository parent of this
 
 ## Release status
 
-Published version `1.0.1` is fixed in the canonical repository at
+Published version `1.0.2` is fixed in the canonical repository at
 <https://github.com/ajogalekar/rna-at-most-two-short-helices> and under DOI
-<https://doi.org/10.5281/zenodo.22089626>. It removes the duplicated abstract
-review-status sentence, generates displayed publication sequences from their
-actual Lean values, and expands Appendix B with the source-derived definitions
-needed to audit paired degree, unpaired children, stacking, maximal helices,
-and the two forbidden motifs. The GitHub and Zenodo release assets are
-byte-synchronized; the arXiv package is built from the same manuscript source.
+<https://doi.org/10.5281/zenodo.22100052>. It adds the comprehensive AI-use
+disclosure in the dedicated manuscript section, removes the shorter AI-use
+sentence from both abstracts, preserves the Lean-derived publication
+sequences and expanded Appendix B, and corrects the release metadata's theorem
+scope. The GitHub and Zenodo release assets are byte-synchronized; the arXiv
+package is built from the same manuscript source.
 At the time of this release, the manuscript and formal proof have not yet been
 reviewed by an independent human subject-matter expert.
 The authoritative license scopes are fixed in `../LICENSES.md`. Exact
