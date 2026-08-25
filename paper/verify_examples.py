@@ -7,9 +7,11 @@ optimum pair count and the exact number of optimum structures.
 """
 from __future__ import annotations
 
+import re
 from collections import Counter
 from functools import lru_cache
 from itertools import product
+from pathlib import Path
 from typing import FrozenSet, Mapping
 
 Pair = tuple[int, int]
@@ -22,6 +24,25 @@ PAIR_TO_COLOR = {
 }
 INVERSE_COLOR = {"B": "W", "W": "B", "G": "G"}
 DELTA = {"B": 1, "W": -1, "G": 0}
+GENERATED_LITERALS_PATH = Path(__file__).with_name("generated") / (
+    "publication_example_literals.tex"
+)
+GENERATED_MACRO = re.compile(r"\\newcommand\{\\([A-Za-z]+)\}\{([^{}]*)\}")
+
+
+def generated_publication_sequences() -> tuple[str, str]:
+    macros = dict(
+        GENERATED_MACRO.findall(
+            GENERATED_LITERALS_PATH.read_text(encoding="utf-8")
+        )
+    )
+    try:
+        return macros["TOneSequenceLiteral"], macros["TTwoSequenceLiteral"]
+    except KeyError as error:
+        raise AssertionError(f"missing generated publication macro: {error.args[0]}") from error
+
+
+T1_SEQUENCE, T2_SEQUENCE = generated_publication_sequences()
 
 
 def parse_dot_bracket(text: str) -> FrozenSet[Pair]:
@@ -179,7 +200,7 @@ def check_unique_design(name: str, target_text: str, sequence: str) -> None:
 
 def check_t2_coloring() -> None:
     target_text = "(((((((())(()))))((())))))"
-    sequence = "GGGAGGAGCUUGCACCUGGGCCCCCC"
+    sequence = T2_SEQUENCE
     pairs = parse_dot_bracket(target_text)
     colors = coloring_from_sequence(pairs, sequence)
     levels, _parents = levels_for_coloring(pairs, colors)
@@ -281,12 +302,12 @@ def check_nested_tie() -> None:
 
 
 def main() -> None:
-    check_unique_design("root two-demand T1", "(())(())((()))", "AGCUUGCAGGGCCC")
+    check_unique_design("root two-demand T1", "(())(())((()))", T1_SEQUENCE)
     check_t2_coloring()
     check_unique_design(
         "internal two-demand T2",
         "(((((((())(()))))((())))))",
-        "GGGAGGAGCUUGCACCUGGGCCCCCC",
+        T2_SEQUENCE,
     )
     check_three_short_boundary()
     check_nested_tie()

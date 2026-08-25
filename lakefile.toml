@@ -1,5 +1,5 @@
 name = "rna_at_most_two_short_helices_lean"
-version = "1.0.0"
+version = "1.0.1"
 keywords = ["RNA", "formal verification", "Lean"]
 defaultTargets = ["RNA"]
 

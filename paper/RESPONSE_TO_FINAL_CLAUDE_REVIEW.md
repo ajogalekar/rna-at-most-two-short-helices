@@ -4,11 +4,11 @@ Date: 2026-08-22
 
 > **Historical-record notice (2026-08-24 UTC).** This response preserves the
 > prepublication review state. Its statements that the repository URL, DOI,
-> and public-source licenses were unresolved are superseded by the version
-> 1.0.0 release metadata in `../README.md`, `../CITATION.cff`, and
-> `../LICENSES.md`. The version DOI is `10.5281/zenodo.22075874`; the public
-> GitHub repository and immutable Zenodo Software record are the final release
-> endpoints.
+> and public-source licenses were unresolved were first superseded by version
+> 1.0.0 under DOI `10.5281/zenodo.22075874`. The live `../README.md` and
+> `../CITATION.cff` describe the latest release, while `../LICENSES.md` retains
+> the same authoritative license scopes. The public GitHub repository and
+> immutable Zenodo version records are the release endpoints.
 
 This record responds to every item in `FINAL_CLAUDE_REVIEW.md`. The review was produced by an AI system and is reported as a useful technical cross-check, not as independent human peer review. “Validation performed” distinguishes exact computation, Lean kernel checking, source-identity checking, and editorial inspection; none is treated as interchangeable with the others.
 

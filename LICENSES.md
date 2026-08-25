@@ -29,6 +29,7 @@ The exact legal code is in
 - the manuscript text and original TikZ figures in `paper/*.tex` and the
   rendered `paper/*.pdf`;
 - project-written files under `paper/docs/` and `paper/supplement/`;
+- source-derived manuscript macros under `paper/generated/*.tex`;
 - `paper/README.md`, paper review/revision records, terminology notes, example
   output, and the paper manifest; and
 - project-written listing documentation and maps under `paper/paper_listings/`

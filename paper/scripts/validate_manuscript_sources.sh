@@ -42,13 +42,13 @@ awk -F '\t' '
     if (NF != 9 || $3 == "" || $4 == "" || $5 == "") exit 1
   }
   END {
-    if (NR != 29) exit 1
+    if (NR != 43) exit 1
   }
-' "$source_map" || die "SOURCE_MAP.tsv schema or 28-row count check failed"
+' "$source_map" || die "SOURCE_MAP.tsv schema or 42-row count check failed"
 
 check_count="$(rg -c '^#check ' "$audit_module")"
-[[ "$check_count" == "28" ]] ||
-  die "expected 28 Lean #check commands, found $check_count"
+[[ "$check_count" == "42" ]] ||
+  die "expected 42 Lean #check commands, found $check_count"
 
 for listing_name in \
   01_core_model.lean \
@@ -65,14 +65,41 @@ printf '==> Resolving all displayed declarations with pinned Lean\n'
   lake env lean "$audit_module"
 )
 
-printf '==> Comparing exact computational-example output\n'
+publication_literals_output="$(mktemp "${TMPDIR:-/tmp}/rna-publication-literals.XXXXXX")"
 example_output="$(mktemp "${TMPDIR:-/tmp}/rna-example-verification.XXXXXX")"
 dot_bracket_output="$(mktemp "${TMPDIR:-/tmp}/rna-dot-bracket-literals.XXXXXX")"
 reference_labels="$(mktemp "${TMPDIR:-/tmp}/rna-reference-labels.XXXXXX")"
 cleanup() {
-  rm -f "$example_output" "$dot_bracket_output" "$reference_labels"
+  rm -f "$publication_literals_output" "$example_output" "$dot_bracket_output" "$reference_labels"
 }
 trap cleanup EXIT
+
+printf '==> Comparing Lean-derived publication sequence literals\n'
+(
+  cd "$lean_repo"
+  lake env lean --run "$manuscript_dir/scripts/ExportPublicationExampleLiterals.lean"
+) > "$publication_literals_output"
+diff -u "$manuscript_dir/generated/publication_example_literals.tex" \
+  "$publication_literals_output"
+rg -Fq '{generated/publication_example_literals.tex}' "$tex_path" ||
+  die "manuscript does not include generated publication-example literals"
+t1_macro_uses="$(rg -o -F '\TOneSequenceLiteral' "$tex_path" | awk 'END {print NR}')"
+t2_macro_uses="$(rg -o -F '\TTwoSequenceLiteral' "$tex_path" | awk 'END {print NR}')"
+[[ "$t1_macro_uses" == "2" ]] ||
+  die "expected exactly two T1 sequence-macro uses, found $t1_macro_uses"
+[[ "$t2_macro_uses" == "1" ]] ||
+  die "expected exactly one T2 sequence-macro use, found $t2_macro_uses"
+t2_assignment_count="$(rg -o -P 'w_2\s*=\s*\\texttt\{\\TTwoSequenceLiteral\}' "$tex_path" | awk 'END {print NR}')"
+t2_total_assignments="$(rg -o -P 'w_2\s*=' "$tex_path" | awk 'END {print NR}')"
+[[ "$t2_assignment_count" == "1" ]] ||
+  die "expected exactly one Lean-derived T2 sequence assignment, found $t2_assignment_count"
+[[ "$t2_total_assignments" == "1" ]] ||
+  die "expected exactly one total T2 sequence assignment, found $t2_total_assignments"
+if rg -n -P 'w_[12]\s*=\s*\\texttt\{[ACGU]+' "$tex_path"; then
+  die "raw publication sequence assignment found; use the Lean-derived macro"
+fi
+
+printf '==> Comparing exact computational-example output\n'
 python3 "$manuscript_dir/verify_examples.py" > "$example_output"
 diff -u "$manuscript_dir/EXAMPLE_VERIFICATION.txt" "$example_output"
 python3 "$manuscript_dir/check_dot_bracket_literals.py" > "$dot_bracket_output"
@@ -111,13 +138,13 @@ cutoff_count="$(rg -o -F 'through 19 August 2026' "$tex_path" | awk 'END {print 
 
 for required_text in \
   'github.com/ajogalekar/rna-at-most-two-short-helices' \
-  '10.5281/zenodo.22075874' \
+  '10.5281/zenodo.22089626' \
   'Apache License 2.0' \
   'Creative Commons Attribution 4.0 International' \
   'SIL Open Font License 1.1' \
   'immutable Zenodo Software record' \
-  '\newcommand{\ReleaseVersion}{1.0.0}' \
-  'At the time of this release, the manuscript and formal proof have not yet been reviewed by an independent human subject-matter expert.' \
+  '\newcommand{\ReleaseVersion}{1.0.1}' \
+  '\textbf{Review status and author responsibility.}' \
   'canonical source archive' \
   'release-qualification results package' \
   'blinded fidelity bundle' \

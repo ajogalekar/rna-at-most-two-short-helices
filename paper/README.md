@@ -1,8 +1,8 @@
-# Version 1.0.0 manuscript source package
+# Manuscript source package
 
-This directory contains the final revised manuscript source, its rendered
-DOI-bearing PDF, reproducible source-derived Lean listings, and the review and
-verification records used to qualify version `1.0.0`.
+This directory contains the revised manuscript source, its rendered DOI-bearing
+PDF, reproducible source-derived Lean material, and the review and verification
+records used to qualify the publication files.
 
 ## Main files
 
@@ -16,6 +16,9 @@ verification records used to qualify version `1.0.0`.
 - `check_dot_bracket_literals.py` extracts every dot-bracket literal from the
   manuscript and validates it with the same exact parser; its pinned output is
   `DOT_BRACKET_LITERAL_AUDIT.txt`.
+- `generated/publication_example_literals.tex` is emitted from the actual Lean
+  values of `w1` and `w2` by `scripts/ExportPublicationExampleLiterals.lean`;
+  the manuscript imports those macros instead of retyping the sequences.
 - `ARXIV_METADATA.md` records the prepared categories, trimmed abstract,
   comments field, and endorsement plan.  It is preparation only and does not
   authorize an arXiv submission.
@@ -24,7 +27,7 @@ verification records used to qualify version `1.0.0`.
 - `SHA256SUMS.txt` records final digests for every distributed file except
   itself.
 
-The `paper_listings/` directory contains 28 exact Unicode declaration blocks,
+The `paper_listings/` directory contains 42 exact Unicode declaration blocks,
 their source map, and a Lean `#check` audit. The `scripts/` directory contains
 the deterministic extractor and the end-to-end manuscript validator. The
 `supplement/` and `docs/` directories contain the theorem, citation, example,
@@ -68,7 +71,17 @@ MANUSCRIPT_DIR="$PWD"
   lake env lean "$MANUSCRIPT_DIR/paper_listings/PaperLeanListingAudit.lean")
 ```
 
-The coupled release validation runs extraction, all 28 Lean checks, the exact
+Regenerate the publication-example sequence macros from the actual Lean
+definitions with:
+
+```bash
+MANUSCRIPT_DIR="$PWD"
+(cd .. && lake env lean --run \
+  "$MANUSCRIPT_DIR/scripts/ExportPublicationExampleLiterals.lean") \
+  > generated/publication_example_literals.tex
+```
+
+The coupled release validation runs extraction, all 42 Lean checks, the exact
 example-output comparison, terminology and cross-reference scans, and the
 Tectonic manuscript build in one command:
 
@@ -82,13 +95,14 @@ argument or environment variable it defaults to the repository parent of this
 
 ## Release status
 
-This is the qualified version `1.0.0` artifact in the canonical repository at
-<https://github.com/ajogalekar/rna-at-most-two-short-helices>, archived under
-DOI <https://doi.org/10.5281/zenodo.22075874>. The included PDF was rebuilt
-with the final revised plain-language abstract, repository URL, version DOI,
-resolved mixed-license statement, expanded explanation of the Haleš
-coloring certificate, and a new vector figure showing the isolated-stack
-collision and repair.
+Published version `1.0.1` is fixed in the canonical repository at
+<https://github.com/ajogalekar/rna-at-most-two-short-helices> and under DOI
+<https://doi.org/10.5281/zenodo.22089626>. It removes the duplicated abstract
+review-status sentence, generates displayed publication sequences from their
+actual Lean values, and expands Appendix B with the source-derived definitions
+needed to audit paired degree, unpaired children, stacking, maximal helices,
+and the two forbidden motifs. The GitHub and Zenodo release assets are
+byte-synchronized; the arXiv package is built from the same manuscript source.
 At the time of this release, the manuscript and formal proof have not yet been
 reviewed by an independent human subject-matter expert.
 The authoritative license scopes are fixed in `../LICENSES.md`. Exact

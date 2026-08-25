@@ -12,12 +12,28 @@ from verify_examples import parse_dot_bracket
 TEX_PATH = Path(__file__).with_name(
     "Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex"
 )
+GENERATED_LITERALS_PATH = Path(__file__).with_name("generated") / (
+    "publication_example_literals.tex"
+)
 TOKEN = re.compile(r"(?<![A-Za-z0-9])([().]{2,})(?![A-Za-z0-9])")
+MACRO = re.compile(r"\\newcommand\{\\([A-Za-z]+)\}\{([^{}]*)\}")
+
+
+def expanded_manuscript_lines() -> list[str]:
+    generated = GENERATED_LITERALS_PATH.read_text(encoding="utf-8")
+    macros = dict(MACRO.findall(generated))
+    if not macros:
+        raise AssertionError("no generated publication-example macros found")
+
+    lines = TEX_PATH.read_text(encoding="utf-8").splitlines()
+    for name, value in macros.items():
+        lines = [line.replace(f"\\{name}", value) for line in lines]
+    return lines
 
 
 def main() -> None:
     occurrences: list[tuple[int, str]] = []
-    for line_number, line in enumerate(TEX_PATH.read_text(encoding="utf-8").splitlines(), 1):
+    for line_number, line in enumerate(expanded_manuscript_lines(), 1):
         for match in TOKEN.finditer(line):
             literal = match.group(1)
             if "(" not in literal or ")" not in literal:

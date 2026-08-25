@@ -14,6 +14,20 @@ import RNA.AtMostTwoShort.Designability
 #check RNA.pairCount
 #check RNA.UniqueDesigns
 
+#check RNA.PairedNode
+#check RNA.UnpairedPosition
+#check RNA.NonRootNode
+#check RNA.PairedOrRootNode
+#check RNA.PairedNode.StrictlyContains
+#check RNA.enclosingPairs
+#check RNA.parent
+#check RNA.pairedChildren
+#check RNA.unpairedChildren
+#check RNA.pairedChildCount
+#check RNA.pairedDegree
+
+#check RNA.Arc.StackOffset
+#check RNA.Arc.Stacked
 #check RNA.HelixCandidate
 #check RNA.HelixCandidate.outer
 #check RNA.HelixCandidate.length
@@ -24,8 +38,10 @@ import RNA.AtMostTwoShort.Designability
 #check RNA.MaximalHelix.outer
 #check RNA.MaximalHelix.length
 
+#check RNA.HasUnpairedChild
 #check RNA.HasM5
 #check RNA.HasM3Dot
+
 #check RNA.lengthTwoHelices
 #check RNA.shortHelixCount
 #check RNA.InTargetClassKLeTwo

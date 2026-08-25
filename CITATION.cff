@@ -10,11 +10,11 @@ abstract: >-
   Lean 4 formalization and reproducibility materials for universal unique
   designability in the four-letter Watson-Crick maximum-base-pair model for
   RNA targets with up to two length-2 helices.
-version: "1.0.0"
-doi: "10.5281/zenodo.22075874"
+version: "1.0.1"
+doi: "10.5281/zenodo.22089626"
 date-released: "2026-08-24"
 repository-code: "https://github.com/ajogalekar/rna-at-most-two-short-helices"
-url: "https://doi.org/10.5281/zenodo.22075874"
+url: "https://doi.org/10.5281/zenodo.22089626"
 license: Apache-2.0
 keywords:
   - RNA inverse folding

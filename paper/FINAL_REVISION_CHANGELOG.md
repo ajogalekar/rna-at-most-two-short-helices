@@ -4,12 +4,20 @@ Date: 2026-08-22
 
 > **Historical-record notice (2026-08-24 UTC).** This document preserves the
 > prepublication revision state. Its statements that the repository URL, DOI,
-> and public-source licenses were pending are superseded by the version 1.0.0
-> release metadata in `../README.md`, `../CITATION.cff`, and `../LICENSES.md`.
-> The version DOI is `10.5281/zenodo.22075874`; the public GitHub repository
-> and immutable Zenodo Software record are the final release endpoints.
+> and public-source licenses were pending were first superseded by version
+> 1.0.0. The synchronized editorial patch is version 1.0.1 in `../README.md`,
+> `../CITATION.cff`, and `../LICENSES.md`, under DOI
+> `10.5281/zenodo.22089626`; version 1.0.0 remains immutable under its own DOI.
 
 This changelog records the final mathematical, editorial, citation, formal-artifact, and packaging revision. Exact values that depend on the final assembled bytes or a fresh timed build are recorded in the final release manifest and metrics report; no provisional package digest or build metric is asserted here.
+
+## Pre-arXiv abstract and literal-provenance revision (2026-08-24)
+
+| area | change | validation |
+|---|---|---|
+| Abstract disclosure | Removed the sentence about the absence of completed independent human review from the manuscript and arXiv-metadata abstracts because the full review-status and author-responsibility statement remains at the end of Section 15. Retained the concise disclosure of substantial generative-AI assistance under human supervision. | The metadata abstract is ASCII-only and 1,487 normalized characters, below arXiv's 1,920-character limit. Full-resolution inspection confirms the revised abstract fits cleanly on page 1. |
+| Publication-example literals | Replaced the handwritten `w1` and `w2` strings in the manuscript with TeX macros emitted by a Lean exporter that evaluates the actual definitions in `RNA.AtMostTwoShort.PublicationExamples`. The validator regenerates the macros and requires byte identity before checking the examples or building the PDF. | The alleged extra G in `w2` was a visual/OCR false positive: Lean, TeX, and PDF all give `GGGAGGAGCUUGCACCUGGGCCCCCC` (26 nt; 10 G, 10 C, 3 A, 3 U). Exact optimum-count and coloring checks pass unchanged. |
+| Appendix-B fidelity chain | Expanded the source-derived Lean appendix beyond the top-level motif and helix predicates to include the interval-tree node types, parent/child operations, paired degree, unpaired-child predicate, and exact stack-offset/stacked relations on which those predicates depend. The extractor now generates the `#check` audit module as well as the listings and source map. | Seven frozen source files and 42 mapped declarations are hash-pinned, regenerated, and resolved in the real theorem import context. This makes the `m5`, `m3dot`, and maximal-helix encodings substantially auditable from the PDF itself while preserving direct links to the complete public source. |
 
 ## Post-audit exposition revision (2026-08-24)
 
@@ -35,8 +43,8 @@ This changelog records the final mathematical, editorial, citation, formal-artif
 | area | change | validation |
 |---|---|---|
 | Exact public listing | Replaced retyped Lean-like text with the exact Unicode public proposition, theorem, and proof term extracted from the frozen source. | Full-source digest checks and declaration-block digest checks pass. |
-| Appendix listings | Replaced simplified excerpts, including the genuinely invalid/semantically unsuitable `not` and `!=` forms, with exact Unicode declarations from the frozen alphabet, structure, helix, motifs, target-class, and theorem modules. The review's separate claim that ASCII `forall`, `exists`, and `->` do not compile was corrected: those forms are accepted by the pinned toolchain. | The generated audit module imports the real theorem module and `#check`s all 28 displayed declarations successfully under Lean 4.34.0-rc1. |
-| Reproducible listing pipeline | Added a hash-pinned extractor, declaration-level source map, generated listing files, generated `#check` audit module, and a human-readable listing check record. | `scripts/extract_paper_lean_listings.py` validates six frozen source files before extraction; `paper_listings/LEAN_LISTING_CHECKS.md` records the successful run. |
+| Appendix listings | Replaced simplified excerpts, including the genuinely invalid/semantically unsuitable `not` and `!=` forms, with exact Unicode declarations from the frozen alphabet, structure, interval-tree, helix, motifs, target-class, and theorem modules. The review's separate claim that ASCII `forall`, `exists`, and `->` do not compile was corrected: those forms are accepted by the pinned toolchain. | The generated audit module imports the real theorem module and `#check`s all 42 displayed declarations successfully under Lean 4.34.0-rc1. |
+| Reproducible listing pipeline | Added a hash-pinned extractor, declaration-level source map, generated listing files, generated `#check` audit module, and a human-readable listing check record. | `scripts/extract_paper_lean_listings.py` validates seven frozen source files before extraction; `paper_listings/LEAN_LISTING_CHECKS.md` records the successful run. |
 | Publication semantic examples | Added downstream-only Lean theorems for (T_1), corrected (T_2), the three-stack boundary, a length-1 rejection control, and the `AUAU` tied-fold negative control. Added a separate axiom-audit module. | `lake build RNA.AtMostTwoShort.PublicationExamples`, `lake build RNA.AtMostTwoShort.PublicationExamplesAxiomAudit`, and `lake build RNA.AtMostTwoShort.Designability` all pass. Publication endpoints report exactly `[propext, Classical.choice, Quot.sound]`. |
 | Frozen theorem closure | Kept the audited theorem source and dependency closure unchanged; the two semantic-example modules are downstream-only and are not imported by the theorem. | Before/after SHA-256 maps agree for all 60 pre-existing tracked Lean files; the import-direction audit passes. See `docs/THEOREM_CLOSURE_IDENTITY_REPORT.md` in the Lean repository. |
 | Independent executable examples | Replaced the earlier checker with a deterministic, standard-library-only exact checker covering target compatibility, Nussinov optimum and optimum count, decoded colors and levels, exposed-multiset properness, the full three-stack coloring space, and a tied-fold control. | `python3 verify_examples.py` passes every test; exact output is frozen in `EXAMPLE_VERIFICATION.txt` and interpreted in `docs/FINAL_EXAMPLE_VERIFICATION.md`. |

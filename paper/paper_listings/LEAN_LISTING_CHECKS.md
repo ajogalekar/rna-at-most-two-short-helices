@@ -2,10 +2,10 @@
 
 ## Result
 
-**PASS.** The extraction run validated all six frozen source files against
-pinned SHA-256 digests, extracted 28 declaration blocks into three
+**PASS.** The extraction run validated all seven frozen source files against
+pinned SHA-256 digests, extracted 42 declaration blocks into three
 manuscript-ready listing files, and wrote a declaration-level source map.
-Lean then resolved all 28 displayed declarations from the audited public
+Lean then resolved all 42 displayed declarations from the audited public
 import with exit status 0.
 
 The run used repository commit
@@ -27,9 +27,10 @@ python3 scripts/extract_paper_lean_listings.py \
 Observed summary:
 
 ```text
-Validated 6 frozen source files.
-Extracted 28 declaration blocks into 3 listings.
+Validated 7 frozen source files.
+Extracted 42 declaration blocks into 3 listings.
 Wrote source map: <manuscript>/paper_listings/SOURCE_MAP.tsv
+Wrote Lean audit: <manuscript>/paper_listings/PaperLeanListingAudit.lean
 ```
 
 Still from the manuscript directory, resolve it once and run Lean from the
@@ -57,7 +58,7 @@ RNA.atMostTwoShortHelixDesignability : RNA.AtMostTwoShortHelixDesignabilityState
 
 `extract_paper_lean_listings.py` performs these checks before writing output:
 
-1. Every one of the six frozen source files must be present and UTF-8.
+1. Every one of the seven frozen source files must be present and UTF-8.
 2. Its full-file SHA-256 digest must match the pinned audited digest.
 3. Every mapped inclusive line range must exist.
 
@@ -72,10 +73,10 @@ copied from source.
 
 ```text
 bb9671434ccf286a06ae538e21c23444e9020c319431f62228b3a99d64e87b4b  01_core_model.lean
-76dfa3fbfe454fb1d0289ac92433f81523dc07ae00057fe635c19d4854174454  02_helix_target_class.lean
+02d0cf171f11f168aaa4ef59ae5eba89d8fd6457f4fc130c8f1267669c790702  02_helix_target_class.lean
 7f8eb5f5c69c30370b180bb3d8af624276521877887d7db25fe2470d2fd3dcda  03_public_theorem.lean
-daaf76ac2023b6c21d0dfc5e75b325234ecbf5dacb87053e67e9683a6a152335  SOURCE_MAP.tsv
-965ec9bd9de4e8dcc0bcb0351df4642aeaf780428ad7963ed9a3128bdfd4335f  PaperLeanListingAudit.lean
+cec1bb1e2423f8ae60fd77be993779890ca4106c25e9e2fadac84ff5566df456  SOURCE_MAP.tsv
+551bfa864ce6301e1d6613847f2521f31ec3632a90597b9f0897d319462aa500  PaperLeanListingAudit.lean
 ```
 
 The listings are excerpts, not standalone Lean modules: their namespace and

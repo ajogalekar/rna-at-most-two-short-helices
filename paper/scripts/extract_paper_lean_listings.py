@@ -22,6 +22,7 @@ DEFAULT_OUTPUT = SCRIPT_DIR.parent / "paper_listings"
 FROZEN_SOURCE_HASHES = {
     "RNA/Alphabet.lean": "da4bc09c95a4b23b73ebc2493881ccafee46362c6aebefe95d18fb2f9c5e258f",
     "RNA/Structure.lean": "ab3662a5730dd1d42f53859d43750a15e9b0edcb1e21e4a8ca0e3d5cda4d5451",
+    "RNA/IntervalTree.lean": "1fcca9ab46c7e78a288d82e77d76faf25cb14138253bb19a2e539d9818f935b1",
     "RNA/Helix.lean": "03b69def8a4baefac27dde9d1ae4fde98dcf0cacc3e6345ef8d2392532dc7465",
     "RNA/Motifs.lean": "79eecd6fb95fc33566dfbd81834c82a76c88dae17b9889c830be32e4b58a570a",
     "RNA/AtMostTwoShort/TargetClass.lean": "18be543996a716ea1be6589ad5cc160299b47cbe22adde4b62382209a9834254",
@@ -31,6 +32,7 @@ FROZEN_SOURCE_HASHES = {
 LEAN_MODULES = {
     "RNA/Alphabet.lean": "RNA.Alphabet",
     "RNA/Structure.lean": "RNA.Structure",
+    "RNA/IntervalTree.lean": "RNA.IntervalTree",
     "RNA/Helix.lean": "RNA.Helix",
     "RNA/Motifs.lean": "RNA.Motifs",
     "RNA/AtMostTwoShort/TargetClass.lean": "RNA.AtMostTwoShort.TargetClass",
@@ -60,6 +62,25 @@ BLOCKS = (
     Block("01_core_model.lean", "RNA.StructureCompatible", "RNA/Structure.lean", 239, 240),
     Block("01_core_model.lean", "RNA.pairCount", "RNA/Structure.lean", 252, 252),
     Block("01_core_model.lean", "RNA.UniqueDesigns", "RNA/Structure.lean", 273, 278),
+    Block("02_helix_target_class.lean", "RNA.PairedNode", "RNA/IntervalTree.lean", 29, 29),
+    Block("02_helix_target_class.lean", "RNA.UnpairedPosition", "RNA/IntervalTree.lean", 32, 32),
+    Block("02_helix_target_class.lean", "RNA.NonRootNode", "RNA/IntervalTree.lean", 36, 36),
+    Block("02_helix_target_class.lean", "RNA.PairedOrRootNode", "RNA/IntervalTree.lean", 44, 44),
+    Block(
+        "02_helix_target_class.lean",
+        "RNA.PairedNode.StrictlyContains",
+        "RNA/IntervalTree.lean",
+        61,
+        63,
+    ),
+    Block("02_helix_target_class.lean", "RNA.enclosingPairs", "RNA/IntervalTree.lean", 114, 115),
+    Block("02_helix_target_class.lean", "RNA.parent", "RNA/IntervalTree.lean", 120, 124),
+    Block("02_helix_target_class.lean", "RNA.pairedChildren", "RNA/IntervalTree.lean", 335, 336),
+    Block("02_helix_target_class.lean", "RNA.unpairedChildren", "RNA/IntervalTree.lean", 339, 340),
+    Block("02_helix_target_class.lean", "RNA.pairedChildCount", "RNA/IntervalTree.lean", 355, 356),
+    Block("02_helix_target_class.lean", "RNA.pairedDegree", "RNA/IntervalTree.lean", 360, 362),
+    Block("02_helix_target_class.lean", "RNA.Arc.StackOffset", "RNA/Helix.lean", 25, 27),
+    Block("02_helix_target_class.lean", "RNA.Arc.Stacked", "RNA/Helix.lean", 35, 36),
     Block("02_helix_target_class.lean", "RNA.HelixCandidate", "RNA/Helix.lean", 71, 71),
     Block("02_helix_target_class.lean", "RNA.HelixCandidate.outer", "RNA/Helix.lean", 75, 75),
     Block("02_helix_target_class.lean", "RNA.HelixCandidate.length", "RNA/Helix.lean", 77, 77),
@@ -69,6 +90,7 @@ BLOCKS = (
     Block("02_helix_target_class.lean", "RNA.MaximalHelix", "RNA/Helix.lean", 131, 132),
     Block("02_helix_target_class.lean", "RNA.MaximalHelix.outer", "RNA/Helix.lean", 155, 155),
     Block("02_helix_target_class.lean", "RNA.MaximalHelix.length", "RNA/Helix.lean", 157, 157),
+    Block("02_helix_target_class.lean", "RNA.HasUnpairedChild", "RNA/Motifs.lean", 21, 22),
     Block("02_helix_target_class.lean", "RNA.HasM5", "RNA/Motifs.lean", 30, 31),
     Block("02_helix_target_class.lean", "RNA.HasM3Dot", "RNA/Motifs.lean", 35, 37),
     Block(
@@ -201,9 +223,21 @@ def main() -> int:
         map_header + "".join(map_rows), encoding="utf-8", newline="\n"
     )
 
+    audit_lines = ["import RNA.AtMostTwoShort.Designability\n"]
+    previous_source = None
+    for block in BLOCKS:
+        if block.source_path != previous_source:
+            audit_lines.append("\n")
+            previous_source = block.source_path
+        audit_lines.append(f"#check {block.declaration}\n")
+    (output / "PaperLeanListingAudit.lean").write_text(
+        "".join(audit_lines), encoding="utf-8", newline="\n"
+    )
+
     print(f"Validated {len(FROZEN_SOURCE_HASHES)} frozen source files.")
     print(f"Extracted {len(BLOCKS)} declaration blocks into {len(grouped)} listings.")
     print(f"Wrote source map: {output / 'SOURCE_MAP.tsv'}")
+    print(f"Wrote Lean audit: {output / 'PaperLeanListingAudit.lean'}")
     return 0
 
 

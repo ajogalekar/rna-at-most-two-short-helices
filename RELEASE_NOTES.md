@@ -1,40 +1,56 @@
-# Version 1.0.0 publication release
+# Version 1.0.1 synchronized manuscript revision
 
 Release date: 2026-08-24
 Branch: `final-publication-release`
-DOI: <https://doi.org/10.5281/zenodo.22075874>
+Tag: `v1.0.1`
+DOI: <https://doi.org/10.5281/zenodo.22089626>
+Concept DOI: <https://doi.org/10.5281/zenodo.22075873>
 Canonical repository: <https://github.com/ajogalekar/rna-at-most-two-short-helices>
 Creator: Ashutosh S. Jogalekar
 Affiliation: Szilard Scientific, LLC
 
-This release combines the qualified Lean source with the coherent manuscript
-source tree and the DOI-bearing publication artifact.
+This patch release synchronizes the final pre-arXiv manuscript bytes across
+the public GitHub repository, GitHub Release, and immutable Zenodo record.
+Version `1.0.0` remains unchanged under DOI
+<https://doi.org/10.5281/zenodo.22075874>.
 
-Review status: at the time of this release, the manuscript and formal proof
-have not yet been reviewed by an independent human subject-matter expert.
+Review status: at the time of this release, the manuscript has not yet
+received a completed independent review by a human expert. The proof was
+developed with substantial generative-AI assistance and was formally verified
+in Lean. The author remains responsible for every claim.
 
-## Included
+## Changes from 1.0.0
 
-- the complete Lean project and pinned Lean/Mathlib environment;
-- the unchanged 46-file theorem dependency closure;
-- publication example and axiom-audit modules outside that closure;
-- the manuscript TeX source and qualified DOI-bearing publication PDF, with
-  the final revised plain-language abstract, expanded coloring motivation,
-  complete length-2 transition preview, and explanatory color figure;
-- source-derived Lean listings, exact example verifier, paper supplements,
-  fonts, and qualification records;
-- Apache-2.0, CC BY 4.0, and font-license texts with explicit path scopes;
-- synchronized GitHub citation and Zenodo Software metadata; and
-- a read-only CI workflow for the named formal builds and audits.
+- removed the short human-review-status sentence from the abstract while
+  retaining the full review-status and author-responsibility statement in the
+  AI-assisted-development and formal-verification section;
+- generated the displayed `w1` and `w2` nucleotide literals from their actual
+  Lean definitions, with validator checks tying each macro to its intended
+  manuscript assignment;
+- expanded Appendix B with source-derived interval-tree, paired-degree,
+  unpaired-child, stack-offset, and stacked definitions needed to audit the
+  `m5`, `m3dot`, and maximal-helix encodings;
+- generated and checked a 42-declaration Lean listing audit from seven
+  hash-pinned source files; and
+- strengthened CI and release checks for generated literals, manuscript file
+  hashes, source-derived listings, examples, and dot-bracket literals.
 
-## Publication endpoints
+No theorem-closure Lean file changed. The 46-file theorem dependency closure,
+canonical source archive, release-qualification results, and two fidelity
+bundles remain byte-identical to version `1.0.0`.
 
-- the canonical GitHub repository is public;
-- the immutable Zenodo Software record is published under the version DOI;
-  and
-- no GitHub Release or tag has been created as part of this Zenodo-first
-  publication workflow.
+## Release assets
 
-The final deterministic archives and checksum manifests are release assets,
-not Git-history contents. The arXiv preprint submission is a separate
-distribution step and does not alter the GitHub or Zenodo release bytes.
+The GitHub and Zenodo releases carry the same eight assets:
+
+1. the DOI-bearing manuscript PDF;
+2. the complete tagged repository ZIP;
+3. `ZENODO_SHA256SUMS.txt` covering the other seven assets;
+4. the unchanged canonical source archive;
+5. its unchanged checksum sidecar;
+6. the unchanged release-qualification results package;
+7. the unchanged blinded fidelity bundle; and
+8. the unchanged Claude fidelity-audit package.
+
+The arXiv source upload is a separate distribution step and is not part of
+these eight immutable release assets.

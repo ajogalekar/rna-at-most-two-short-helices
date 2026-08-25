@@ -54,14 +54,30 @@ jobs:
             --output paper/paper_listings
           git diff --exit-code -- paper/paper_listings
           lake env lean paper/paper_listings/PaperLeanListingAudit.lean
+          lake env lean --run paper/scripts/ExportPublicationExampleLiterals.lean \
+            > /tmp/rna-publication-example-literals.tex
+          diff -u paper/generated/publication_example_literals.tex \
+            /tmp/rna-publication-example-literals.tex
           python3 paper/verify_examples.py > /tmp/rna-example-verification.txt
           diff -u paper/EXAMPLE_VERIFICATION.txt /tmp/rna-example-verification.txt
           python3 paper/check_dot_bracket_literals.py > /tmp/rna-dot-bracket-literals.txt
           diff -u paper/DOT_BRACKET_LITERAL_AUDIT.txt /tmp/rna-dot-bracket-literals.txt
+          (cd paper && sha256sum -c SHA256SUMS.txt)
 
       - name: Verify publication metadata and whitespace
         run: |
           python3 -m json.tool .zenodo.json > /dev/null
+          python3 -c 'import json; z=json.load(open(".zenodo.json")); assert z["version"] == "1.0.1"; assert z["doi"] == "10.5281/zenodo.22089626"; assert z["publication_date"] == "2026-08-24"'
           grep -Fqx 'type: software' CITATION.cff
+          grep -Fqx 'version: "1.0.1"' CITATION.cff
+          grep -Fqx 'doi: "10.5281/zenodo.22089626"' CITATION.cff
           grep -Fqx 'license: Apache-2.0' CITATION.cff
+          grep -Fqx 'version = "1.0.1"' lakefile.toml
+          grep -Fq '10.5281/zenodo.22089626' README.md RELEASE_NOTES.md \
+            paper/ARXIV_METADATA.md \
+            paper/Designability_of_RNA_Targets_with_Up_to_Two_Length_2_Helices.tex
+          if rg -n -i 'orcid|funding|competing interests|conflict of interest' \
+            .zenodo.json CITATION.cff paper/ARXIV_METADATA.md; then
+            exit 1
+          fi
           git diff --check

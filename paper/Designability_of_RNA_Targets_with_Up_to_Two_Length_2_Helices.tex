@@ -94,8 +94,9 @@
 \newcommand{\UniqueDesigns}{\operatorname{UniqueDesigns}}
 \newcommand{\hashtext}[1]{\texttt{\seqsplit{#1}}}
 \newcommand{\RepositoryURL}{\url{https://github.com/ajogalekar/rna-at-most-two-short-helices}}
-\newcommand{\ArchiveDOI}{\href{https://doi.org/10.5281/zenodo.22075874}{\texttt{10.5281/zenodo.22075874}}}
-\newcommand{\ReleaseVersion}{1.0.0}
+\newcommand{\ArchiveDOI}{\href{https://doi.org/10.5281/zenodo.22089626}{\texttt{10.5281/zenodo.22089626}}}
+\newcommand{\ReleaseVersion}{1.0.1}
+\input{generated/publication_example_literals.tex}
 
 \newtcolorbox{contributionbox}{
   colback=SoftBlue,colframe=DeepBlue,boxrule=0.8pt,arc=2pt,
@@ -139,7 +140,7 @@ Earlier work showed that a large class of targets is designable when every helix
 
 The proof labels the target base pairs with three colors that encode how nucleotides will later be assigned.  A length-2 helix can require a flexible gray connection at an adjacent loop.  Because the target contains at most two such helices, no loop must accommodate more than two of these demands.  When both demands meet at the same multiloop, the incoming longer helix can be colored to end with a non-gray pair, leaving the two available gray choices for the short branches.  These local choices can then be assembled consistently across the entire target.
 
-From the resulting coloring we construct an explicit RNA sequence and prove that every different compatible fold has fewer base pairs than the target.  The complete theorem and its supporting lemmas were formalized in Lean~4 and independently rebuilt from frozen source in an isolated environment.  The work was developed with substantial AI assistance under human supervision.  At the time of this release, the manuscript and formal proof have not yet been reviewed by an independent human subject-matter expert.
+From the resulting coloring we construct an explicit RNA sequence and prove that every different compatible fold has fewer base pairs than the target.  The complete theorem and its supporting lemmas were formalized in Lean~4 and independently rebuilt from frozen source in an isolated environment.  The work was developed with substantial generative-AI assistance under human supervision.
 \end{abstract}
 
 \noindent\textbf{Keywords:} RNA inverse folding; RNA design; secondary structure; separated coloring; isolated stack; formal verification; Lean.
@@ -1378,7 +1379,7 @@ which has two isolated stacks at the root and one root helix of length three.  T
 \]
 Each isolated stack enters at $\eta$ through gray and terminates at $E$, so it uses the $\eta\to\xi$ word $\Gray\Bcol$.  The long helix enters through black and uses a length-three transfer to its $E$ terminal.  One deterministic orientation gives
 \[
-w_1=\texttt{AGCUUGCAGGGCCC}.
+w_1=\texttt{\TOneSequenceLiteral}.
 \]
 The target has seven pairs.  Exact Nussinov dynamic programming \citep{nussinov1980} gives optimum score seven and optimum count one.
 
@@ -1397,7 +1398,7 @@ arr/.style={thick}]
 \draw[arr] (r)--node[right,font=\footnotesize]{$\Bcol$} (h3);
 \node[below=11mm of h2,align=center,text width=10cm] {
 Target: \texttt{(())(())((()))}\qquad
-Sequence: \texttt{AGCUUGCAGGGCCC}\\
+Sequence: \texttt{\TOneSequenceLiteral}\\
 root exposure $\{\Gray,\Gray,\Bcol\}$ is proper; optimum pair count $7$, unique optimum.};
 \end{tikzpicture}
 \caption{A degree-three root with two child subtrees containing isolated stacks.  The root row assigns gray to the two child subtrees containing isolated stacks and black to the remaining long-helix subtree.}
@@ -1430,7 +1431,7 @@ The helix words, in the order outer, critical, two short children, and side chil
 \]
 with integer levels $(1,2,3)$, $(3,4,5)$, $(5,6)$, $(5,6)$, and $(4,5,6)$, respectively.  The deterministic orientation rule then gives
 \[
-w_2=\texttt{GGGAGGAGCUUGCACCUGGGCCCCCC}.
+w_2=\texttt{\TTwoSequenceLiteral}.
 \]
 The target has thirteen pairs; exact Nussinov dynamic programming gives optimum score thirteen and optimum count one.
 
@@ -1475,7 +1476,7 @@ The complete theorem was formalized in Lean~4 \citep{lean4} using Mathlib \citep
 
 \lstinputlisting[language={},caption={Exact final Lean proposition and theorem, extracted from the frozen source.},label={lst:public-theorem}]{paper_listings/03_public_theorem.lean}
 
-The definition of \texttt{UniqueDesigns} quantifies over every \texttt{SecondaryStructure n} compatible with the same complete sequence and uses a strict pair-count inequality for every distinct competitor.  The target class uses the actual cardinality of the finite set of maximal helices of length 2.  A checked source map records the source path, Lean module, inclusive line range, full-source digest, and extracted-block digest of every declaration displayed here and in Appendix~\ref{app:lean}.  A generated audit module imports the real theorem module and successfully applies \texttt{\#check} to all 28 displayed declarations.
+The definition of \texttt{UniqueDesigns} quantifies over every \texttt{SecondaryStructure n} compatible with the same complete sequence and uses a strict pair-count inequality for every distinct competitor.  The target class uses the actual cardinality of the finite set of maximal helices of length 2.  A checked source map records the source path, Lean module, inclusive line range, full-source digest, and extracted-block digest of every declaration displayed here and in Appendix~\ref{app:lean}.  A generated audit module imports the real theorem module and successfully applies \texttt{\#check} to all 42 displayed declarations.
 
 \subsection{Structure of the Lean development}
 
@@ -1653,7 +1654,7 @@ root degree & $r=0$ & $r=1$ & $r=2$ \\
 \section{Selected Lean definitions}
 \label{app:lean}
 
-The following declarations are exact Unicode excerpts generated from the frozen source, not simplified retypings.  Blank lines are the only inserted material between source blocks.  The accompanying source map and \texttt{\#check} audit are distributed with the manuscript source.
+The following declarations are exact Unicode excerpts generated from the frozen source, not simplified retypings.  Blank lines are the only inserted material between source blocks.  In addition to the top-level model and target predicate, the selection now prints the interval-tree node types, parent and child operations, paired degree, unpaired-child predicate, and exact stack-offset relation on which the $m_5$, $m_{3\bullet}$, and maximal-helix encodings depend.  The accompanying source map and generated \texttt{\#check} audit are distributed with the manuscript source.
 
 \lstinputlisting[language={},caption={Exact core-model declarations extracted from the frozen Lean source.}]{paper_listings/01_core_model.lean}
 
@@ -1676,7 +1677,7 @@ Blinded fidelity bundle & SHA-256 \hashtext{bfd2c8d90f5666ccb2dda6a3e9c2f81b8441
 Claude fidelity-audit package & Automated-AI outcome ``faithful and complete''; SHA-256 \hashtext{0a77ea7e9f9dc0342a14330b93644dc943a0b2c0e89f302b092ca08de404092b}. \\
 Publication examples & Downstream modules \texttt{PublicationExamples.lean} and \texttt{PublicationExamplesAxiomAudit.lean}; no reverse import and no change to any pre-existing Lean file. \\
 Publication qualification metrics & Clean full-project build: 3,070 Lake graph jobs and 894.10 seconds wall-clock; closure: 46 files, 20,738 physical lines, 1,616 declaration commands; report SHA-256 \hashtext{b97a0465d97c9568211cf959e35569a4f82c766f511ca553fd1dd6ef1e1433f9}. \\
-Derived listings & \texttt{SOURCE\_MAP.tsv}, extraction script, and 28-declaration \texttt{\#check} audit included in the manuscript source package. \\
+Derived listings & \texttt{SOURCE\_MAP.tsv}, extraction script, and 42-declaration \texttt{\#check} audit included in the manuscript source package. \\
 Manuscript source package & Generated from this revision; SHA-256 recorded in the external release manifest to avoid a circular self-digest. \\
 Availability & Version \ReleaseVersion; canonical repository \RepositoryURL; archival DOI \ArchiveDOI; mixed license per \texttt{LICENSES.md}. \\
 \bottomrule
