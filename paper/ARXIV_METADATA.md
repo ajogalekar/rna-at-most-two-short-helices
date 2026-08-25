@@ -23,7 +23,7 @@ This version stays below arXiv's 1,920-character abstract limit after normalizin
 Final verified counts:
 
 ```text
-36 pages, 7 figures. Includes a Lean 4 formalization and
+37 pages, 7 figures. Includes a Lean 4 formalization and
 reproducibility artifact at https://doi.org/10.5281/zenodo.22075874;
 source at https://github.com/ajogalekar/rna-at-most-two-short-helices .
 ```

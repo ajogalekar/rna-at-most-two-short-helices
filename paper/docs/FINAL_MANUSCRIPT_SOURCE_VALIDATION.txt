@@ -29,10 +29,10 @@ Final source facts:
 
 Final files:
   TeX SHA-256:
-    d2b5166aff11c6a64d494b93ab1f7a3af8ecaf1652670fbb0c8ccc383ee2788a
+    ec437ea4283e7fa610031060f81f8785faec3a98b3b9b7636a8b8ca57669c801
   PDF SHA-256:
-    9c6cd4c7fcb333944b5a2853edbd9fcc9d7f40fa5feafac81d50c1e3e32397e2
-  PDF pages: 36
+    b7076648c3507b54720505dd2cae8391f92478c10f470f04644c2aee05cf6d07
+  PDF pages: 37
   PDF figures: 7
 
 The Tectonic log contains seven harmless underfull-box warnings in wrapped

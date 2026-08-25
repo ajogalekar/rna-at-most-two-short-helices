@@ -1550,7 +1550,16 @@ The development proceeded in several stages:
 \item an isolated rebuild followed by a blinded comparison of the mathematical specification with the Lean source.
 \end{enumerate}
 
-Several early versions contained genuine errors or incomplete case analyses, including an incorrect orientation rule for gray pairs and overly broad statements about long-helix transfers.  The final theorem is supported first by the mathematical argument and Lean kernel checking, then by the reproducible isolated build.  The blinded automated AI audit is reported as a secondary specification cross-check, not as independent human validation.  The human author remained responsible for the problem definition, evidence standards, version control, interpretation, and publication claims.
+Several early versions contained genuine errors or incomplete case analyses, including an incorrect orientation rule for gray pairs and overly broad statements about long-helix transfers.  The evidence hierarchy for the final theorem is:
+\begin{enumerate}
+\item Lean kernel checking;
+\item isolated clean rebuild;
+\item source and axiom audits;
+\item blinded automated fidelity audit; and
+\item computational checks.
+\end{enumerate}
+
+\noindent\textbf{Review status and author responsibility.} At the time of this arXiv version, the manuscript has not yet received a completed independent review by a human expert. The proof was developed with substantial generative-AI assistance and was formally verified in Lean. Lean kernel checking, isolated rebuilding of the frozen source, and automated audits address logical correctness, reproducibility, and fidelity to the stated formal model. They do not substitute for human expert review and do not establish novelty, significance, or biological relevance. The author takes full responsibility for the theorem statement, proof exposition, citations, and all claims in the manuscript.
 
 \section{Scope, limitations, and discussion}
 \label{sec:scope}
