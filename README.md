@@ -105,7 +105,9 @@ bash paper/scripts/validate_manuscript_sources.sh .
 For a public-clone build in a fresh Linux container, use the pinned recipe in
 [`reproducibility/`](reproducibility/README.md).  It runs the bare
 `lake build`, then prints the exact theorem and verifies its transitive axiom
-set.
+set.  The completed cache-free public run and its exact environment are
+recorded in
+[`docs/PUBLIC_REPOSITORY_REPRODUCTION.md`](docs/PUBLIC_REPOSITORY_REPRODUCTION.md).
 
 The final theorem's kernel-reported transitive axiom set is exactly:
 
