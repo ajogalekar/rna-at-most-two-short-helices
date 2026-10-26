@@ -173,3 +173,9 @@ Redundant source ZIPs and frozen qualification bundles are intentionally not
 duplicated in Git history. The version `1.0.3` GitHub Release and Zenodo record
 carry the same eight release assets; the five frozen supporting assets remain
 byte-identical to versions `1.0.2`, `1.0.1`, and `1.0.0`.
+
+## Optional short-helix placement refinements
+
+[Additional structural notes and exact Python checks](extensions/short-helix-placements/README.md) address a restricted part of the §16.2 placement question: exactly three maximal helices, all length 2, have 288 normalized gap classes, with four failures of the modulo-2 certificate and 284 constructive successes. An unlimited comparable-short class is recorded as a direct corollary of the published F/Q construction. The known three-root-branch obstruction is credited to prior work.
+
+These additions have separate AI checks and independent finite implementations; they have not been Lean formalized. Historical priority and human expert review remain pending, and the full placement problem remains unresolved. The original Lean theorem and frozen publication are unchanged. Reproduce the new evidence with `python extensions/short-helix-placements/replay.py` (standard library only).

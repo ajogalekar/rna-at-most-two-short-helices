@@ -81,3 +81,12 @@ jobs:
             exit 1
           fi
           git diff --check
+
+  placement-notes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out placement notes
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - name: Replay the independent Python checks without changing archives
+        run: python3 -I -B extensions/short-helix-placements/replay.py

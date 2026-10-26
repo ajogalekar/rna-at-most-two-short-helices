@@ -13,6 +13,7 @@ The exact terms are in [`LICENSE`](LICENSE). They apply to:
 - every file under `scripts/` and `.github/`;
 - `paper/scripts/` and `paper/verify_examples.py`;
 - source-derived Lean code under `paper/paper_listings/*.lean`; and
+- Python software under `extensions/short-helix-placements/`; and
 - any other project software not assigned a different license below.
 
 The Lean listing files are excerpts of the Apache-2.0-licensed formal source,
@@ -26,6 +27,7 @@ The exact legal code is in
 - `README.md`, `LICENSES.md`, `CITATION.cff`, `.zenodo.json`, and
   `RELEASE_NOTES.md`;
 - all project-written documents and reports under `docs/`;
+- documentation and computed JSON evidence under `extensions/short-helix-placements/`;
 - the manuscript text and original TikZ figures in `paper/*.tex` and the
   rendered `paper/*.pdf`;
 - project-written files under `paper/docs/` and `paper/supplement/`;
